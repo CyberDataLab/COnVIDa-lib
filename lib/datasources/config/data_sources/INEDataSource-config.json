@@ -1,0 +1,116 @@
+{
+"actividad_fisica": {
+    "display_name":{
+        "ES":"Actividad física",
+        "EN":"Physical activity"
+    },
+    "description":{
+        "ES":"Nivel de actividad física según sexo y comunidad autónoma. Población de 15 a 69 años",
+        "EN":"Level of physical activity by sex and autonomous community. Population from 15 to 69 years old"
+    },
+    "data_unit":{
+        "ES":"Miles de personas",
+        "EN":"Thousands of persons"
+    },
+    "_id":"04013.px",
+    "funcion":"DATOS_TABLA",
+    "codigo":"/t15/p419/a2017/p03/l0/",
+    "num_datos":"10",
+    "formato":"VALORES_ABSOLUTOS_CCAA"
+},
+"imc": {
+    "display_name":{
+        "ES":"Índice de masa corporal (IMC)",
+        "EN":"Body mass index (BMI)"
+    },
+    "description":{
+        "ES":"Índice de masa corporal población adulta según sexo y comunidad autónoma. Población de 18 y más años",
+        "EN":"Body mass index of adult population by sex and autonomous community. Population aged 18 years old and above"
+    },
+    "data_unit":{
+        "ES":"",
+        "EN":""
+    },
+    "_id":"01004.px",
+    "funcion":"DATOS_TABLA",
+    "codigo":"/t15/p420/a2014/p06/l0/",
+    "num_datos":"10",
+    "formato":"VALORES_ABSOLUTOS_CCAA"
+},
+"tabaco": {
+    "display_name":{
+        "ES":"Tabaquismo",
+        "EN":"Tobacco consumption"
+    },
+    "description":{
+        "ES":"Consumo de tabaco según sexo y comunidad autónoma. Población de 15 y más años",
+        "EN":"Tobacco consumption by sex and autonomous community. Population aged 15 years old and above"
+    },
+    "data_unit":{
+        "ES":"Miles de personas",
+        "EN":"Thousands of persons"
+    },
+    "_id":"06020.px",
+    "funcion":"DATOS_TABLA",
+    "codigo":"/t15/p419/a2011/p06/",
+    "num_datos":"10",
+    "formato":"VALORES_ABSOLUTOS_CCAA"
+},
+"hogares_tipo_familia": {
+    "display_name":{
+        "ES":"Hogares por tipo de familia",
+        "EN":"Households by family type"
+    },
+    "description":{
+        "ES":"Número de hogares por comunidades autónomas según el tipo de hogar y el tamaño del hogar",
+        "EN":"Number of households by autonomous community by type of household and size of household"
+    },
+    "data_unit":{
+        "ES":"Miles de hogares",
+        "EN":"Thousands of households"
+    },
+    "_id":"02007.px",
+    "funcion":"DATOS_TABLA",
+    "codigo":"/t20/p274/serie/def/p02/l0/",
+    "num_datos":"10",
+    "formato":"VALORES_ABSOLUTOS_CCAA"
+},
+"hogares_densidad_ocupacion": {
+    "display_name":{
+        "ES":"Hogares por densidad de ocupación",
+        "EN":"Households by occupancy density"
+    },
+    "description":{
+        "ES":"Población residente por comunidades autónomas según tamaño del hogar y densidad de población",
+        "EN":"Resident population by autonomous communities, household size and population density"
+    },
+    "data_unit":{
+        "ES":"Miles de personas",
+        "EN":"Thousands of persons"
+    },
+    "_id":"03011.px",
+    "funcion":"DATOS_TABLA",
+    "codigo":"/t20/p274/serie/def/p05/l0/",
+    "num_datos":"10",
+    "formato":"VALORES_ABSOLUTOS_CCAA"
+},
+"mayores_65_solos": {
+    "display_name":{
+        "ES":"Mayores de 65 años solos",
+        "EN":"Over 65 years old alone"
+    },
+    "description":{
+        "ES":"Número de hogares unipersonales con mayores de 65 años por comunidades autónomas según sexo",
+        "EN":"Number of single-person households with inhabitants aged over 65 years old by autonomous community and sex"
+    },
+    "data_unit":{
+        "ES":"Miles de hogares unipersonales",
+        "EN":"Thousands of single-person households"
+    },
+    "_id":"02014.px",
+    "funcion":"DATOS_TABLA",
+    "codigo":"/t20/p274/serie/def/p02/l0/",
+    "num_datos":"10",
+    "formato":"VALORES_ABSOLUTOS_CCAA"
+}
+}

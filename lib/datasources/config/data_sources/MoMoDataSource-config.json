@@ -1,0 +1,86 @@
+{
+"defunciones_observadas": {
+    "display_name":{
+        "ES":"Defunciones observadas",
+        "EN":"Observed deaths"
+    },
+    "description":{
+        "ES":"Defunciones observadas (incluye la corrección por retraso)",
+        "EN":"Observed deaths (including delay correction)"
+    },
+    "data_unit":{
+        "ES":"Número de personas",
+        "EN":"Number of persons"
+    }    
+},
+"defunciones_observadas_lim_inf": {
+    "display_name":{
+        "ES":"Defunciones observadas (límite inferior)",
+        "EN":"Observed deaths (lower bound)"
+    },
+    "description":{
+        "ES":"Límite inferior del invervalo de confianza de las defunciones observadas (debido a la corrección)",
+        "EN":"Lower bound of the observed death confidence interval (due to correction)"
+    },
+    "data_unit":{
+        "ES":"Número de personas",
+        "EN":"Number of persons"
+    }    
+},
+"defunciones_observadas_lim_sup": {
+    "display_name":{
+        "ES":"Defunciones observadas (límite superior)",
+        "EN":"Observed deaths (upper bound)"
+    },
+    "description":{
+        "ES":"Límite superior del invervalo de confianza de las defunciones observadas (debido a la corrección)",
+        "EN":"Upper bound of the observed death confidence interval (due to correction)"
+    },
+    "data_unit":{
+        "ES":"Número de personas",
+        "EN":"Number of persons"
+    }    
+},
+"defunciones_esperadas": {
+    "display_name":{
+        "ES":"Defunciones esperadas",
+        "EN":"Expected deaths"
+    },
+    "description":{
+        "ES":"Defunciones esperadas, resultantes del modelo",
+        "EN":"Expected deaths, resulting from the model"
+    },
+    "data_unit":{
+        "ES":"Número de personas",
+        "EN":"Number of persons"
+    }    
+},
+"defunciones_esperadas_q01": {
+    "display_name":{
+        "ES":"Defunciones esperadas (percentil 1)",
+        "EN":"Expected deaths (1st percentile)"
+    },
+    "description":{
+        "ES":"Límite inferior del intervalo de confianza de las defunciones esperadas, correspondiente al percentil 1 de la distribución",
+        "EN":"Lower bound of the confidence interval of expected deaths, corresponding to the 1st percentile of the distribution"
+    },
+    "data_unit":{
+        "ES":"Número de personas",
+        "EN":"Number of persons"
+    }    
+},
+"defunciones_esperadas_q99": {
+    "display_name":{
+        "ES":"Defunciones esperadas (percentil 99)",
+        "EN":"Expected deaths (99th percentile)"
+    },
+    "description":{
+        "ES":"Límite superior del intervalo de confianza de las defunciones esperadas, correspondiente al percentil 99 de la distribución",
+        "EN":"Upper bound of the confidence interval of expected deaths, corresponding to the 99th percentile of the distribution"
+    },
+    "data_unit":{
+        "ES":"Número de personas",
+        "EN":"Number of persons"
+    }    
+}
+}

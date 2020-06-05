@@ -1,0 +1,107 @@
+{
+"grocery_and_pharmacy_percent_change_from_baseline": {
+    "display_name": {
+        "ES":"Supermercados y farmacias",
+        "EN":"Grocery and phamarcy"
+    },
+    "description": {
+        "ES":"Variación de la movilidad con respecto a la media en supermercados, mercados, tiendas de comestibles, droguerías y farmacias",
+        "EN":"Mobility variation against the average in supermarkets, markets, stores and pharmacies"
+    },
+    "data_source":"Google",
+    "data_unit": {
+        "ES":"Porcentaje (%)",
+        "EN":"Percentage (%)"
+    }
+},
+"parks_percent_change_from_baseline": {
+    "display_name": {
+        "ES":"Parques",
+        "EN":"Parks"
+    },
+    "description": {
+        "ES":"Variación de la movilidad con respecto a la media en parques locales, parques nacionales, playas públicas, marinas, parques para perros, plazas y jardines públicos",
+        "EN":"Mobility variation against the average in local parks, national parks, public beaches, dog beaches, public squares and gardens"
+    },
+    "data_source":"Google",
+    "data_unit": {
+        "ES":"Porcentaje (%)",
+        "EN":"Percentage (%)"
+    }
+},
+"residential_percent_change_from_baseline": {
+    "display_name": {
+        "ES":"Residencial",
+        "EN":"Residential"
+    },
+    "description": {
+        "ES":"Variación de la movilidad con respecto a la media en lugares de residencia, hogares",
+        "EN":"Mobility variation against the average in places of residence, homes"
+    },
+    "data_source":"Google",
+    "data_unit": {
+        "ES":"Porcentaje (%)",
+        "EN":"Percentage (%)"
+    }
+},
+"retail_and_recreation_percent_change_from_baseline": {
+    "display_name": {
+        "ES":"Venta minorista, ocio y cultura",
+        "EN":"Retail and recreation"
+    },
+    "description": {
+        "ES":"Variación de la movilidad con respecto a la media en restaurantes, cafeterías, centros comerciales, parques temáticos, museos, bibliotecas y cines",
+        "EN":"Mobility variation against the average in restaurants, cafes, shopping malls, theme parks, museums, libraries and cinemas"
+    },
+    "data_source":"Google",
+    "data_unit": {
+        "ES":"Porcentaje (%)",
+        "EN":"Percentage (%)"
+    }
+},
+"transit_stations_percent_change_from_baseline": {
+    "display_name": {
+        "ES":"Transporte público",
+        "EN":"Transit stations"
+    },
+    "description": {
+        "ES":"Variación de la movilidad con respecto a la media en estaciones de metro, autobús y tren",
+        "EN":"Mobility variation against the average in subway, bus and train stations"
+    },
+    "data_source":"Google",
+    "data_unit": {
+        "ES":"Porcentaje (%)",
+        "EN":"Percentage (%)"
+    }
+},
+"workplaces_percent_change_from_baseline": {
+    "display_name": {
+        "ES":"Lugar de trabajo",
+        "EN":"Workplace"
+    },
+    "description": {
+        "ES":"Variación de la movilidad con respecto a la media en lugares de trabajo",
+        "EN":"Mobility variation against the average in workplaces"
+    },
+    "data_source":"Google",
+    "data_unit": {
+        "ES":"Porcentaje (%)",
+        "EN":"Percentage (%)"
+    }
+},
+"driving": {
+    "display_name": {
+        "ES":"Conducción",
+        "EN":"Driving"
+    },
+    "description": {
+        "ES":"Variación de la movilidad con respecto a la media en desplazamientos con vehículos propios",
+        "EN":"Mobility variation against the average when travelling with own vehicles"
+    },
+    "data_source":"Apple",
+    "data_unit": {
+        "ES":"Porcentaje (%)",
+        "EN":"Percentage (%)"
+    }
+}
+}

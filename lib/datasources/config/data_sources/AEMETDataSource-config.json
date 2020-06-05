@@ -1,0 +1,156 @@
+{
+"prec": {
+    "display_name":{
+        "ES":"Precipitación",
+        "EN":"Rainfall"
+    },
+    "description":{
+        "ES":"Precipitación diaria de 07 a 07",
+        "EN":"Daily rainfall from 07 to 07"
+    },
+    "data_unit":{
+        "ES":"Milímetros (mm)",
+        "EN":"Millimetres (mm)"
+    }    
+},    
+"presMax": {
+    "display_name":{
+        "ES":"Presión máxima",
+        "EN":"Maximum pressure"
+    },
+    "description":{
+        "ES":"Presión máxima al nivel de referencia de la estación",
+        "EN":"Maximum pressure at station reference level"
+    },
+    "data_unit":{
+        "ES":"Hectopascales (hPa)",
+        "EN":"Hectopascals (hPa)"
+    }    
+},   
+"presMin": {
+    "display_name":{
+        "ES":"Presión mínima",
+        "EN":"Minimum pressure"
+    },
+    "description":{
+        "ES":"Presión mínima al nivel de referencia de la estación",
+        "EN":"Minimum pressure at station reference level"
+    },
+    "data_unit":{
+        "ES":"Hectopascales (hPa)",
+        "EN":"Hectopascals (hPa)"
+    }    
+},   
+"racha": {
+    "display_name":{
+        "ES":"Racha máxima",
+        "EN":"Maximum gust"
+    },
+    "description":{
+        "ES":"Racha máxima del viento",
+        "EN":"Maximum wind gust"
+    },
+    "data_unit":{
+        "ES":"Metros por segundo (m/s)",
+        "EN":"Meters per second (m/s)"
+    }    
+}, 
+"sol": {
+    "display_name":{
+        "ES":"Insolación",
+        "EN":"Isolation"
+    },
+    "description":{
+        "ES":"Horas de sol fuerte",
+        "EN":"Hours of strong sunshine"
+    },
+    "data_unit":{
+        "ES":"Horas (h)",
+        "EN":"Hours (h)"
+    }    
+}, 
+"tmax": {
+    "display_name":{
+        "ES":"Temperatura máxima",
+        "EN":"Maximum temperature"
+    },
+    "description":{
+        "ES":"Temperatura máxima del día",
+        "EN":"Maximum daily temperature"
+    },
+    "data_unit":{
+        "ES":"Grados Celsius (°C)",
+        "EN":"Celsius degrees (°C)"
+    }    
+}, 
+"tmed": {
+    "display_name":{
+        "ES":"Temperatura media",
+        "EN":"Mean temperature"
+    },
+    "description":{
+        "ES":"Temperatura media del día",
+        "EN":"Medium daily temperature"
+    },
+    "data_unit":{
+        "ES":"Grados Celsius (°C)",
+        "EN":"Celsius Degrees (°C)"
+    }    
+}, 
+"tmin": {
+    "display_name":{
+        "ES":"Temperatura mínima",
+        "EN":"Minimum temperature"
+    },
+    "description":{
+        "ES":"Temperatura mínima del día",
+        "EN":"Minimum daily temperature"
+    },
+    "data_unit":{
+        "ES":"Grados Celsius (°C)",
+        "EN":"Celsius degrees (°C)"
+    }    
+},
+"velmedia": {
+    "display_name":{
+        "ES":"Velocidad viento",
+        "EN":"Wind speed"
+    },
+    "description":{
+        "ES":"Velocidad media del viento",
+        "EN":"Average wind speed"
+    },
+    "data_unit":{
+        "ES":"Metros por segundo (m/s)",
+        "EN":"Meters per second (m/s)"
+    }    
+}, 
+"altitud": {
+    "display_name":{
+        "ES":"Altitud",
+        "EN":"Altitude"
+    },
+    "description":{
+        "ES":"Altitud de la estación en m sobre el nivel del mar",
+        "EN":"Altitude of the station in m above the sea level"
+    },
+    "data_unit":{
+        "ES":"Metros (m)",
+        "EN":"Meters (m)"
+    }    
+},
+"dir": {
+    "display_name":{
+        "ES":"Dirección racha",
+        "EN":"Gust direction"
+    },
+    "description":{
+        "ES":"Dirección de la racha máxima",
+        "EN":"Direction of maximum wind gust"
+    },
+    "data_unit":{
+        "ES":"Decenas de grado (°)",
+        "EN":"Tens of degrees (°)"
+    }    
+}
+}
