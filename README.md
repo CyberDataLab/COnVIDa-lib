@@ -34,9 +34,9 @@
 <!-- ABOUT THE PROJECT -->
 ## About the project
 
-COnVIDa (convida.inf.um.es) is a tool developed by the Cybersecurity and Data Science Laboratory at the University of Murcia (Spain) that allows easily gathering data related to the COVID19 pandemic form different data sources, in the context of Spain, and visualize them in a graph.
+COnVIDa ([convida.inf.um.es](convida.inf.um.es)) is a tool developed by the Cybersecurity and Data Science Laboratory at the University of Murcia (Spain) that allows easily gathering data related to the COVID19 pandemic form different data sources, in the context of Spain, and visualize them in a graph.
 
-In particular, this project contains the python library which is being developed to collect data from the different data sources (which, in turn, is being used in the backend of COnVIDa service). The code is publicly available to be used by researchers, data analysis and software developers, ready to be used as modules in python scripts or IPython Notebooks. Moreover, is specially designed to be modular and extensible to new data sources.
+In particular, this project contains the python library which is being developed to collect data from the different data sources (which, in turn, is being used in the backend of _COnVIDa_ service). The code is publicly available to be used by researchers, data analysis and software developers, ready to be used as modules in python scripts or IPython Notebooks. Moreover, is specially designed to be modular and extensible to new data sources.
 
 
 
@@ -74,7 +74,7 @@ pip3 install -r requirements.txt
 
 The library can be easily used as shown in the [test lib notebook](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/test_lib.ipynb). Some considerations should be taken:
 
-* The import of ConVIDa modules should be addressed accordingly. The simplest way would be to place your script or Notebook in ```lib``` folder. However, you are free to manage the imports as [desired](https://docs.python.org/3/reference/import.html).
+* The import of _ConVIDa_ modules should be addressed accordingly. The simplest way would be to place your script or Notebook in ```lib``` folder. However, you are free to manage the imports as [desired](https://docs.python.org/3/reference/import.html).
 
 * The class _COnVIDa_ acts as a factory which encapsulates the low-level implementation of the different data sources. In this sense, for the usage of this library is only necessary to know its public functions. For more info, see [lib documentation](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/).
 
@@ -112,14 +112,6 @@ Any contributions you make are **greatly appreciated**.
 5. Open a Pull Request
 
 
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
-
-
 <!-- CONTACT -->
 ## Contact
 
@@ -129,6 +121,11 @@ Contact us through convida@listas.um.es
 
 Entire COnVIDa project: [https://github.com/CyberDataLab/COnVIDa-dev](https://github.com/CyberDataLab/COnVIDa-dev)
 
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
 
 
 <!-- ACKNOWLEDGEMENTS -->
