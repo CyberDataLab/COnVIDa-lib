@@ -34,7 +34,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About the project
 
-COnVIDa ([convida.inf.um.es](convida.inf.um.es)) is a tool developed by the Cybersecurity and Data Science Laboratory at the University of Murcia (Spain) that allows easily gathering data related to the COVID19 pandemic form different data sources, in the context of Spain, and visualize them in a graph.
+COnVIDa ([convida.inf.um.es](https://convida.inf.um.es)) is a tool developed by the Cybersecurity and Data Science Laboratory at the University of Murcia (Spain) that allows easily gathering data related to the COVID19 pandemic form different data sources, in the context of Spain, and visualize them in a graph.
 
 In particular, this project contains the python library which is being developed to collect data from the different data sources (which, in turn, is being used in the backend of _COnVIDa_ service). The code is publicly available to be used by researchers, data analysis and software developers, ready to be used as modules in python scripts or IPython Notebooks. Moreover, is specially designed to be modular and extensible to new data sources.
 
