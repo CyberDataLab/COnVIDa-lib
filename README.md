@@ -112,6 +112,12 @@ Any contributions you make are **greatly appreciated**.
 5. Open a Pull Request
 
 
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+
 <!-- CONTACT -->
 ## Contact
 
@@ -120,12 +126,6 @@ CyberDataLab - [@cyberdatalab](https://twitter.com/cyberdatalab)
 Contact us through convida@listas.um.es
 
 Entire COnVIDa project: [https://github.com/CyberDataLab/COnVIDa-dev](https://github.com/CyberDataLab/COnVIDa-dev)
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
 
 
 <!-- ACKNOWLEDGEMENTS -->
