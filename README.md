@@ -49,8 +49,8 @@ COnVIDa library is particularly composed by two main elements:
 
 ### Prerequisites
 
-* Python
-* Pip3
+* Python3
+* pip3
 
 
 ### Installation
@@ -60,7 +60,7 @@ COnVIDa library is particularly composed by two main elements:
 git clone https://github.com/CyberDataLab/COnVIDa-lib.git
 ```
 2. Change to COnVIDa-lib directory
-3. Install required packages
+3. Install required packages (using a virtual environment such as ```conda``` is highly recommended)
 ```sh
 pip3 install -r requirements.txt
 ```
