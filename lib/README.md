@@ -53,14 +53,15 @@ Implements the required information for Regions management
 
     language - language of the descriptions. 'ES' for Spanish (default value), 'EN' for English.
 
+***
 
 #### `COnVIDA class`
 Provides an interface for the library user to avoid the use of low-level functions.
 
-##### get_data_types()
+##### `get_data_types()`
     Returns the implemented datatypes in string format.
 
-##### get_items_by_datasource(datatype)
+##### `get_items_by_datasource(datatype)`
     Returns a dictionary with data sources as keys, and an array of associated data items as values.
     
     datatype - DataType of the data sources.
@@ -77,5 +78,7 @@ Provides an interface for the library user to avoid the use of low-level functio
     
     datatype - DataType of the data sources
     language - language of the descriptions. 'ES' for Spanish (default value), 'EN' for English.
+    
+***
 
 ## Developer guidelines
