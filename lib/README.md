@@ -55,7 +55,8 @@ Implements the required information for Regions management
 ##### `get_regions(country_code='ES')` 
     Returns a list with the names of the Spanish provinces.
 
-    country_code - string of the descriptions. Up to now, only 'ES' for Spanish provinces is available.
+    Parameters
+    - country_code: string of the descriptions. Up to now, only 'ES' for Spanish provinces is available.
 
 ***
 
@@ -68,56 +69,56 @@ Provides an interface for the library user to avoid the use of low-level functio
 ##### `get_items_by_datasource(data_type)`
     Returns a dictionary with data sources as keys, and an array of associated data item names as values.
     
-    data_type - DataType of the data sources.
+    Parameters
+    - data_type: DataType of the data sources.
 
 ##### `get_descriptions_by_datasource(data_type, languange='ES')`
 
     Returns a dictionary with data sources as keys, and an array of associated data item descriptions as values.
 
-    data_type - DataType of the data sources.
-    language - language of the descriptions. 
+    Parameters
+    - data_type: DataType of the data sources
+    - language: language of the descriptions. 
         'ES' for Spanish (default value),
         'EN' for English.
 
 ##### `get_units_by_datasource(data_type, languange='ES')`
     Returns a dictionary with data sources as keys, and an array of associated data item units as values.
     
-    data_type - DataType of the data sources
-    language - language of the descriptions. 
+    Parameters
+    - data_type: DataType of the data sources
+    - language: language of the units. 
         'ES' for Spanish (default value),
         'EN' for English.
 
 #### `get_units_by_datasource(data_type, languange='ES')`
     Returns a dictionary with data sources as keys, and an array of associated data item units as values.
     
-    data_type - DataType of the data sources
-    language - language of the descriptions. 
+    Parameters
+    - data_type: DataType of the data sources
+    - language: language of the descriptions. 
         'ES' for Spanish (default value),
         'EN' for English.
 
 #### `get_data_items(data_items='all', regions='ES', start_date=None, end_date=None, language='ES', errors='ignore')`
     Returns a DataFrame with the required information. 
 
-    data_items - list of data item names. By default, 'all' are collected.
-    regions - list of region names. By default, 'ES' refers to all Spanish provinces.
-    start_date - first day in pandas datetime to be considered in TEMPORAL data items. By default, None is established.
-    end_date - last day in pandas datetime to be considered in TEMPORAL data items. By default, None is established.
-    languange - language of the returned data. 
+    Parameters
+    - data_items: list of data item names. By default, 'all' are collected.
+    - regions: list of region names. By default, 'ES' refers to all Spanish provinces.
+    - start_date: first day in pandas datetime to be considered in TEMPORAL data items. By default, None is established.
+    - end_date: last day in pandas datetime to be considered in TEMPORAL data items. By default, None is established.
+    - languange: language of the returned data. 
         'ES' for Spanish (default value),
         'EN' for English.
-    errors - action to be taken when errors occur:
-        'ignore' tries to get all possible data items even if some can't be collected.
+    - errors: action to be taken when errors occur.
+        'ignore' tries to get all possible data items even if some can't be collected,
         'raise' throws an exception and the execution is aborted upon detection of any error. 
 
 
     If dates are passed, then it is assumed that TEMPORAL data items are required. Otherwise, a GEOGRAPHICAL retrieval is assumed.
-
     A TEMPORAL retrieval produces a DataFrame with daily [Date] as row indexer and [Region, Data Item] as column indexer.
-
     A GEOGRAPHICAL retrieval produces a DataFrame with [Region] as row indexer and [Data Item] as column indexer.
-
-
-
 
 ***
 

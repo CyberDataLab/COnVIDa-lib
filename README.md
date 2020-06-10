@@ -76,7 +76,7 @@ The library can be easily used as shown in the [test lib notebook](https://githu
 
 * The import of _ConVIDa_ modules should be addressed accordingly. The simplest way would be to place your script or Notebook in ```lib``` folder. However, you are free to manage the imports as [desired](https://docs.python.org/3/reference/import.html).
 
-* The class _COnVIDa_ acts as a factory which encapsulates the low-level implementation of the different data sources. In this sense, for the usage of this library is only necessary to know its public functions. For more info, see [lib documentation](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/README.md).
+* The class _COnVIDa_ acts as a factory which encapsulates the low-level implementation of the different data sources. In this sense, for the usage of this library is only necessary to know its public functions. For more info, see [lib documentation](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib).
 
 * The _COnVIDa_ library always access external sources to retrieve the data. In this sense, it is worth keeping the data on disk to avoid requesting the same data several times. In fact, the ```server``` example is specifically oriented to work with the data locally once a data cache is built by using ```lib```.
 
@@ -87,7 +87,7 @@ The service can be easily used as shown in the [test server notebook](https://gi
 
 * The import of ConVIDa server should be addressed accordingly. The simplest way would be to place your script or Notebook in ```server``` folder. However, you are free to manage the imports as [desired](https://docs.python.org/3/reference/import.html).
 
-* The class _convida_server_ also manages user queries from a high-level perspective. However, these queries are in these case locally filtered against a data cache file (which is generated for the first time with [data generation notebook](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/server/data_generation.ipynb) and can be updated with _daily_update_ function). For more info, see [server documentation](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/server/README.md).
+* The class _convida_server_ also manages user queries from a high-level perspective. However, these queries are in these case locally filtered against a data cache file (which is generated for the first time with [data generation notebook](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/server/data_generation.ipynb) and can be updated with _daily_update_ function). For more info, see [server documentation](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/server).
 
 
 <!-- ROADMAP -->
