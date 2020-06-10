@@ -45,39 +45,37 @@ Current version of COnVIDa includes 5 data sources related to the COVID19 pandem
 
 The [test lib notebook](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/test_lib.ipynb) contains usage examples of _COnVIDa lib_. The most important modules and functions are the following.
 
-### ```Regions class```
+#### `Regions class`
 Implements the required information for Regions management
 
-#### `get_regions(language='ES')` 
+##### `get_regions(language='ES')` 
     Returns a list with the names of the Spanish provinces.
 
-    𝘭𝘢𝘯𝘨𝘶𝘢𝘨𝘦 specifies the language of the descriptions. 'ES' for Spanish (default value), 'EN' for English.
+    language - language of the descriptions. 'ES' for Spanish (default value), 'EN' for English.
 
 
-### ```COnVIDA class```
+#### `COnVIDA class`
 Provides an interface for the library user to avoid the use of low-level functions.
 
-#### `get_data_types()` 
+##### get_data_types()
     Returns the implemented datatypes in string format.
 
-#### `get_items_by_datasource(datatype)`
+##### get_items_by_datasource(datatype)
     Returns a dictionary with data sources as keys, and an array of associated data items as values.
     
-    𝘥𝘢𝘵𝘢𝘵𝘺𝘱𝘦 specifies the DataType of the data sources.
+    datatype - DataType of the data sources.
 
-#### `get_descriptions_by_datasource(datatype, languange='ES')`
+##### `get_descriptions_by_datasource(datatype, languange='ES')`
 
     Returns a dictionary with data sources as keys, and an array of associated data item descriptions as values.
 
-    𝘥𝘢𝘵𝘢𝘵𝘺𝘱𝘦 specifies the DataType of the data sources.
+    datatype - DataType of the data sources.
+    language - language of the descriptions. 'ES' for Spanish (default value), 'EN' for English.
 
-    𝘭𝘢𝘯𝘨𝘶𝘢𝘨𝘦 specifies the language of the descriptions. 'ES' for Spanish (default value), 'EN' for English.
-
-#### `get_units_by_datasource(datatype, languange='ES')`
+##### `get_units_by_datasource(datatype, languange='ES')`
     Returns a dictionary with data sources as keys, and an array of associated data item units as values.
-
-> 𝘥𝘢𝘵𝘢𝘵𝘺𝘱𝘦 specifies the DataType of the data sources
-
->𝘭𝘢𝘯𝘨𝘶𝘢𝘨𝘦 specifies the language of the descriptions. 'ES' for Spanish (default value), 'EN' for English.
+    
+    datatype - DataType of the data sources
+    language - language of the descriptions. 'ES' for Spanish (default value), 'EN' for English.
 
 ## Developer guidelines
