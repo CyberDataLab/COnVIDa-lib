@@ -87,7 +87,6 @@ Provides an interface for the library user to avoid the use of low-level functio
     - data_type: DataType of the data sources.
 
 ##### `get_descriptions_by_datasource(data_type, languange='ES')`
-
     Returns a dictionary with data sources as keys, and an array of associated data item descriptions as values.
 
     Parameters
@@ -183,8 +182,6 @@ _COnVIDa-lib_ constitutes a object-oriented package ready to be extended. Consid
         In the first execution of the class, these class attributes will load the values from the config files.
 
 
-
-
     * Define and fulfill the following functions:
 
         ```python
@@ -204,8 +201,6 @@ _COnVIDa-lib_ constitutes a object-oriented package ready to be extended. Consid
 
             # initialize the rest of specific object attributes
             ...
-        
-        
 
         def _get_urls(self):
         '''
