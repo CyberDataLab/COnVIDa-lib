@@ -8,7 +8,29 @@ import requests
 import numpy as np
 
 class AEMETDataSource(DataSource):
-    
+    """ 
+    Class which constitutes a collection from the AEMET Data Source.
+
+    Attributes
+    ----------
+    DATA_FORMAT : DataFormat
+        Data Format of the resource (JSON or CSV)
+    DATA_TYPE : DataType
+        Data Type of the Data Source (TEMPORAL or GEOGRAPHICAL)
+    REGION_REPRESENTATION : str
+        Representation of the regions within the Data Source (iso_3166_2, ine code, ...)
+    DATA_ITEMS : list of str
+        Names of the data items literally used by the Data Source
+    DATA_ITEMS_INFO : dic { str : dic { str : dic { str : str } } }
+        Information of each Data Item of the Data Source. The internal name (DATA_ITEMS) are the keys, whereas the following aspects are the keys of the first nested dic.
+            Display Name (used to change the third-party nomenclature to a desired custom one)
+            Description (meaning of the Data Item)
+            Data unit (metric of the Data Item values: kg, persons, etc.)
+        The second nested dic correspond to the keys 'EN' and 'ES', containing the English and Spanish texts respectively.
+    API_KEY : str
+        A string containg an API KEY to use the AEMET service
+    """"
+
     DATA_FORMAT = None
     DATA_TYPE = None
     REGION_REPRESENTATION = None
@@ -18,6 +40,29 @@ class AEMETDataSource(DataSource):
 
     
     def __init__(self, data_items=None, regions=None, start_date=None, end_date=None):
+        """
+        Creates a collection of the AEMET Data Source
+
+        Parameters
+        ----------
+        data_items : list of str
+            list of required data item names of the AEMET Data Source.
+        regions : list of str
+            list of required regions. 
+        start_date : pd.datetime
+            first day to be considered. 
+        end_date : pd.datetime
+            last day to be considered. 
+        
+        Returns
+        -------
+        Returns a configured AEMET Data Source object ready to be used for getting the data.
+
+        Notes
+        -----
+        By default, parameters to None indicates an empty instance (used to initialize class attributes).
+        """
+
         super().__init__(data_items, regions)
         
         # check dates (AEMET refresh with a four-day lag)
@@ -52,7 +97,14 @@ class AEMETDataSource(DataSource):
     # defined methods from parent class
     
     def _get_urls(self):
+        '''
+        Builds the URLs of the resources to be visited (ideally containing the raw data).
         
+        Returns
+        -------
+        list of str
+            list of working URLs (usually containing only one url).
+        '''
         urls = []
         aemet_stations_by_regions = self.__get_stations_by_regions()
         
@@ -68,6 +120,20 @@ class AEMETDataSource(DataSource):
     
         
     def _manage_response(self, response):
+        '''
+        This function is always executed after consulting each URL of this Data Source. 
+        It should manage the HTTP response and return the JSON of the Data Source.
+
+        Parameters
+        ----------
+        - response: HTTP Response
+            it is a HTTP Response from requests.get() (Request library) of one URL.
+
+        Returns
+        -------
+        json
+            Return the JSON contained in the response
+        ''' 
 
         rjson = response.json()
         
@@ -85,6 +151,21 @@ class AEMETDataSource(DataSource):
 
         
     def _process_partial_data(self, partial_requested_data):
+    
+        '''
+        This function is always executed after managing the response of each URL of this Data Source. 
+        The data should be processed from the external structure to the form of a DataFrame. 
+
+        Parameters
+        ----------
+        partial_requested_data : json
+            it is the requested JSON of one URL.
+
+        Returns
+        -------
+        pd.DataFrame
+            a DataFrame with [Region] as row indexer and [Data Item] as column indexer.
+        '''
         
         # Convert to numeric
         for d in partial_requested_data:
@@ -106,6 +187,14 @@ class AEMETDataSource(DataSource):
     # private methods
         
     def __read_api_key(self):
+        """
+        Reads the API KEY from the data sources configuration file
+
+        Returns
+        -------
+        str
+            the API KEY contained in the AEMET entry of the data souces configuration file
+        """
         
         current_path = os.path.dirname(os.path.realpath(__file__))
         config_path = os.path.join(current_path, DataSource._CONFIG_PATH)
@@ -126,7 +215,18 @@ class AEMETDataSource(DataSource):
         return api_key
 
     def __get_stations_by_regions(self):
-        
+        """
+        Gets the aemet stations per region
+
+        Returns
+        -------
+        dict {str : str}
+            a dictionary with instance regions as keys, and a string with the aemet stations separated by commas as values.
+
+        Notes
+        -----
+        * It is used for completing 'idema' argument in the AEMET API function (https://opendata.aemet.es/dist/index.html?#!/valores-climatologicos/Climatolog%C3%ADas_diarias)
+        """
         aemet_stations = Regions._get_property(self.regions, self.__class__.REGION_REPRESENTATION)
         str_aemet_stations = {}
                 
@@ -142,7 +242,14 @@ class AEMETDataSource(DataSource):
     
     
     def __get_regions_by_stations(self):
-        
+        """
+        Gets the region per aemet station.
+
+        Returns
+        -------
+        dict {str : str}
+            a dictionary with aemet stations as keys, and instance regions as values.
+        """
         aemet_stations = Regions._get_property(self.regions, self.__class__.REGION_REPRESENTATION)
         region_by_aemet_station = {}
         

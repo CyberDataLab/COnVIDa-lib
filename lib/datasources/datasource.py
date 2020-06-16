@@ -20,29 +20,84 @@ urllib3.disable_warnings()
 
 
 class DataFormat(Enum):
+    """ 
+    Codifies the format of the data.
+
+    JSON : JavaScript Object Notation
+    CSV : Comma-Separated Values
+    """
     JSON = 0
     CSV = 1
     
 
 class DataSource(object):
-    
-    __SLEEP_TIME_INCREASE = 0.5   # increment of sleep time to handle 429 http errors
-    __SLEEP_TIME_LIMIT = 4         # limit of sleep time to abort requesting the data source
+    """ 
+    Abstract class which constitutes a collection from a single external source. Parent class of specific Data Sources.
+
+    Attributes
+    ----------
+    __SLEEP_TIME_INCREASE : float
+        increment of sleep time when experimenting 429 http errors
+    __SLEEP_TIME_LIMIT : float
+        limit of sleep time to abort requesting the data source
+    _CONFIG_PATH : str
+        relative path to the general data sources configuration file
+    """
+
+    __SLEEP_TIME_INCREASE = 0.5  
+    __SLEEP_TIME_LIMIT = 4         
     _CONFIG_PATH = 'config'
 
-        
     def __init__(self, data_items, regions):
+        """
+        Creates a collection of a specific Data Source
+
+        Parameters
+        ----------
+        data_items : list of str
+            list of required data item names of the same Data Source
+        regions : list of str
+            list of required regions
+        
+        Returns a configured Data Source object ready to be used for getting the data.
+        """
         self.data_items = data_items
         self.regions = regions
+
+        # query_parameters : dict {str : str}  containing HTTP headers (name of the header and value), if needed
         self.query_parameters = {}
+
+        # request_errors : int number of permited errors before stopping the collection.
         self.request_errors = 0
+
+        # last_error : int last received HTTP code
         self.last_error = 200
-        self.processed_urls = 0  # attribute needed to manage the url (data items) being processed
+
+        # processed_urls : int number of processed urls at a specific time
         
-        self.sleep_time_before_request = 0  # initial waiting time between requests, increased with SLEEP_TIME_INCREASE when 429 error occurs
+        self.processed_urls = 0
+
+        # sleep_time_before_request : float seconds to sleep between requests, increased with __SLEEP_TIME_LIMIT when HTTP 429 error occurs.
+        self.sleep_time_before_request = 0
         
     def get_data(self, errors):
-        
+        """
+        Gets the data with the instance attributes.
+
+        Parameters
+        ----------
+        errors : str
+            action to be taken when errors occur.
+                'ignore' tries to get all possible data items even if some can't be collected,
+                'raise' throws an exception and the execution is aborted upon detection of any error. 
+
+        Returns
+        -------
+        pd.DataFrame
+            a DataFrame with the required information.
+                If Data Items are TEMPORAL, a DataFrame with daily [Date] as row indexer and [Region, Data Item] as column multiindexer.
+                If Data Items are GEOGRAPHICAL, a DataFrame with [Region] as row indexer and [Data Item] as column indexer.
+        """
         urls = self._get_urls()
         if urls is None:
             return None
@@ -56,15 +111,46 @@ class DataSource(object):
 
     @classmethod
     def data_item_exists(cls, data_item):
+        """
+        Checks if a data item is implemented in the Data Source.
+
+        Parameters
+        ----------
+        data_item : str
+            name of the data item to be checked.
+
+        Returns
+        -------
+        boolean
+            True if data_item is implemented in the Data Source, False otherwise.
+        """
         return data_item in cls.DATA_ITEMS
 
     
     # protected functions
     def _make_requests(self, urls, errors):
-        
+        """
+        Gets the data by unifying successive requests to external sources (from this Data Source) into a common DataFrame
+
+        Parameters
+        ----------
+        urls : list of str
+            list of the urls to be queried for this Data Source
+        errors : str
+            action to be taken when errors occur.
+                'ignore' tries to get all possible data items even if some can't be collected,
+                'raise' throws an exception and the execution is aborted upon detection of any error. 
+
+        Returns
+        -------
+        pd.DataFrame
+            a DataFrame with the collected information.
+                If Data Items are TEMPORAL, a DataFrame with daily [Date] as row indexer and [Region, Data Item] as column multiindexer.
+                If Data Items are GEOGRAPHICAL, a DataFrame with [Region] as row indexer and [Data Item] as column indexer.
+        """
+
         requested_data = None
         processed_data = None
-        
     
         for url in urls:
             partial_requested_data = self._make_request(url)
@@ -113,10 +199,23 @@ class DataSource(object):
         return requested_data
     
     
-    
-    # function for single request
     def _make_request(self, url):
-        
+        """
+        Gets the data by requesting a unique url
+
+        Parameters
+        ----------
+        url : str
+            url to be queried for this Data Source
+
+        Returns
+        -------
+        pd.DataFrame
+            a DataFrame with the collected information.
+                If Data Items are TEMPORAL, a DataFrame with daily [Date] as row indexer and [Region, Data Item] as column multiindexer.
+                If Data Items are GEOGRAPHICAL, a DataFrame with [Region] as row indexer and [Data Item] as column indexer.
+        """
+
         requested_data = None
         request_again = True
 
@@ -169,13 +268,36 @@ class DataSource(object):
     
     
     def _init_data_source(self):
+        """
+        Initializes the class attributes of the Data Source by reading the configuration files
+        """
         # fulfill class attributes in child nodes
         if self.__class__.DATA_FORMAT is None:
             self.__class__.DATA_FORMAT,self.__class__.DATA_TYPE,self.__class__.REGION_REPRESENTATION,self.__class__.DATA_ITEMS, self.__class__.DATA_ITEMS_INFO  = self.__read_config()
 
             
     def __read_config(self):
+        """
+        Reads the configuration file associated to the Data Source
         
+        Returns
+        -------
+        DataFormat
+             Data Format of the resource (JSON or CSV)
+        DataType
+            Data Type of the Data Source (TEMPORAL or GEOGRAPHICAL)
+        str
+            Representation of the regions within the Data Source (iso_3166_2, ine code, ...)
+        list of str
+            Names of the data items literally used by the Data Source
+        dic { str : dic { str : dic { str : str } } }
+            Information of each Data Item of the Data Source. The internal name (DATA_ITEMS) are the keys, whereas the following aspects are the keys of the first nested dic.
+                Display Name (used to change the third-party nomenclature to a desired custom one)
+                Description (meaning of the Data Item)
+                Data unit (metric of the Data Item values: kg, persons, etc.)
+            The second nested dic correspond to the keys 'EN' and 'ES', containing the English and Spanish texts respectively.
+        """
+
         ## read general info of the data source
         current_path = os.path.dirname(os.path.realpath(__file__))
         config_path = os.path.join(current_path,self.__class__._CONFIG_PATH)

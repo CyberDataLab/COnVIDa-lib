@@ -53,7 +53,6 @@ Implements the _COnVIDa service_ from a server perspective that dispatches user 
 
     Notes
     * If this method notices that the cache filename corresponds to the date of today, it assumes that the Data Cache is up-to-date and nothing more is performed.
-
     * This function updates the Data Cache on disk, but load_data() function should be executed afterwards to perform the update in memory and, in turn, enable up-to-date queries. 
 
 ##### `get_min_date()`
@@ -62,8 +61,7 @@ Implements the _COnVIDa service_ from a server perspective that dispatches user 
 ##### `get_max_date()`
     Returns the last cached day
 
-
- ##### `get_data_items(data_items: list, regions: list, start_date=None, end_date=None, language='ES')`
+##### `get_data_items(data_items: list, regions: list, start_date=None, end_date=None, language='ES')`
     Returns a DataFrame with the required information. 
 
     Parameters
@@ -71,7 +69,7 @@ Implements the _COnVIDa service_ from a server perspective that dispatches user 
     - regions: list of region names.
     - start_date: first day in pandas datetime to be considered in TEMPORAL data items. By default, None is established.
     - end_date: last day in pandas datetime to be considered in TEMPORAL data items. By default, None is established.
-    - languange: language of the returned data. 
+    - language: language of the returned data. 
         'ES' for Spanish (default value),
         'EN' for English.
 

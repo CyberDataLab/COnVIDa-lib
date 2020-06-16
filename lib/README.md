@@ -25,7 +25,7 @@ Current version of COnVIDa includes 5 data sources related to the COVID19 pandem
 
 * **MoMo**: Information about the [mortality monitoring system](https://momo.isciii.es/public/momo/dashboard/momo_dashboard.html) handled by the Instituto de Salud Carlos III. 
 
-* **AEMET**: Information about meteorological data stemming from the AEMET ([Agencia Estatal de Meteorología](https://opendata.aemet.es/)). 
+* **AEMET**: Information about meteorological data stemming from the AEMET ([Agencia Estatal de Meteorología](https://opendata.aemet.es/)). **IMPORTANT**: To use this Data Source, it is required an [API KEY](https://opendata.aemet.es/centrodedescargas/altaUsuario) which should be then placed in the [Data Sources configuration file](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/datasources/config/data-sources-config.json).
 
 
 ### Data Item
@@ -70,7 +70,7 @@ Implements the required information for Regions management
     Returns a list with the names of the Spanish provinces.
 
     Parameters
-    - country_code: string of the descriptions. Up to now, only 'ES' for Spanish provinces is available.
+    - country_code: string indicating the country of the regions. Up to now, only 'ES' for Spanish provinces is available.
 
 ***
 
@@ -80,40 +80,34 @@ Provides an interface for the library user to avoid the use of low-level functio
 ##### `get_data_types()`
     Returns the implemented datatypes in string format.
 
-##### `get_items_by_datasource(data_type)`
+##### `get_items_by_datasource(DataType = None, language='ES')`
     Returns a dictionary with data sources as keys, and an array of associated data item names as values.
     
     Parameters
-    - data_type: DataType of the data sources.
+    - data_type: DataType of the data sources (DataType.GEOGRAPHICAL or DataType.TEMPORAL). By default, None indicates that both GEOGRAPHICAL and TEMPORAL data types are queried.
+    - language: language of the names. 
+        'ES' for Spanish (default value),
+        'EN' for English.
 
-##### `get_descriptions_by_datasource(data_type, languange='ES')`
+##### `get_descriptions_by_datasource(DataType = None, language='ES')`
     Returns a dictionary with data sources as keys, and an array of associated data item descriptions as values.
 
     Parameters
-    - data_type: DataType of the data sources
+    - data_type: DataType of the data sources (DataType.GEOGRAPHICAL or DataType.TEMPORAL). By default, None indicates that both GEOGRAPHICAL and TEMPORAL data types are queried.
     - language: language of the descriptions. 
         'ES' for Spanish (default value),
         'EN' for English.
 
-##### `get_units_by_datasource(data_type, languange='ES')`
+##### `get_units_by_datasource(DataType = None, language='ES')`
     Returns a dictionary with data sources as keys, and an array of associated data item units as values.
     
     Parameters
-    - data_type: DataType of the data sources
+    - data_type: DataType of the data sources (DataType.GEOGRAPHICAL or DataType.TEMPORAL). By default, None indicates that both GEOGRAPHICAL and TEMPORAL data types are queried.
     - language: language of the units. 
         'ES' for Spanish (default value),
         'EN' for English.
 
-#### `get_units_by_datasource(data_type, languange='ES')`
-    Returns a dictionary with data sources as keys, and an array of associated data item units as values.
-    
-    Parameters
-    - data_type: DataType of the data sources
-    - language: language of the descriptions. 
-        'ES' for Spanish (default value),
-        'EN' for English.
-
-#### `get_data_items(data_items='all', regions='ES', start_date=None, end_date=None, language='ES', errors='ignore')`
+##### `get_data_items(data_items='all', regions='ES', start_date=None, end_date=None, language='ES', errors='ignore')`
     Returns a DataFrame with the required information. 
 
     Parameters
@@ -121,7 +115,7 @@ Provides an interface for the library user to avoid the use of low-level functio
     - regions: list of region names. By default, 'ES' refers to all Spanish provinces.
     - start_date: first day in pandas datetime to be considered in TEMPORAL data items. By default, None is established.
     - end_date: last day in pandas datetime to be considered in TEMPORAL data items. By default, None is established.
-    - languange: language of the returned data. 
+    - language: language of the returned data. 
         'ES' for Spanish (default value),
         'EN' for English.
     - errors: action to be taken when errors occur.

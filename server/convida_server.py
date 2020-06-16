@@ -12,7 +12,26 @@ import os.path
 
 
 class convida_server():
-    
+    """ 
+    COnVIDa service from a server perspective that dispatches user queries locally. 
+    A Data Cache is required to be generated, so it can be loaded in memory and used to address local queries.
+
+    Attributes
+    ----------
+    __DATA_PATH : str
+        the relative path to the folder containing the Data Cache file.
+    __CACHE_PATH : str
+        the relative path to the Data Cache file.
+    __UPDATE_DAYS : int
+        number of retroactive days to update  from the last contained in the Data Cache.
+    __DATA : dic { DataType : pd.DataFrame }
+        the Data Cache loaded in memory,
+            DataType.TEMPORAL contains the DataFrame with temporal data items
+            DataType.GEOGRAPHICAL contains the DataFrame with geographical data items
+    __LOGGER : logging.logger
+        internal system of log
+    """
+
     __DATA_PATH = 'data/'
     __CACHE_PATH = None    # absolute path of the cache loaded in memory
     
@@ -27,7 +46,10 @@ class convida_server():
     
     @classmethod
     def init_log(cls):
-        # initialize the log settings
+        """
+        Initializes the log system which produces information in ./log/convida.log
+        It must be executed just at the beginning, before any other function.
+        """
         log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
         cls.__LOGGER = logging.getLogger(cls.__name__)
         cls.__LOGGER.setLevel('INFO')
@@ -39,7 +61,19 @@ class convida_server():
     
     @classmethod
     def load_data(cls, cache_filename=None):
-        
+        """
+        Reads the Data Cache file and loads in __DATA class attribute both the TEMPORAL and GEOGRAPHICAL DataFrames. 
+        It must be executed at the beginning and every time the Data Cache file gets updated.
+
+        Parameters
+        ----------
+        cache_filename : str
+            Name of the generated HDF5 binary data file containing cached data. By default, None is assigned and the file is searched in the folder __DATA_PATH (class attribute)
+
+        Notes
+        -----
+        * This COnVIDa-server example is designed to contain only ONE DATA CACHE FILE in the data dir.
+        """
         if cache_filename is None:
             try:
                 for file in os.listdir(cls.__DATA_PATH):
@@ -93,7 +127,19 @@ class convida_server():
         
     @classmethod
     def daily_update(cls) -> bool:
-        
+        """
+        Updates the Data Cache (which is loaded in memory) FROM the last day cached minus the number of days indicated in class attribute __UPDATE_DAYS UNTIL today. This method removes the outdated file and creates the up-to-date file in the data path (class attribute__DATA_PATH) with the filename `cache_YYYY-MM-DD.h5` of today.
+
+        Returns 
+        -------
+        boolean
+            True if the update was done, False otherwise.
+
+        Notes
+        ----
+        * If this method notices that the cache filename corresponds to the date of today, it assumes that the Data Cache is up-to-date and nothing more is performed.
+        * This function updates the Data Cache on disk, but load_data() function should be executed afterwards to perform the update in memory and, in turn, enable up-to-date queries. 
+        """
         # date of today
         today = pd.to_datetime(pd.to_datetime('today').strftime(format='%Y-%m-%d'))
         
@@ -213,7 +259,35 @@ class convida_server():
     
     @classmethod
     def get_data_items(cls, data_items: list, regions: list, start_date=None, end_date=None, language='ES'):
+        """
+        Locally gets the required information from a previously generated Data Cache
+
+        Parameters
+        -----------
+        data_items: list of str
+            Data item names.
+        regions: list of str
+            Region names.
+        start_date: pd.datetime
+            first day to be considered in TEMPORAL data items. By default, None is established.
+        end_date: pd.datetime
+            last day to be considered in TEMPORAL data items. By default, None is established.
+        language: 
+            language of the returned data. 
+                'ES' for Spanish (default value),
+                'EN' for English.
+
+        Returns
+        -------
+        pd.DataFrame
+            A TEMPORAL retrieval produces a DataFrame with daily [Date] as row indexer and [Region, Data Item] as column multiindexer.
+            A GEOGRAPHICAL retrieval produces a DataFrame with [Region] as row indexer and [Data Item] as column indexer.
         
+        Notes
+        -----
+        * The Data Cache should be loaded in memory.
+        * If dates are passed, then it is assumed that TEMPORAL data items are required. Otherwise, a GEOGRAPHICAL retrieval is assumed.
+        """
         try:
             if not isinstance(data_items, list):
                 raise TypeError("Data items shoud be a list")
@@ -267,11 +341,27 @@ class convida_server():
     
     @classmethod
     def get_min_date(cls):
+        """
+        Gets the first cached day (by default, 1st January 2016)
+
+        Returns
+        -------
+        pd.datetime
+            the date of the first cached day
+        """
         return cls.__get_date(0)
 
     
     @classmethod
     def get_max_date(cls):
+        """
+        Gets the last cached day
+
+        Returns
+        -------
+        pd.datetime
+            the date of the last cached day
+        """
         return cls.__get_date(-1)
 
 
@@ -279,7 +369,14 @@ class convida_server():
     
     @classmethod
     def __get_date(cls,index):
-    
+        """
+        Gets the date of at a specific index position in the TEMPORAL data cache
+
+        Returns
+        -------
+        pd.datetime
+            the date contained in the row of the position "index"
+        """
         loaded = True
         
         # this method should never be invoked before loading data...
@@ -296,7 +393,25 @@ class convida_server():
     
     @classmethod
     def __get_temporal_items(cls, data_items, regions, start_date, end_date):
-        
+        """
+        Resolves queries of temporal Data Items against the Data Cache
+
+        Parameters
+        ----------
+        data_items: list of str
+            Data item names.
+        regions: list of str
+            Region names.
+        start_date: pd.datetime
+            first day to be considered.
+        end_date: pd.datetime
+            last day to be considered.
+
+        Returns
+        -------
+        pd.DataFrame
+            a DataFrame from start_date to end_date in row index, regions at level 0 of multicolumn index and data_items at level 1 of multicolumn index.
+        """
         temporal_data_df = cls.__DATA[DataType.TEMPORAL]
         
         # date filtering
@@ -313,6 +428,21 @@ class convida_server():
     
     @classmethod
     def __get_geographical_items(cls, data_items, regions):
+        """
+        Resolves queries of geographical Data Items against the Data Cache
+
+        Parameters
+        ----------
+        data_items: list of str
+            Data item names.
+        regions: list of str
+            Region names.
+
+        Returns
+        -------
+        pd.DataFrame
+            a DataFrame with regions at row index and data_items at column index.
+        """
         
         geographical_data_df = cls.__DATA[DataType.GEOGRAPHICAL]
         

@@ -1,8 +1,17 @@
 import json
 import os 
 
-# Wrapper class to handle regions
 class Regions(object):
+    """ 
+    Wrapper class to manage region information
+
+    Attributes
+    ----------
+    __REGION_CONFIGURATION : dict
+        Information of the regions
+    __CONFIG_PATH : str
+        Relative ath to the region configuration file 
+    """
     
     __REGION_CONFIGURATION = None
     __CONFIG_PATH = 'config'
@@ -10,6 +19,19 @@ class Regions(object):
     # public
     @classmethod
     def get_regions(cls, country_code='ES'):
+        """
+        Gets the implemented regions for a specific country code.
+
+        Parameters
+        ----------
+        country_code: str
+            Country of the regions. Up to now, only 'ES' for Spanish provinces is available.
+
+        Returns
+        -------
+            list of str
+                A list with the names of the Spanish provinces.
+        """
         
         if country_code not in cls.get_country_codes():
             print("Country not implemented yet!")
@@ -25,14 +47,42 @@ class Regions(object):
     
     @classmethod
     def get_country_codes(cls):
+        """
+        Gets the implemented country codes.
+        
+        Returns
+        -------
+        list of str
+            a list with the supported country codes. Up to now, only 'ES' for Spanish provinces is available. 
+        """
+
         COUNTRIES = ['ES']
         return COUNTRIES
-    
-    # protected for only Data Item factory
-    
+
+
+    # protected for only Data Source classes
+
     @classmethod
     def _get_property(cls, regions, region_representation, country_code='ES'):
         
+        """
+        Gets the internal region representation of specific regions.
+
+        Parameters
+        ----------
+        regions: list
+            List of region names
+        region_representation: str
+            Name of the region representation to be queried, namely 'nombre', 'iso_3166_2', 'literal_ine', 'code_ine', 'name' or 'aemet_stations'.
+        country_code: str
+            Country of the regions. Up to now, only 'ES' for Spanish provinces is available.
+
+        Returns
+        -------
+            list of str
+                A list of the region representations in the same order as provided in regions.
+        """
+
         # first time using Regions, read configuration of REGIONS
         if cls.__REGION_CONFIGURATION is None:
             loaded = cls.__load_region_configuration(country_code)
@@ -59,9 +109,7 @@ class Regions(object):
         # all regions are implemented: properties extraction
         if country:    
             country = c-1
-            
-            country_regions = cls.get_regions(cls.get_country_codes()[country])
-            
+                        
             properties = []
             for region in regions:
                 prop = cls.__REGION_CONFIGURATION[region].get(region_representation)
@@ -76,6 +124,20 @@ class Regions(object):
     
     @classmethod  
     def __load_region_configuration(cls, country_code='ES'):
+        """
+        Reads and loads the configuration file of a country.
+
+        Parameters
+        ----------
+        country_code: str
+            Country of the regions. Up to now, only 'ES' for Spanish provinces is available.
+        
+        Returns
+        -------
+        boolean
+            True if the load worked, False otherwise.
+
+        """
         
         ## read general info of the data source
         current_path = os.path.dirname(os.path.realpath(__file__))

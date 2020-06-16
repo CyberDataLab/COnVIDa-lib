@@ -15,7 +15,17 @@ from datasources.MoMoDataSource import MoMoDataSource
 
 
 class COnVIDa:
-    
+    """ 
+    A dispatcher which manages user queries against different Data Sources.
+
+    Attributes
+    ----------
+    __DATA_SOURCE_CLASSES : list of classes
+        The list of implemented Data Sources classes
+    __DATA_SOURCES_INITIALIZED : boolean
+        Internal flag indicating whether the Data Sources have loaded the configuration. 
+    """
+
     # POSSIBLE IMPROVEMENT: remove this class list and take it directly from the data-sources-config.json KEYs 
     # To do this, we would need to see how to reference each class from the string
     __DATA_SOURCE_CLASSES = [INEDataSource, AEMETDataSource, COVID19DataSource, MobilityDataSource, MoMoDataSource]        # add when new classes are created
@@ -25,6 +35,10 @@ class COnVIDa:
     
     @classmethod
     def get_data_types(cls):
+        """
+        Returns the implemented datatypes in string format.
+        """
+
         data_types = []
         for data_type in DataType:
             data_types.append(str(data_type))
@@ -33,11 +47,37 @@ class COnVIDa:
     @classmethod
     def get_data_items(cls, data_items='all', regions='ES', start_date=None, end_date=None, language='ES', errors='ignore'):
         """
-        If regions is placed, it is assumed that REGIONAL data items are required. A country-code can be used.
-        If start_date and end_date are placed, it is assumed that TEMPORAL data items are required
-        If both regions and dates are placed, it is assumed that TEMPORAL AND REGIONAL data items are required
-        
-        By default
+        Collects the required Data Items from associated Data Sources
+
+        Parameters
+        ----------
+        data_items : list of str
+            list of data item names. By default, 'all' are collected.
+        regions : list of str
+            list of region names. By default, 'ES' refers to all Spanish provinces.
+        start_date : pd.datetime
+            first day to be considered in TEMPORAL data items. By default, None is established.
+        end_date : pd.datetime
+            last day to be considered in TEMPORAL data items. By default, None is established.
+        language : str
+            language of the returned data. 
+                'ES' for Spanish (default value),
+                'EN' for English.
+        errors : str
+            action to be taken when errors occur.
+                'ignore' tries to get all possible data items even if some can't be collected,
+                'raise' throws an exception and the execution is aborted upon detection of any error. 
+
+        Returns
+        -------
+        pd.DataFrame 
+            a DataFrame with the required information.
+
+        Notes
+        -----
+        If dates are passed, then it is assumed that TEMPORAL data items are required. Otherwise, a GEOGRAPHICAL retrieval is assumed.
+        A TEMPORAL retrieval produces a DataFrame with daily [Date] as row indexer and [Region, Data Item] as column multiindexer.
+        A GEOGRAPHICAL retrieval produces a DataFrame with [Region] as row indexer and [Data Item] as column indexer.
         """
         
         # if data sources are not initialized, lets read configurations
@@ -47,7 +87,7 @@ class COnVIDa:
         ##### check of parameters #####
         
         if data_items == 'all':
-            data_items = cls.get_items_by_datasource(data_type = data_type, language=language)
+            data_items = cls.get_items_by_datasource(data_type = None, language=language)
         else:
             ## check if items are implemented ##
             
@@ -191,7 +231,23 @@ class COnVIDa:
     
     @classmethod
     def get_items_by_datasource(cls, data_type: DataType = None, language='ES'):
-        
+        """
+        Gets the implemented Data Item names by Data Source depending on the desired Data Type.
+
+        Parameters
+        ----------
+        data_type: DataType
+            Data type of the data sources (DataType.GEOGRAPHICAL or DataType.TEMPORAL).
+        language: str
+            language of the names. 
+                'ES' for Spanish (default value),
+                'EN' for English.
+
+        Returns
+        -------
+            dict { str : arr of str }
+                A dictionary with data sources as keys, and an array of associated data item names as values.
+        """
         # check item type
         if data_type is not None and data_type not in list(DataType):
             print('ERROR: '+str(data_type)+ ' is not a valid DataType')
@@ -202,7 +258,23 @@ class COnVIDa:
     
     @classmethod
     def get_descriptions_by_datasource(cls, data_type: DataType = None, language='ES'):
-        
+        """
+        Gets the implemented Data Item descriptions by Data Source depending on the desired Data Type.
+
+        Parameters
+        ----------
+        data_type: DataType
+            Data type of the data sources (DataType.GEOGRAPHICAL or DataType.TEMPORAL). By default, None indicates that both GEOGRAPHICAL and TEMPORAL data types are queried.
+        language: str
+            language of the descriptions. 
+                'ES' for Spanish (default value),
+                'EN' for English.
+
+        Returns
+        -------
+            dict { str : arr of str }
+                A dictionary with data sources as keys, and an array of associated data item descriptions as values.
+        """
         # check item type
         if data_type is not None and data_type not in list(DataType):
             print('ERROR: '+str(data_type)+ ' is not a valid DataType')
@@ -213,7 +285,23 @@ class COnVIDa:
     
     @classmethod
     def get_units_by_datasource(cls, data_type: DataType = None, language='ES'):
-        
+        """
+        Gets the implemented Data Item units by Data Source depending on the desired Data Type.
+
+        Parameters
+        ----------
+        data_type: DataType
+            Data type of the data sources (DataType.GEOGRAPHICAL or DataType.TEMPORAL). By default, None indicates that both GEOGRAPHICAL and TEMPORAL data types are queried.
+        language: str
+            language of the units. 
+                'ES' for Spanish (default value),
+                'EN' for English.
+
+        Returns
+        -------
+            dict { str : arr of str }
+                A dictionary with data sources as keys, and an array of associated data item units as values.
+        """
         # check item type
         if data_type is not None and data_type not in list(DataType):
             print('ERROR: '+str(data_type)+ ' is not a valid DataType')
@@ -227,7 +315,25 @@ class COnVIDa:
     
     @classmethod
     def _get_internal_names_mapping(cls, data_type: DataType, display_names, language):
+        """
+        Gets the internal names (used by the Data Sources) of the specified display names.
 
+        Parameters
+        ----------
+        data_type: DataType
+            Data type of the data source of the display names (DataType.GEOGRAPHICAL or DataType.TEMPORAL).
+        display_names: list of str
+            list of data item display names  
+        language: str
+            language of the display names. 
+                'ES' for Spanish,
+                'EN' for English.
+
+        Returns
+        -------
+            dict { str : str }
+                A dictionary with internal name as keys and display name as value.
+        """
         
         # check item type
         if data_type is not None and data_type not in list(DataType):
@@ -267,10 +373,28 @@ class COnVIDa:
     ## private methods
     @classmethod
     def __get_items_property_by_datasource(cls, data_type: DataType, propert, language):
+        """
+        Gets a property of the Data Sources of a specific Data Type.
 
-        # IF LANGUANGE is 'internal', this method is being used to get internal name of data items (keys)
-        
-         # if data sources are not initialized, lets read configurations
+        Parameters
+        ----------
+        data_type: DataType
+            Data type of the data source of the display names (DataType.GEOGRAPHICAL or DataType.TEMPORAL).
+        propert: str
+            Property of the Data Items, namely 'display_name', 'description' or 'data_unit' 
+        language: str
+            language of the property. 
+                'ES' for Spanish,
+                'EN' for English,
+                'internal' to get internal name of Data Items.
+
+        Returns
+        -------
+            dict { str : list of str }
+                A dictionary with Data Sources as keys and list of associated Data Item properties as value.
+        """   
+
+        # if data sources are not initialized, lets read configurations
         if not cls.__DATA_SOURCES_INITIALIZED:
             cls.__init_data_sources()
 
@@ -298,10 +422,30 @@ class COnVIDa:
 
     @classmethod
     def __complete_dates(cls, df, start_date, end_date):
+        """
+        Forces a DataFrame to contain a specific date range in the row indexer. Dates that do not exist in the original DataFrame are created and the associated column values are considered as NaN.
+
+        Parameters
+        ----------
+        df: DataFrame
+            a DataFrame with daily dates in row index
+        start_date : pd.datetime
+            first day to be considered in the df row index
+        end_date : pd.datetime
+            last day to be considered in the df row index
+
+        Returns
+        -------
+            DataFrame
+                The DataFrame df with the date range start_date - end_date in the row index, containing NaN values in the created ones.
+        """   
         dates = pd.date_range(start_date, end_date)
         return df.reindex(dates,fill_value=np.nan)
     
     @classmethod
     def __init_data_sources(cls):
+        """
+        Configures and prepares the Data Sources to be used. It is only necessary to be executed for the first time.
+        """
         for DATA_SOURCE_CLASS in cls.__DATA_SOURCE_CLASSES:
             DATA_SOURCE_CLASS()._init_data_source()  # init data source 
