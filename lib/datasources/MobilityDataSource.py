@@ -24,7 +24,7 @@ class MobilityDataSource(DataSource):
             Data unit (metric of the Data Item values: kg, persons, etc.)
             Data source (Google or Apple)
         The second nested dic correspond to the keys 'EN' and 'ES', containing the English and Spanish texts respectively.
-    """"
+    """
     DATA_FORMAT = None
     DATA_TYPE = None
     REGION_REPRESENTATION = None
@@ -33,27 +33,27 @@ class MobilityDataSource(DataSource):
 
     
     def __init__(self, data_items=None, regions=None, start_date=None, end_date=None):
-                """
-        Creates a collection of the Mobility Data Source
+        """
+            Creates a collection of the Mobility Data Source
 
-        Parameters
-        ----------
-        data_items : list of str
-            list of required data item names of the Mobility Data Source.
-        regions : list of str
-            list of required regions. 
-        start_date : pd.datetime
-            first day to be considered. 
-        end_date : pd.datetime
-            last day to be considered. 
-        
-        Returns
-        -------
-        Returns a configured Mobility Data Source object ready to be used for getting the data.
+            Parameters
+            ----------
+            data_items : list of str
+                list of required data item names of the Mobility Data Source.
+            regions : list of str
+                list of required regions.
+            start_date : pd.datetime
+                first day to be considered.
+            end_date : pd.datetime
+                last day to be considered.
 
-        Notes
-        -----
-        By default, parameters to None indicates an empty instance (used to initialize class attributes).
+            Returns
+            -------
+            Returns a configured Mobility Data Source object ready to be used for getting the data.
+
+            Notes
+            -----
+            By default, parameters to None indicates an empty instance (used to initialize class attributes).
         """
         super().__init__(data_items,regions)
         self.start_date = start_date

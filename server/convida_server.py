@@ -9,6 +9,7 @@ import logging
 import os
 import h5py
 import os.path
+import sys
 
 
 class convida_server():
@@ -32,13 +33,10 @@ class convida_server():
         internal system of log
     """
 
-    # For correct operation with the frontend
-    convida_path = os.getcwd()
-    lib = os.path.join(convida_path, 'COnVIDa-lib')
-    convida_server = os.path.join(lib, 'server')
-    convida_server_data = os.path.join(convida_server, 'data\\')
+    folder_server = os.path.dirname(os.path.realpath(__file__))
+    folder_data = os.path.join(folder_server, 'data\\')
 
-    __DATA_PATH = convida_server_data
+    __DATA_PATH = folder_data
     __CACHE_PATH = None    # absolute path of the cache loaded in memory
 
     __UPDATE_DAYS = 5    # past days to query

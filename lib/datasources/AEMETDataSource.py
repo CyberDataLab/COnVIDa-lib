@@ -29,7 +29,7 @@ class AEMETDataSource(DataSource):
         The second nested dic correspond to the keys 'EN' and 'ES', containing the English and Spanish texts respectively.
     API_KEY : str
         A string containg an API KEY to use the AEMET service
-    """"
+    """
 
     DATA_FORMAT = None
     DATA_TYPE = None

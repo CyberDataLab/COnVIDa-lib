@@ -23,7 +23,7 @@ class COVID19DataSource(DataSource):
             Description (meaning of the Data Item)
             Data unit (metric of the Data Item values: kg, persons, etc.)
         The second nested dic correspond to the keys 'EN' and 'ES', containing the English and Spanish texts respectively.
-    """"
+    """
     DATA_FORMAT = None
     DATA_TYPE = None
     REGION_REPRESENTATION = None
