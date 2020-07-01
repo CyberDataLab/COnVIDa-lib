@@ -173,7 +173,7 @@ class convida_server():
 
         # all data items
         try:
-            datasources = COnVIDa.get_items_by_datasource(DataType.GEOGRAPHICAL, language='internal')
+            datasources = COnVIDa.get_data_items_names(DataType.GEOGRAPHICAL, language='internal')
             all_data_items = []
             for data_items in datasources.values():
                 all_data_items += data_items
@@ -194,7 +194,7 @@ class convida_server():
 
         # all data items
         try:
-            datasources = COnVIDa.get_items_by_datasource(DataType.TEMPORAL,language='internal')
+            datasources = COnVIDa.get_data_items_names(DataType.TEMPORAL, language='internal')
             all_data_items = []
             for data_items in datasources.values():
                 all_data_items += data_items

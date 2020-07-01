@@ -1,5 +1,5 @@
 # COnVIDa lib
-Core python-based implementation of data sources collection
+Core Python-based implementation of the data sources collection
 
 ## Table of Contents
 
@@ -14,7 +14,7 @@ Core python-based implementation of data sources collection
 ## Principal elements and terminology
  
 ### Data Source
-Highly granular resource which groups related pieces of information (_data items_, in-depth explained later) regarding a field of knowledge, linked with a third-party data repository to be consulted.
+A Data Source is a highly granular resource which contains related pieces of information (_data items_, in-depth explained later) regarding a field of knowledge, linked to a third-party data repository to be consulted.
 Current version of COnVIDa includes 5 data sources related to the COVID19 pandemic in Spain. These data sources are:
 
 * **COVID19**: Information about the COVID19  pandemic published by [Datadista in GitHub](https://github.com/datadista/datasets/tree/master/COVID%2019) (who in turn retrieves such data from the [Ministerio de Sanidad](https://www.mscbs.gob.es/) and the [Instituto de Salud Carlos III](https://www.isciii.es/)).
@@ -25,11 +25,11 @@ Current version of COnVIDa includes 5 data sources related to the COVID19 pandem
 
 * **MoMo**: Information about the [mortality monitoring system](https://momo.isciii.es/public/momo/dashboard/momo_dashboard.html) handled by the Instituto de Salud Carlos III. 
 
-* **AEMET**: Information about meteorological data stemming from the AEMET ([Agencia Estatal de Meteorología](https://opendata.aemet.es/)). **IMPORTANT**: To use this Data Source, it is required an [API KEY](https://opendata.aemet.es/centrodedescargas/altaUsuario) which should be then placed in the [Data Sources configuration file](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/datasources/config/data-sources-config.json).
+* **AEMET**: Information about meteorological data stemming from the AEMET ([Agencia Estatal de Meteorología](https://opendata.aemet.es/)). **IMPORTANT**: To use this Data Source, an [API KEY](https://opendata.aemet.es/centrodedescargas/altaUsuario) is required, which should be then placed in the [Data Sources configuration file](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/datasources/config/data-sources-config.json).
 
 
 ### Data Item
-Low-grain resource which codifies a specific piece of information and belongs to one of the aforementioned _Data Sources_. In the following, the implemented data items are listed by data source:
+A Data Item is a low-grain resource which codifies a specific piece of information and belongs to one of the aforementioned _Data Sources_. Next, the data items currently implemented are listed by data source:
 
 * **COVID19**: recovered, cases, PCR confirmed, test confirmed, deaths, hospitalized and ICU.
     
@@ -43,34 +43,34 @@ Low-grain resource which codifies a specific piece of information and belongs to
 
 
 ### Data Type
-Perspective by which the data are interpreted and the respective analysis:
+The COnVIDa library considers two types of Data Items used to interpret and analyze them, namely:
 
-* **Temporal**: The data items are indexed by days, so they will show the daily values. In particular, _COVID19, Mobility, MoMo_ and _AEMET_ data items are temporal. _For instance, if we select the COVID19 cases in Murcia from 21/02/2020 until el 14/05/2020, the X axis will show all the days between those two dates, while Y axis will show the daily COVID19 cases in Murcia_. 
+* **Temporal**: The data items are indexed by days, so they will show the daily values. In particular, _COVID19, Mobility, MoMo_ and _AEMET_ data items are temporal. For instance, if we select the COVID19 cases in Murcia from 21/02/2020 until 14/05/2020, the X axis will show all the days between those two dates, while Y axis will show the daily COVID19 cases in Murcia. 
     
     
-* **Geographical**: The data items are indexed by regions and the data is aggregated with absolute values. Concretely, _INE_ data items are geographical. It is worth mentioning that the user of this library could transform temporal data item to geographical perspective by applying any kind of aggregation scheme.  _For instance, in COnVIDa service, if we choose the analysis type by regions and select some temporal data items, then COnVIDa service will use the mean of those data items within the specified data ranges_. 
+* **Geographical**: The data items are indexed by regions and the data is aggregated with absolute values. In particular, current _INE_ data items are geographical. It is worth mentioning that the user of this library could transform temporal data items to a geographical perspective by applying any kind of aggregation scheme. For instance, in COnVIDa service, if we choose the analysis type by regions and select some temporal data items, then COnVIDa service will use the mean of those data items within the specified data ranges. 
 
 
 ### Regions
-Divisions of the territory that allow a more exhaustive and deeper collection and analysis. In particular, it is designed for the Spanish provinces. In this sense, _COnVIDa_ lib allows the filtering of the aforementioned data items by regions.
+Regions are divisions of the territory that allow a more exhaustive and deeper collection and analysis. Currently, they are implemented as the Autonomous Regions in Spain, although the granularity (provinces, minicipalities, etc.) can be easily adapted. In this sense, _COnVIDa_ lib allows filtering the aforementioned data items by regions.
 
 
 ## User guidelines
 
-The [test lib notebook](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/test_lib.ipynb) contains usage examples of _COnVIDa lib_. The most important modules and functions are the following.
+The [test lib notebook](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/test_lib.ipynb) contains usage examples of the _COnVIDa lib_. The most important modules and functions are the following.
 
 #### [`Regions class`](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/regions.py)
 Implements the required information for Regions management
 
 ##### `get_country_codes()` 
-    Returns a list with the supported country codes. Up to now, only 'ES' for Spanish provinces is available. 
+    Returns a list with the supported country codes. Right now, only 'ES' for Spanish regiones is available, although this is easily extensible to other countries. 
 
 
 ##### `get_regions(country_code='ES')` 
-    Returns a list with the names of the Spanish provinces.
+    Returns a list with the names of the Spanish Autonomous Regions.
 
     Parameters
-    - country_code: string indicating the country of the regions. Up to now, only 'ES' for Spanish provinces is available.
+    - country_code: string indicating the country of the regions. Right now, only 'ES' for Spanish regiones is available.
 
 ***
 
@@ -78,9 +78,9 @@ Implements the required information for Regions management
 Provides an interface for the library user to avoid the use of low-level functions.
 
 ##### `get_data_types()`
-    Returns the implemented datatypes in string format.
+    Returns the implemented DataTypes in string format.
 
-##### `get_items_by_datasource(DataType = None, language='ES')`
+##### `get_data_items_names(data_type=None, language='ES')`
     Returns a dictionary with data sources as keys, and an array of associated data item names as values.
     
     Parameters
@@ -89,7 +89,7 @@ Provides an interface for the library user to avoid the use of low-level functio
         'ES' for Spanish (default value),
         'EN' for English.
 
-##### `get_descriptions_by_datasource(DataType = None, language='ES')`
+##### `get_data_items_descriptions(data_type=None, language='ES')`
     Returns a dictionary with data sources as keys, and an array of associated data item descriptions as values.
 
     Parameters
@@ -98,7 +98,7 @@ Provides an interface for the library user to avoid the use of low-level functio
         'ES' for Spanish (default value),
         'EN' for English.
 
-##### `get_units_by_datasource(DataType = None, language='ES')`
+##### `get_data_items_units(data_type=None, language='ES')`
     Returns a dictionary with data sources as keys, and an array of associated data item units as values.
     
     Parameters
@@ -112,7 +112,7 @@ Provides an interface for the library user to avoid the use of low-level functio
 
     Parameters
     - data_items: list of data item names. By default, 'all' are collected.
-    - regions: list of region names. By default, 'ES' refers to all Spanish provinces.
+    - regions: list of region names. By default, 'ES' refers to all Spanish Autonomous Regions.
     - start_date: first day in pandas datetime to be considered in TEMPORAL data items. By default, None is established.
     - end_date: last day in pandas datetime to be considered in TEMPORAL data items. By default, None is established.
     - language: language of the returned data. 
@@ -130,7 +130,7 @@ Provides an interface for the library user to avoid the use of low-level functio
 ***
 
 ## Developer guidelines
-_COnVIDa-lib_ constitutes a object-oriented package ready to be extended. Considering the [principal elements and terminology](#principal-elements-and-terminology), implementing a new Data Source (and associated data items) should be simple.
+_COnVIDa-lib_ constitutes an object-oriented package ready to be extended. Considering the [principal elements and terminology](#principal-elements-and-terminology), implementing a new Data Source (and associated data items) should be simple.
 
 1. First of all, some elements should be defined regarding your new Data Source:
     * Name of the Data Source
@@ -145,16 +145,16 @@ _COnVIDa-lib_ constitutes a object-oriented package ready to be extended. Consid
 
 2. Configure the aforementioned principal elements of your new Data Source:
     
-    * The name, data format, data type and region representation should be included in the [datasources configuration file](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/datasources/config/data-sources-config.json). With this aim, append a new entry in the JSON object with the data source name as a key, and a dictionary with the information regarding  `DATA FORMAT`, `DATA TYPE` and `REGION REPRESENTATION` as value. If needed, specific config elements of your Data Source can be also included here (_for example, [AEMET data source](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/datasources/AEMETDataSource.py) defines its `API KEY` necessary for it to work_).
+    * The name, data format, data type and region representation should be included in the [datasources configuration file](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/datasources/config/data-sources-config.json). With this aim, append a new entry in the JSON object with the data source name as a key, and a dictionary with the corresponding information regarding  `DATA FORMAT`, `DATA TYPE` and `REGION REPRESENTATION` as values. If needed, specific config elements of your Data Source can be also included here (_for example, [AEMET data source](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/datasources/AEMETDataSource.py) defines its `API KEY` necessary for it to work_).
     
-    * For each Spanish province, the representation used by your Data Source should be appended accordingly in the [regions configuration file](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/config/ES-regions.json) (if not exist yet). Note that the key of the new entries to be added for each region should correspond with the aforementioned `REGION REPRESENTATION` attribute (defined in [datasources configuration file](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/datasources/config/data-sources-config.json)).
+    * For each Spanish region, the representation used by your Data Source should be appended accordingly in the [regions configuration file](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/config/ES-regions.json) (in case it does not exist yet). Note that the key of the new entries to be added for each region should match with the aforementioned `REGION REPRESENTATION` attribute (defined in [datasources configuration file](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/datasources/config/data-sources-config.json)).
 
-    * The information of the Data Items offered by your Data Source should be included in a new configuration file `YourDataSourceName-config.json` in the [specific data source configuration folder](https://github.com/CyberDataLab/COnVIDa-lib/tree/master/lib/datasources/config/data_sources). As in the other configuration files residing in that folder (which may guide you in this procedure), each Data Item should constitute an entry. In particular, each entry is defined by the Data Item name (literally used by the Data Source) as key and the properties `display_name`, `description` and `data_unit` as values. The latter should include, in turn, translation in both Spanish and English. If needed, specific properties of your Data Items can be also included here (_for example, the [Mobility data source](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/datasources/config/data_sources/MobilityDataSource-config.json) includes the `data_source` attribute to distinguish the resource where each Data Item comes from_).
+    * The information of the Data Items offered by your Data Source should be included in a new configuration file `YourDataSourceName-config.json` in the [specific data source configuration folder](https://github.com/CyberDataLab/COnVIDa-lib/tree/master/lib/datasources/config/data_sources). As in the other configuration files residing in that folder (which may guide you in this procedure), each Data Item should constitute an entry. In particular, each entry is defined by the Data Item name (literally used by the Data Source) as the key and the properties `display_name`, `description` and `data_unit` as the values. The latter should include, in turn, translation in both Spanish and English (or any other language you may define). If needed, specific properties of your Data Items can be also included here (for example, the [Mobility data source](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/datasources/config/data_sources/MobilityDataSource-config.json) includes the `data_source` attribute to distinguish the resource where each Data Item comes from).
 
 
-3. Create your Data Source class in a new empty python file `YourDataSourceName.py` and place it in `/datasources` folder together with the rest of available Data Sources. 
+3. Create your Data Source class in a new empty Python file `YourDataSourceName.py` and place it within the `/datasources` folder together with the rest of available Data Sources. 
 
-4. Program your new Data Source class as follows. _Notice that [datasources folder](https://github.com/CyberDataLab/COnVIDa-lib/tree/master/lib/datasources) contains other implemented Data Sources which can help you._
+4. Develop your new Data Source class as follows. Notice that the [datasources folder](https://github.com/CyberDataLab/COnVIDa-lib/tree/master/lib/datasources) contains other implemented Data Sources which may help you.
 
     * Extend the parent [`datasource class`](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/datasources/datasource.py) (which already implements functionalities in terms of configuration and network management for you, common to all Data Sources): 
         ```python
@@ -195,13 +195,17 @@ _COnVIDa-lib_ constitutes a object-oriented package ready to be extended. Consid
 
             # initialize the rest of specific object attributes
             ...
+        ```
 
+        ```python
         def _get_urls(self):
         '''
         Builds the URLs of the resources to be visited (ideally containing the raw data).
         This method must return a list of working URLs (usually only one url is needed).
         '''
-        
+        ```
+
+        ```python
         def _manage_response(self, response):
         '''
         This function is always executed after consulting each URL of this Data Source. It should manage the HTTP response and return the JSON or CSV accordingly to the DATA FORMAT of the Data Source. 
@@ -215,11 +219,13 @@ _COnVIDa-lib_ constitutes a object-oriented package ready to be extended. Consid
         * Ideally, if the response contains directly the data itself, it is only necesary to 
             in the case of JSON DATA FORMAT, return response.json()  
             in the case of CSV DATA FORMAT, return response.
-          On the contrary, here should be implemented the additional network management to return the JSON or CSV.
+          On the contrary, here the additional network management should be implemented to return the JSON or CSV.
         
         * The inherited variable self.processed_urls is available to control the url being processed.
         ''' 
+        ```
 
+        ```python
         def _process_partial_data(self, partial_requested_data):
         '''
         This function is always executed after managing the response of each URL of this Data Source. The data should be processed from the external structure to the form of a DataFrame that:
@@ -232,7 +238,7 @@ _COnVIDa-lib_ constitutes a object-oriented package ready to be extended. Consid
             If DATA FORMAT of this Data Source is CSV, then it is the requested CSV of one URL.
 
         Notes
-        * It is really important to be comply with the indicated DataFrame structure in order to allow the COnVIDa library to join the data items of this Data Source together (in the parent class) if necessary, as well as to allow the combination with other Data Sources in the same DataFrame (in COnVIDa wrapper class).
+        * It is really important to be compliant with the indicated DataFrame structure in order to allow the COnVIDa library to join the data items of this Data Source together (in the parent class) if necessary, as well as to allow the combination with other Data Sources in the same DataFrame (in COnVIDa wrapper class).
 
         * The inherited variable self.processed_urls is available to control the url being processed.
 
@@ -243,13 +249,13 @@ _COnVIDa-lib_ constitutes a object-oriented package ready to be extended. Consid
 
         
     
-    * If you needed to configure extra elements for the Data Source, you will need to read those extra elements on your own. A good idea is to define them as class attributes and initialize them reading the configuration file. _For example, the [constructor of the AEMET data source](https://github.com/CyberDataLab/COnVIDa-lib/blob/a53f200f735efb3643a57b95bdea643aaf5d3ed8/lib/datasources/AEMETDataSource.py#L39) uses the [`__read_api_key()` function](https://github.com/CyberDataLab/COnVIDa-lib/blob/a53f200f735efb3643a57b95bdea643aaf5d3ed8/lib/datasources/AEMETDataSource.py#L108) through a singleton pattern to load the `API_KEY`_.
+    * If you needed to configure extra elements for the Data Source, you will need to read those extra elements on your own. A good idea is to define them as class attributes and initialize them reading the configuration file. For example, the [constructor of the AEMET data source](https://github.com/CyberDataLab/COnVIDa-lib/blob/a53f200f735efb3643a57b95bdea643aaf5d3ed8/lib/datasources/AEMETDataSource.py#L39) uses the [`__read_api_key()` function](https://github.com/CyberDataLab/COnVIDa-lib/blob/a53f200f735efb3643a57b95bdea643aaf5d3ed8/lib/datasources/AEMETDataSource.py#L108) through a singleton pattern to load the `API_KEY`.
 
-        If you needed to configure extra properties for the Data Items, you will have access to them through the `DATA_ITEMS_INFO` class attribute. Specifically, `DATA_ITEMS_INFO[data_item_name][extra_property_name]` contains the value of the `extra_property_name` extra property for the `data_item_name` Data Item. _For example, the [Mobility data source](https://github.com/CyberDataLab/COnVIDa-lib/blob/a53f200f735efb3643a57b95bdea643aaf5d3ed8/lib/datasources/MobilityDataSource.py#L29) do that to read the `data_source`_ property of its Data Items.
+        If you needed to configure extra properties for the Data Items, you will have access to them through the `DATA_ITEMS_INFO` class attribute. Specifically, `DATA_ITEMS_INFO[data_item_name][extra_property_name]` contains the value of the `extra_property_name` extra property for the `data_item_name` Data Item. For example, the [Mobility data source](https://github.com/CyberDataLab/COnVIDa-lib/blob/a53f200f735efb3643a57b95bdea643aaf5d3ed8/lib/datasources/MobilityDataSource.py#L29) does so to read the `data_source` property of its Data Items.
 
 
 
-4. Your Data Source is already implemented! It is ready to use it **individually** through the class constructor (_\_\_init\_\__) and the method `get_data()`.
+4. Your Data Source is already implemented! It is ready to be used **individually** through the class constructor (_\_\_init\_\__) and the method `get_data()`.
 
 5. [_OPTIONAL_] It is **recommended** to wrap your Data Source with the [COnVIDa class](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/convida.py) and, in turn, enable the available [easy-to-use functions](#COnVIDA-class]) instead of directly interacting with your low-level class. In addition, you will be able to use your new Data Source together with the rest, as shown in the [example notebook](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/test_lib.ipynb). In this sense, it is required to integrate your new Data Source in the [wrapper factory COnVIDa class](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/convida.py) as follows:
 

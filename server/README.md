@@ -10,19 +10,19 @@ Example of COnVIDa service functionality
 
 ## Principal elements and terminology
  
-[_COnVIDa server_](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/server/convida_server.py) is an example of how to use _COnVIDa_ as a server side application. This means that the module is in charge of dispatching users' queries locally without consulting external resources, avoiding the inefficiency for [_COnVIDa lib_](https://github.com/CyberDataLab/COnVIDa-lib/tree/master/lib) to consult these sources for each user request.
+[_COnVIDa server_](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/server/convida_server.py) is an example of how to use _COnVIDa_ as a server side application. This means that the module is in charge of dispatching users' queries locally without consulting external resources, avoiding the inefficiency for [_COnVIDa lib_](https://github.com/CyberDataLab/COnVIDa-lib/tree/master/lib) to consult these original sources for every user request.
 
 ### Data Cache
-Persistent structure which contains the information of all the Data Sources and the corresponding Data Items with the desired date range. In particular, is a HDF5 binary data file (_.h5_) containing two main DataFrames for both `TEMPORAL`  and `GEOGRAPHICAL` data.
+The Data Cache is a persistent structure which contains the information of all the Data Sources and the corresponding Data Items within the desired date range. In particular, is an [HDF5](https://en.wikipedia.org/wiki/Hierarchical_Data_Format) binary data file (_.h5_) containing two main DataFrames for both `TEMPORAL`  and `GEOGRAPHICAL` data.
 
-For the first time implementing the [_COnVIDa server_](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/server/convida_server.py), a Data Cache should be generated using the [data generation notebook](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/server/data_generation.ipynb). Note that the aforementioned notebook simply uses the [_COnVIDa lib_](https://github.com/CyberDataLab/COnVIDa-lib/tree/master/lib) to build the binary file with the desired Data Items, Regions and Dates. By default, all Data Items of all Data Sources are stored, and the date range contemplated for `TEMPORAL` data is from 1st January 2016 to today. _Note that, with big date ranges, _AEMET Data Source_ may experience the 'too many requests' problem, correctable with the creation of the cache by batches_)
+When implementing the [_COnVIDa server_](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/server/convida_server.py) for the first time, a Data Cache should be generated using the [data generation notebook](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/server/data_generation.ipynb). Note that the aforementioned notebook simply uses the [_COnVIDa lib_](https://github.com/CyberDataLab/COnVIDa-lib/tree/master/lib) to build the binary file with the desired Data Items, Regions and Dates. By default, all Data Items of all Data Sources are stored, and the date range contemplated for `TEMPORAL` data is from 1st January 2016 until today. Note that, with big date ranges, _AEMET Data Source_ may experience the 'too many requests' problem, correctable with the creation of the cache by batches).
 
-The name of the Data Cache should be like `cache_YYYY-MM-DD.h5` (as in the [example](https://github.com/CyberDataLab/COnVIDa-lib/tree/master/server/data)), which specifically indicates the last day contemplated in the cache (that is, the last update). In addition, it should be placed in `data/` folder.
+The name of the Data Cache should follow the format `cache_YYYY-MM-DD.h5` (as in the [example](https://github.com/CyberDataLab/COnVIDa-lib/tree/master/server/data)), which specifically indicates the last day contemplated in the cache (that is, the last update). In addition, it should be placed within the `data/` folder.
 
 ### Data Update
-For the first time, the Data Cache should be created as mentioned before. However, we we'll probably want to update it with some frequency. Fortunately, [_COnVIDa server_](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/server/convida_server.py) implements the `daily_update()` function to append new data to the last entry (day) contained in the cache. 
+Once the Data Cache has been created, we will probably want to update it with some frequency. To this end, [_COnVIDa server_](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/server/convida_server.py) implements the `daily_update()` function to append new data to the last entry (day) contained in the cache. 
 
-By default, when the method is executed, all Data Items of all Data Sources are updated from the last day contemplated on the cache (last entry and name of the binary file) until today. Additionally, it is also possible to indicate how many days backward to go from the last contemplated day. _For example, AEMET updates its data with 4 days of delay. If the data cache is update until yesterday, and the `daily_update()` is executed without 'days back', then we will only download empty values. That is why  [_COnVIDa server class_](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/server/convida_server.py) defines a default `DAILY UPDATE` of 5 days that are subtracted from the last day of the cache at the time of the update_.
+By default, when the method is executed, all Data Items of all Data Sources are updated from the last day contemplated on the cache (last entry and name of the binary file) until today. Additionally, it is also possible to indicate how many days backward to go from the last contemplated day. For example, AEMET updates its data with 4 days of delay. If the data cache is updated until yesterday, and the `daily_update()` is executed without 'days back', then we will only download empty values. That is why  [_COnVIDa server class_](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/server/convida_server.py) defines a default `DAILY UPDATE` of 5 days that are subtracted from the last day of the cache at the time of the update.
 
 
 ## User guidelines
@@ -30,7 +30,7 @@ By default, when the method is executed, all Data Items of all Data Sources are 
 The [test server lib notebook](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/server/test_server_lib.ipynb) contains usage examples of _COnVIDa server_. 
 
 ### [`convida_server class`](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/server/convida_server.py)
-Implements the _COnVIDa service_ from a server perspective that dispatches user queries locally. A [Data Cache](#Data-Cache) is required to be generated, so it can be loaded in memory and used to address local queries.
+Implements the _COnVIDa service_ from a server perspective that dispatches user queries locally. A [Data Cache](#Data-Cache) must be generated, so it can be loaded in memory and used to address local queries.
 
 ##### `init_log()` 
     Initializes the log system which produces information in ./log/convida.log
@@ -52,7 +52,7 @@ Implements the _COnVIDa service_ from a server perspective that dispatches user 
     Returns True if the update was done, False otherwise.
 
     Notes
-    * If this method notices that the cache filename corresponds to the date of today, it assumes that the Data Cache is up-to-date and nothing more is performed.
+    * If this function notices that the cache filename corresponds to the date of today, it assumes that the Data Cache is up-to-date and it finishes.
     * This function updates the Data Cache on disk, but load_data() function should be executed afterwards to perform the update in memory and, in turn, enable up-to-date queries. 
 
 ##### `get_min_date()`

@@ -87,12 +87,12 @@ class COnVIDa:
         ##### check of parameters #####
         
         if data_items == 'all':
-            data_items = cls.get_items_by_datasource(data_type = None, language=language)
+            data_items = cls.get_data_items_names(data_type = None, language=language)
         else:
             ## check if items are implemented ##
             
             # get all implemented items
-            implemented_data_sources = cls.get_items_by_datasource(data_type = None, language=language)
+            implemented_data_sources = cls.get_data_items_names(data_type = None, language=language)
             implemented_data_items = []
             for implemented_data_source in list(implemented_data_sources.keys()):
                 implemented_data_items = implemented_data_items + implemented_data_sources[implemented_data_source]
@@ -142,7 +142,7 @@ class COnVIDa:
         ### group data items by data source in dictionary ###
         
         # existing items for assumed data type
-        items_by_source = cls.get_items_by_datasource(data_type=assumed_data_type,language=language)   # dict with : source -> [item1, item2]
+        items_by_source = cls.get_data_items_names(data_type=assumed_data_type, language=language)   # dict with : source -> [item1, item2]
         items_by_assumed_data_type = [] 
         for items in items_by_source.values():
             items_by_assumed_data_type = items_by_assumed_data_type+items
@@ -230,7 +230,7 @@ class COnVIDa:
     
     
     @classmethod
-    def get_items_by_datasource(cls, data_type: DataType = None, language='ES'):
+    def get_data_items_names(cls, data_type: DataType = None, language='ES'):
         """
         Gets the implemented Data Item names by Data Source depending on the desired Data Type.
 
@@ -257,7 +257,7 @@ class COnVIDa:
 
     
     @classmethod
-    def get_descriptions_by_datasource(cls, data_type: DataType = None, language='ES'):
+    def get_data_items_descriptions(cls, data_type: DataType = None, language='ES'):
         """
         Gets the implemented Data Item descriptions by Data Source depending on the desired Data Type.
 
@@ -284,7 +284,7 @@ class COnVIDa:
     
     
     @classmethod
-    def get_units_by_datasource(cls, data_type: DataType = None, language='ES'):
+    def get_data_items_units(cls, data_type: DataType = None, language='ES'):
         """
         Gets the implemented Data Item units by Data Source depending on the desired Data Type.
 
