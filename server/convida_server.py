@@ -33,10 +33,9 @@ class convida_server():
         internal system of log
     """
 
-    folder_server = os.path.dirname(os.path.realpath(__file__))
-    folder_data = os.path.join(folder_server, 'data\\')
+    __SERVER_FOLDER = os.path.dirname(os.path.realpath(__file__))
+    __DATA_PATH = os.path.join(__SERVER_FOLDER, 'data')
 
-    __DATA_PATH = folder_data
     __CACHE_PATH = None    # absolute path of the cache loaded in memory
 
     __UPDATE_DAYS = 5    # past days to query
@@ -82,7 +81,7 @@ class convida_server():
             try:
                 for file in os.listdir(cls.__DATA_PATH):
                     if re.match('cache_\d\d\d\d\-\d\d\-\d\d\.h5',file):
-                        cache_filename = cls.__DATA_PATH+file
+                        cache_filename = os.path.join(cls.__DATA_PATH, file)
             except Exception as e:
                 cls.__LOGGER.exception(f"ERROR finding cache file {cls.__CACHE_PATH}", str(e))
                 raise
