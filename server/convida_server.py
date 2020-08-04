@@ -161,8 +161,7 @@ class convida_server():
         all_regions = Regions.get_regions('ES')
 
         # new cache file
-        new_cache_file = f"{cls.__DATA_PATH}cache_{str(today)[0:10]}.h5"
-
+        new_cache_file = os.path.join(cls.__DATA_PATH, "cache_{}.h5".format(str(today)[0:10]))
 
         # last cache file
         last_cache_file = cls.__CACHE_PATH

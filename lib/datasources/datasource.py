@@ -77,6 +77,8 @@ class DataSource(object):
         
         self.processed_urls = 0
 
+        self.processing_url = None
+
         # sleep_time_before_request : float seconds to sleep between requests, increased with __SLEEP_TIME_LIMIT when HTTP 429 error occurs.
         self.sleep_time_before_request = 0
         
@@ -153,6 +155,7 @@ class DataSource(object):
         processed_data = None
     
         for url in urls:
+            self.processing_url = url
             partial_requested_data = self._make_request(url)
 
             # if request fails, WARNING and return
@@ -177,13 +180,14 @@ class DataSource(object):
                         raise Exception(f"Processing of {str(self.__class__.__name__)} partial data failed.")
  
                 # if requested_data is None is because the first data request  (nothing to unify)
+
                 if requested_data is None:
                     requested_data = partial_requested_data
-                    
+
                 # unify is needed
                 else:
                     requested_data = pd.concat([requested_data, partial_requested_data], axis='columns').sort_index(axis=1)
-                
+
                 self.processed_urls = self.processed_urls + 1 
         
         

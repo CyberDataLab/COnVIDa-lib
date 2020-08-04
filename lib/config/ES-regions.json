@@ -5,6 +5,7 @@
   "literal_ine": "Andalucía",
   "code_ine": "01",
   "name": "Andalusia",
+  "population": "8414240",
   "aemet_stations": [
    "4267X",
    "4560Y",
@@ -64,6 +65,7 @@
   "literal_ine": "Aragón",
   "code_ine": "02",
   "name": "Aragon",
+  "population": "1319291",
   "aemet_stations": [
    "8368U",
    "9208E",
@@ -89,6 +91,7 @@
   "literal_ine": "Asturias, Principado de",
   "code_ine": "03",
   "name": "Asturias",
+  "population": "1022800",
   "aemet_stations": [
    "1212E",
    "1283U",
@@ -111,6 +114,7 @@
   "literal_ine": "Balears, Illes",
   "code_ine": "04",
   "name": "Balearic Islands",
+  "population": "1149460",
   "aemet_stations": [
    "B569X",
    "B013X",
@@ -130,6 +134,7 @@
   "literal_ine": "Canarias",
   "code_ine": "05",
   "name": "Canary Islands",
+  "population": "2153389",
   "aemet_stations": [
    "C249I",
    "C649I",
@@ -159,6 +164,7 @@
   "literal_ine": "Cantabria",
   "code_ine": "06",
   "name": "Cantabria",
+  "population": "581078",
   "aemet_stations": [
    "1083L",
    "1159",
@@ -176,6 +182,7 @@
   "literal_ine": "Castilla - La Mancha",
   "code_ine": "08",
   "name": "Castile-La Mancha",
+  "population": "2032863",
   "aemet_stations": [
    "3044X",
    "3094B",
@@ -210,6 +217,7 @@
   "literal_ine": "Castilla y León",
   "code_ine": "07",
   "name": "Castile and Leon",
+  "population": "2399548",
   "aemet_stations": [
    "1549",
    "2444C",
@@ -252,6 +260,7 @@
   "literal_ine": "Cataluña",
   "code_ine": "09",
   "name": "Catalonia",
+  "population": "7675217",
   "aemet_stations": [
    "0252D",
    "0076",
@@ -283,6 +292,7 @@
   "literal_ine": "Ceuta",
   "code_ine": "18",
   "name": "Ceuta",
+  "population": "84777",
   "aemet_stations": [
    "5000A",
    "5000C"
@@ -294,6 +304,7 @@
   "literal_ine": "Comunitat Valenciana",
   "code_ine": "10",
   "name": "Valencian Community",
+  "population": "5003769",
   "aemet_stations": [
    "7247X",
    "8025",
@@ -319,6 +330,7 @@
   "literal_ine": "Extremadura",
   "code_ine": "11",
   "name": "Extremadura",
+  "population": "1067710",
   "aemet_stations": [
    "3469",
    "3469A",
@@ -341,6 +353,7 @@
   "literal_ine": "Galicia",
   "code_ine": "12",
   "name": "Galicia",
+  "population": "2699499",
   "aemet_stations": [
    "1387E",
    "1387",
@@ -368,6 +381,7 @@
   "literal_ine": "Madrid, Comunidad de",
   "code_ine": "13",
   "name": "Community of Madrid",
+  "population": "6663394",
   "aemet_stations": [
    "2462",
    "3100B",
@@ -390,6 +404,7 @@
   "literal_ine": "Melilla",
   "code_ine": "19",
   "name": "Melilla",
+  "population": "86487",
   "aemet_stations": [
    "6000A"
   ]
@@ -400,6 +415,7 @@
   "literal_ine": "Murcia, Región de",
   "code_ine": "14",
   "name": "Region of Murcia",
+  "population": "1493898",
   "aemet_stations": [
    "7002Y",
    "7228",
@@ -419,6 +435,7 @@
   "literal_ine": "Navarra, Comunidad Foral de",
   "code_ine": "15",
   "name": "Navarre",
+  "population": "654214",
   "aemet_stations": [
    "1002Y",
    "9263X",
@@ -434,6 +451,7 @@
   "literal_ine": "País Vasco",
   "code_ine": "16",
   "name": "Basque Country",
+  "population": "2207776",
   "aemet_stations": [
    "1082",
    "1078I",
@@ -457,6 +475,7 @@
   "literal_ine": "Rioja, La",
   "code_ine": "17",
   "name": "La Rioja",
+  "population": "316798",
   "aemet_stations": [
    "9170"
   ]

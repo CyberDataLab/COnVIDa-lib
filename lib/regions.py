@@ -63,6 +63,64 @@ class Regions(object):
     # protected for only Data Source classes
 
     @classmethod
+    def _get_population(cls, regions, region_representation, country_code='ES'):
+
+        """
+        Gets the internal region representation of specific regions.
+
+        Parameters
+        ----------
+        regions: list
+            List of region names
+        region_representation: str
+            Name of the region representation to be queried, namely 'nombre', 'iso_3166_2', 'literal_ine', 'code_ine', 'name' or 'aemet_stations'.
+        country_code: str
+            Country of the regions. Up to now, only 'ES' for Spanish provinces is available.
+
+        Returns
+        -------
+            list of str
+                A list of the region representations in the same order as provided in regions.
+        """
+
+        # first time using Regions, read configuration of REGIONS
+        if cls.__REGION_CONFIGURATION is None:
+            loaded = cls.__load_region_configuration(country_code)
+            if not loaded:
+                return None
+
+        # get possible region representations
+        possible_region_representations = cls.__REGION_CONFIGURATION[list(cls.__REGION_CONFIGURATION.keys())[0]].keys()
+
+        # check parameters
+        if region_representation not in possible_region_representations:
+            print("ERROR: Region representation not found")
+            return None
+
+        # country detection
+        country = False
+        c = 0
+        while not country and c < len(cls.get_country_codes()):
+            country = all(region in cls.get_regions(cls.get_country_codes()[c]) for region in regions)
+            c = c + 1
+
+        # all regions are implemented: properties extraction
+        if country:
+            country = c - 1
+
+            properties = []
+            for region in regions:
+                prop = cls.__REGION_CONFIGURATION[region].get(region_representation)
+                properties.append(prop)
+            return properties
+        else:
+            print("ERROR: All or some regions are not implemented.")
+            return None
+
+
+
+
+    @classmethod
     def _get_property(cls, regions, region_representation, country_code='ES'):
         
         """
