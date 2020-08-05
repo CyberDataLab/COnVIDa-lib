@@ -2,7 +2,7 @@
 "num_casos": {
     "display_name":{
         "ES":"Casos diarios (Nueva serie)",
-        "EN":"Daily cases (New serie)"
+        "EN":"Daily cases (New series)"
     },
     "description":{
         "ES":"Número de casos diarios (PCR + test de anticuerpos) registrados por Comunidad Autónoma",
@@ -16,12 +16,12 @@
 },
 "accumulated_cases": {
     "display_name":{
-        "ES":"Casos acumulados (Nueva Serie)",
-        "EN":"Accumulated cases (New serie)"
+        "ES":"Casos acumulados (Nueva serie)",
+        "EN":"Cumulative cases (New series)"
     },
     "description":{
         "ES":"Acumulado del número de casos (PCR + test de anticuerpos) registrados por Comunidad Autónoma",
-        "EN":"Accumulated number of cases (PCR +  antibodies test) registered by Autonomous Community"
+        "EN":"Cumulative number of cases (PCR +  antibodies test) registered by Autonomous Community"
     },
     "data_source":"ISCIII",
     "data_unit":{
@@ -31,12 +31,12 @@
 },
 "cases_100k": {
     "display_name":{
-        "ES":"Casos por cada 100.000 habs. (Nueva serie)",
-        "EN":"Cases per 100,000 inhabitants (New serie)"
+        "ES":"Casos acumulados por cada 100.000 habs. (Nueva serie)",
+        "EN":"Accumulated cases per 100,000 inhabitants (New series)"
     },
     "description":{
-        "ES":"Número de casos confirmados (PCR + test de anticuerpos) por cada 100.000 habitantes por Comunidad Autónoma",
-        "EN":"Number of daily confirmed cases (PCR +  antibodies test) per 100,000 inhabitants by Autonomous Community"
+        "ES":"Número de casos acumulados confirmados (PCR + test de anticuerpos) por cada 100.000 habitantes por Comunidad Autónoma",
+        "EN":"Cumulative number of confirmed cases (PCR +  antibodies test) per 100,000 inhabitants by Autonomous Community"
     },
     "data_source":"ISCIII",
     "data_unit":{
@@ -46,8 +46,8 @@
 },
 "num_casos_prueba_pcr": {
     "display_name":{
-        "ES":"Confirmados diarios PCR (Nueva serie)",
-        "EN":"Daily PCR confirmed (New serie)"
+        "ES":"Casos diarios PCR (Nueva serie)",
+        "EN":"Daily PCR cases (New series)"
     },
     "description":{
         "ES":"Número de casos confirmados diariamente registrados mediante una prueba PCR por Comunidad Autónoma",
@@ -61,8 +61,8 @@
 },
 "accumulated_cases_pcr": {
     "display_name":{
-        "ES":"PCR acumulado (Nueva serie)",
-        "EN":"Accumulated PCR (New serie)"
+        "ES":"Casos acumulados PCR (Nueva serie)",
+        "EN":"Cumulative PCR cases (New series)"
     },
     "description":{
         "ES":"Acumulado del número de casos confirmados registrados mediante una prueba PCR por Comunidad Autónoma",
@@ -76,8 +76,8 @@
 },
 "num_casos_prueba_test_ac": {
     "display_name":{
-        "ES":"Confirmados diarios por test (Nueva serie)",
-        "EN":"Daily tests confirmed (New serie)"
+        "ES":"Casos diarios por test (Nueva serie)",
+        "EN":"Daily confirmed test cases (New series)"
     },
     "description":{
         "ES":"Número de casos diarios confirmados registrados por un test rápido por Comunidad Autónoma",
@@ -91,8 +91,8 @@
 },
 "accumulated_cases_test": {
     "display_name":{
-        "ES":"Confirmados test acumulado (Nueva serie)",
-        "EN":"Accumulated confirmed test (New serie)"
+        "ES":"Casos acumulados por test (Nueva serie)",
+        "EN":"Cumulative confirmed test cases (New series)"
     },
     "description":{
         "ES":"Acumulado del número de casos confirmados registrados por un test rápido por Comunidad Autónoma",
@@ -104,24 +104,10 @@
         "EN":"Number of persons"
     }
 },
-"altas": {
-    "display_name":{
-        "ES":"Altas",
-        "EN":"Recovered"
-    },
-    "description":{
-        "ES":"Acumulado del número de personas curadas registradas por Comunidad Autónoma",
-        "EN":"Accumulated number of recovered persons registered by Autonomous Community"
-    },
-    "data_unit":{
-        "ES":"Número de personas",
-        "EN":"Number of persons"
-    }    
-},
 "fallecidos": {
     "display_name":{
         "ES":"Fallecidos diarios (Nueva serie)",
-        "EN":"Daily deaths (New serie)"
+        "EN":"Daily deaths (New series)"
     },
     "description":{
         "ES":"Número diario de fallecidos registrados por Comunidad Autónoma",
@@ -135,11 +121,25 @@
 "accumulated_fallecidos": {
     "display_name":{
         "ES":"Fallecidos acumulados (Nueva serie)",
-        "EN":"Cumulative deaths (New serie)"
+        "EN":"Cumulative deaths (New series)"
     },
     "description":{
         "ES":"Acumulado del número de fallecidos registrados por Comunidad Autónoma",
         "EN":"Cumulative number of registered deaths by Autonomous Community"
+    },
+    "data_unit":{
+        "ES":"Número de personas",
+        "EN":"Number of persons"
+    }
+},
+"altas": {
+    "display_name":{
+        "ES":"Altas acumuladas",
+        "EN":"Cumulative recovered"
+    },
+    "description":{
+        "ES":"Acumulado del número de personas curadas registradas por Comunidad Autónoma",
+        "EN":"Cumulative number of recovered persons registered by Autonomous Community"
     },
     "data_unit":{
         "ES":"Número de personas",
