@@ -132,6 +132,35 @@
         "EN":"Number of persons"
     }
 },
+"fallecidos_100k": {
+    "display_name":{
+        "ES":"Fallecidos acumulados por cada 100.000 habs. (Nueva serie)",
+        "EN":"Accumulated deaths per 100,000 inhabitants (New series)"
+    },
+    "description":{
+        "ES":"Número de fallecidos acumulados confirmados (PCR + test de anticuerpos) por cada 100.000 habitantes por Comunidad Autónoma",
+        "EN":"Cumulative number of confirmed deaths (PCR +  antibodies test) per 100,000 inhabitants by Autonomous Community"
+    },
+    "data_unit":{
+        "ES":"Número de personas",
+        "EN":"Number of persons"
+    }
+},
+"accumulated_lethality": {
+    "display_name":{
+        "ES":"Letalidad acumulada (Nueva serie)",
+        "EN":"Cumulative lethality (New series)"
+    },
+    "description":{
+        "ES":"Tasa de letalidad (fallecidos acumulados / casos acumulados) por Comunidad Autónoma",
+        "EN":"Case Fatality Rate (accumulated deaths / accumulated cases) by Autonomous Community"
+    },
+    "data_source":"ISCIII",
+    "data_unit":{
+        "ES":"Número de personas",
+        "EN":"Number of persons"
+    }
+},
 "altas": {
     "display_name":{
         "ES":"Altas acumuladas",

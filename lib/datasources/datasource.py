@@ -79,6 +79,8 @@ class DataSource(object):
 
         self.processing_url = None
 
+        self.data_items_mutiple_ds = ['accumulated_lethality']
+
         # sleep_time_before_request : float seconds to sleep between requests, increased with __SLEEP_TIME_LIMIT when HTTP 429 error occurs.
         self.sleep_time_before_request = 0
         
@@ -199,6 +201,17 @@ class DataSource(object):
                 return None
             else:
                 raise Exception(f"Request failed to {str(self.__class__.__name__)} with HTTP {self.last_error} code.")
+
+        # Initial implementation for the calculation of data items from different data sources
+        check_multiple_ds = [s for s in self.data_items_mutiple_ds if s in self.data_items]
+        for c in check_multiple_ds:
+            if c == 'accumulated_lethality':
+                for (columnName, columnData) in requested_data.iteritems():
+                    # if requested_data[columnName[0], 'accumulated_fallecidos'] and requested_data[columnName[0], 'accumulated_cases']:
+                    if (columnName[0], 'accumulated_fallecidos') in requested_data.columns and (columnName[0], 'accumulated_cases') in requested_data.columns:
+                        requested_data[columnName[0], 'accumulated_lethality'] = requested_data.apply(
+                            lambda x: x[columnName[0], 'accumulated_fallecidos']/x[columnName[0], 'accumulated_cases'], axis=1)
+
 
         return requested_data
     
