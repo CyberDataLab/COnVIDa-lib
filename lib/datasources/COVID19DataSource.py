@@ -176,7 +176,7 @@ class COVID19DataSource(DataSource):
 
         elif self.isciii_detected:
             '''
-            PROCESSING METHOD FOR NEW ISCIII SERIE
+            PROCESSING METHOD FOR NEW ISCIII SERIES
             '''
             self.isciii_detected = False
             df['fecha'] = pd.to_datetime(df['fecha'], format='%Y-%m-%d')

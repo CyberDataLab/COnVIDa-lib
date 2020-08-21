@@ -77,3 +77,5 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.idea/inspectionProfiles/Project_Default.xml
+.idea/misc.xml

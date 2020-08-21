@@ -1,8 +1,8 @@
 {
 "num_casos": {
     "display_name":{
-        "ES":"Casos diarios (Nueva serie)",
-        "EN":"Daily cases (New series)"
+        "ES":"Casos diarios",
+        "EN":"Daily cases"
     },
     "description":{
         "ES":"Número de casos diarios (PCR + test de anticuerpos) registrados por Comunidad Autónoma",
@@ -16,8 +16,8 @@
 },
 "accumulated_cases": {
     "display_name":{
-        "ES":"Casos acumulados (Nueva serie)",
-        "EN":"Cumulative cases (New series)"
+        "ES":"Casos acumulados",
+        "EN":"Cumulative cases"
     },
     "description":{
         "ES":"Acumulado del número de casos (PCR + test de anticuerpos) registrados por Comunidad Autónoma",
@@ -31,8 +31,8 @@
 },
 "cases_100k": {
     "display_name":{
-        "ES":"Casos acumulados por cada 100.000 habs. (Nueva serie)",
-        "EN":"Accumulated cases per 100,000 inhabitants (New series)"
+        "ES":"Casos acumulados por cada 100.000 habs.",
+        "EN":"Accumulated cases per 100,000 inhabitants"
     },
     "description":{
         "ES":"Número de casos acumulados confirmados (PCR + test de anticuerpos) por cada 100.000 habitantes por Comunidad Autónoma",
@@ -46,8 +46,8 @@
 },
 "num_casos_prueba_pcr": {
     "display_name":{
-        "ES":"Casos diarios PCR (Nueva serie)",
-        "EN":"Daily PCR cases (New series)"
+        "ES":"Casos diarios PCR",
+        "EN":"Daily PCR cases"
     },
     "description":{
         "ES":"Número de casos confirmados diariamente registrados mediante una prueba PCR por Comunidad Autónoma",
@@ -61,8 +61,8 @@
 },
 "accumulated_cases_pcr": {
     "display_name":{
-        "ES":"Casos acumulados PCR (Nueva serie)",
-        "EN":"Cumulative PCR cases (New series)"
+        "ES":"Casos acumulados PCR",
+        "EN":"Cumulative PCR cases"
     },
     "description":{
         "ES":"Acumulado del número de casos confirmados registrados mediante una prueba PCR por Comunidad Autónoma",
@@ -76,8 +76,8 @@
 },
 "num_casos_prueba_test_ac": {
     "display_name":{
-        "ES":"Casos diarios por test (Nueva serie)",
-        "EN":"Daily confirmed test cases (New series)"
+        "ES":"Casos diarios por test",
+        "EN":"Daily confirmed test cases"
     },
     "description":{
         "ES":"Número de casos diarios confirmados registrados por un test rápido por Comunidad Autónoma",
@@ -91,8 +91,8 @@
 },
 "accumulated_cases_test": {
     "display_name":{
-        "ES":"Casos acumulados por test (Nueva serie)",
-        "EN":"Cumulative confirmed test cases (New series)"
+        "ES":"Casos acumulados por test",
+        "EN":"Cumulative confirmed test cases"
     },
     "description":{
         "ES":"Acumulado del número de casos confirmados registrados por un test rápido por Comunidad Autónoma",
@@ -106,8 +106,8 @@
 },
 "fallecidos": {
     "display_name":{
-        "ES":"Fallecidos diarios (Nueva serie)",
-        "EN":"Daily deaths (New series)"
+        "ES":"Fallecidos diarios",
+        "EN":"Daily deaths"
     },
     "description":{
         "ES":"Número diario de fallecidos registrados por Comunidad Autónoma",
@@ -120,8 +120,8 @@
 },
 "accumulated_fallecidos": {
     "display_name":{
-        "ES":"Fallecidos acumulados (Nueva serie)",
-        "EN":"Cumulative deaths (New series)"
+        "ES":"Fallecidos acumulados",
+        "EN":"Cumulative deaths"
     },
     "description":{
         "ES":"Acumulado del número de fallecidos registrados por Comunidad Autónoma",
@@ -134,8 +134,8 @@
 },
 "fallecidos_100k": {
     "display_name":{
-        "ES":"Fallecidos acumulados por cada 100.000 habs. (Nueva serie)",
-        "EN":"Accumulated deaths per 100,000 inhabitants (New series)"
+        "ES":"Fallecidos acumulados por cada 100.000 habs.",
+        "EN":"Accumulated deaths per 100,000 inhabitants"
     },
     "description":{
         "ES":"Número de fallecidos acumulados confirmados (PCR + test de anticuerpos) por cada 100.000 habitantes por Comunidad Autónoma",
@@ -148,8 +148,8 @@
 },
 "accumulated_lethality": {
     "display_name":{
-        "ES":"Letalidad acumulada (Nueva serie)",
-        "EN":"Cumulative lethality (New series)"
+        "ES":"Letalidad acumulada",
+        "EN":"Cumulative lethality"
     },
     "description":{
         "ES":"Tasa de letalidad (fallecidos acumulados / casos acumulados) por Comunidad Autónoma",
