@@ -38,7 +38,7 @@ class convida_server():
 
     __CACHE_PATH = None    # absolute path of the cache loaded in memory
 
-    __UPDATE_DAYS = 5    # past days to query
+    __UPDATE_DAYS = 20    # past days to query
 
     __DATA = {
         DataType.TEMPORAL : None,
