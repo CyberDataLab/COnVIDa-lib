@@ -71,38 +71,14 @@ class COVID19DataSource(DataSource):
         list of str
             list of working URLs (usually containing only one url).
         '''
+
         urls = []
-        template_url = 'https://raw.githubusercontent.com/datadista/datasets/master/COVID%2019/ccaa_covid19_{name}.csv'
-
-        index_data_item = 0
-        for data_item in self.data_items:
-            try:
-                data_source = self.__class__.DATA_ITEMS_INFO[self.data_items[index_data_item]]['data_source']
-            except KeyError:
-                data_source = None
-
-            if data_source != None and data_source == "ISCIII":
-                if not self.isciii_detected:
-                    self.isciii_detected = True
-                index_data_item += 1
-                continue
-            if data_item == "fallecidos" or data_item == 'accumulated_fallecidos' or data_item == 'fallecidos_100k' or data_item == 'accumulated_lethality':
-                if not self.fallecidos_detected:
-                    self.fallecidos_detected = True
-                index_data_item += 1
-                continue
-
-            url = template_url.format(name=data_item)
-            urls.append(url)
-            index_data_item += 1
-
-        if self.isciii_detected:
-            urls.append(
-                'https://raw.githubusercontent.com/datadista/datasets/master/COVID%2019/ccaa_covid19_datos_isciii_nueva_serie.csv')
-
-        if self.fallecidos_detected:
-            urls.append(
-                'https://raw.githubusercontent.com/datadista/datasets/master/COVID%2019/ccaa_covid19_fallecidos_por_fecha_defuncion_nueva_serie.csv')
+        urls.append(
+            'https://raw.githubusercontent.com/montera34/escovid19data/master/data/output/covid19-spain_consolidated.csv')
+        urls.append(
+            'https://raw.githubusercontent.com/montera34/escovid19data/master/data/output/covid19-ccaa-spain_consolidated.csv')
+        urls.append(
+            'https://raw.githubusercontent.com/montera34/escovid19data/master/data/output/covid19-provincias-spain_consolidated.csv')
 
         return urls
 
@@ -139,62 +115,43 @@ class COVID19DataSource(DataSource):
         '''
 
         region_representation_dict = Regions._get_property(self.regions, self.__class__.REGION_REPRESENTATION)
-        representation_region_dict = dict(zip(region_representation_dict, self.regions))
 
-        region_population_dict = Regions._get_property(self.regions, "population")
-        norm_region_population_dict = dict(zip(self.regions, region_population_dict))
+        representation_ccaa_dict = {}
+        representation_provinces_dict = {}
+        representation_spain_dict = {'00': 'España'}
+        for i, r in enumerate(self.regions):
+            code_ine = region_representation_dict[i]
+            if 'CA' in r or code_ine == 0:
+                representation_ccaa_dict[code_ine] = r
+            else:
+                representation_provinces_dict[code_ine] = r
 
-        self.isciii_detected = True if 'fecha' in partial_requested_data.columns else False
-        df = partial_requested_data.rename(columns={"cod_ine": "Region"})
+        # Solution for esCOVID19data error
+        if "intensive_care_per_1000000" in partial_requested_data.columns:
+            partial_requested_data = partial_requested_data.rename(
+                columns={'intensive_care_per_1000000': 'intensive_care_per_100000'})
+
+        if "ine_code" not in partial_requested_data.columns:
+            partial_requested_data.insert(1, 'ine_code', 0)
+
+        df = partial_requested_data.rename(columns={"ine_code": "Region"})
         df.set_index(df.Region.astype(str).str.zfill(2), inplace=True,
                      drop=True)  # zfill used to change numbers 1, 2, 3... tu padded strings "01", "02"... (code ine)
 
-        if not self.isciii_detected:
-            '''
-            PROCESSING METHOD FOR OLD DATADISTA SERIES
-            '''
-            # improve after
-            data_item_selected = [s for s in [r for data_item in self.data_items for r in data_item.split('_')] if s in self.processing_url]
-            df = df.drop(['Region', 'CCAA'], axis='columns', errors='ignore')
-            df = df.transpose()
-            df = df[region_representation_dict]  # filter regions
-            df.rename(columns=representation_region_dict,
-                      inplace=True)  # replace region representation by region itself
-            df = df.astype('float64')
-            df.columns = pd.MultiIndex.from_product([df.columns, [data_item_selected[0]]])
-            df.set_index(pd.to_datetime(df.index, format="%Y-%m-%d"), inplace=True)
-            df.columns.rename("Item", level=1, inplace=True)
+        df['date'] = pd.to_datetime(df['date'], format='%Y-%m-%d')
+        df.sort_values(['date'], inplace=True)
+        df = df.drop(['Region', 'CCAA', 'ccaa', 'province', 'source_name', 'source', 'comments'], axis='columns',
+                     errors='ignore')
 
-            '''
-            if it is the "fallecidos" dataitem, the accumulated and 100k series is created and added to the final table
-            '''
-            if data_item_selected[0] == 'fallecidos':
-                for (columnName, columnData) in df.iteritems():
-                    df[columnName[0], 'accumulated_fallecidos'] = df[columnName[0], 'fallecidos'].cumsum()
-                    df[columnName[0], 'fallecidos_100k'] = df.apply(
-                        lambda x: (x[columnName[0], 'accumulated_fallecidos'] * 100000) / float(norm_region_population_dict.get(columnName[0])) if columnName[0] in norm_region_population_dict.keys() else 0, axis=1)
+        if "province" in partial_requested_data.columns:
+            df.rename(index=representation_provinces_dict, inplace=True)
+        elif "ccaa" in partial_requested_data.columns:
+            df.rename(index=representation_ccaa_dict, inplace=True)
+        else:
+            df.rename(index=representation_spain_dict, inplace=True)
 
-        elif self.isciii_detected:
-            '''
-            PROCESSING METHOD FOR NEW ISCIII SERIES
-            '''
-            self.isciii_detected = False
-            df['fecha'] = pd.to_datetime(df['fecha'], format='%Y-%m-%d')
-            df.sort_values(['fecha'], inplace=True)
-            df = df.drop(
-                ['Region', 'CCAA', 'ccaa', 'num_casos_prueba_otras', 'num_casos_prueba_desconocida'], axis='columns',
-                errors='ignore')
-
-            df['accumulated_cases'] = df.groupby(df.index)['num_casos'].cumsum()
-            df['accumulated_cases_pcr'] = df.groupby(df.index)['num_casos_prueba_pcr'].cumsum()
-            df['accumulated_cases_test'] = df.groupby(df.index)['num_casos_prueba_test_ac'].cumsum()
-
-            df = df.astype({'num_casos': 'float64'})
-            df.rename(index=representation_region_dict, inplace=True)
-            df['cases_100k'] = df.apply(lambda x: (x['accumulated_cases'] * 100000) / float(
-                norm_region_population_dict.get(x.name)) if x.name in norm_region_population_dict.keys() else 0, axis=1)
-            df = df.pivot_table(index='fecha', columns='Region').swaplevel(i=0, j=1, axis='columns')
-            df.columns.rename("Item", level=1, inplace=True)
-            df.set_index(pd.to_datetime(df.index, format="%Y-%m-%d"), inplace=True)
+        df = df.pivot_table(index='date', columns='Region').swaplevel(i=0, j=1, axis='columns')
+        df.columns.rename("Item", level=1, inplace=True)
+        df.set_index(pd.to_datetime(df.index, format="%Y-%m-%d"), inplace=True)
 
         return df

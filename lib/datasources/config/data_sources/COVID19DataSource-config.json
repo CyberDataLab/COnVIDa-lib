@@ -1,206 +1,343 @@
 {
-"num_casos": {
-    "display_name":{
-        "ES":"Casos diarios",
-        "EN":"Daily cases"
+  "ia14": {
+    "display_name": {
+      "ES": "Incidencia acumulada en los últimos 14 días",
+      "EN": "Cumulative incidence in the last 14 days"
     },
-    "description":{
-        "ES":"Número de casos diarios (PCR + test de anticuerpos) registrados por Comunidad Autónoma",
-        "EN":"Number of daily cases (PCR +  antibodies test) registered by Autonomous Community"
+    "description": {
+      "ES": "Incidencia acumulada 14 días (casos en los últimos 14 días por cada 100.000 habitantes)",
+      "EN": "Cumulative incidence 14 days (cases in the last 14 days per 100,000 inhabitants)"
     },
-    "data_source":"ISCIII",
-    "data_unit":{
-        "ES":"Número de personas",
-        "EN":"Number of persons"
+    "data_unit": {
+      "ES": "Número de personas",
+      "EN": "Number of persons"
     }
-},
-"accumulated_cases": {
-    "display_name":{
-        "ES":"Casos acumulados",
-        "EN":"Cumulative cases"
+  },
+  "daily_cases_avg7": {
+    "display_name": {
+      "ES": "Media de casos detectados en 7 días",
+      "EN": "Average number of cases detected in 7 days"
     },
-    "description":{
-        "ES":"Acumulado del número de casos (PCR + test de anticuerpos) registrados por Comunidad Autónoma",
-        "EN":"Cumulative number of cases (PCR +  antibodies test) registered by Autonomous Community"
+    "description": {
+      "ES": "Media de casos detectados (ventana de 7 días)",
+      "EN": "Average daily cases in the last 7 days (rolling average 7 days)"
     },
-    "data_source":"ISCIII",
-    "data_unit":{
-        "ES":"Número de personas",
-        "EN":"Number of persons"
+    "data_unit": {
+      "ES": "Número de personas",
+      "EN": "Number of persons"
     }
-},
-"cases_100k": {
-    "display_name":{
-        "ES":"Casos acumulados por cada 100.000 habs.",
-        "EN":"Accumulated cases per 100,000 inhabitants"
+  },
+  "num_casos_prueba_pcr_avg7": {
+    "display_name": {
+      "ES": "Media de casos PCR confirmados en los últimos 7 días",
+      "EN": "Average number of confirmed PCR cases in the last 7 days"
     },
-    "description":{
-        "ES":"Número de casos acumulados confirmados (PCR + test de anticuerpos) por cada 100.000 habitantes por Comunidad Autónoma",
-        "EN":"Cumulative number of confirmed cases (PCR +  antibodies test) per 100,000 inhabitants by Autonomous Community"
+    "description": {
+      "ES": "Media de casos (ventana de 7 días) de casos con prueba de laboratorio PCR o técnicas moleculares",
+      "EN": "Average number of cases (7-day window) with laboratory PCR test or molecular techniques"
     },
-    "data_source":"ISCIII",
-    "data_unit":{
-        "ES":"Número de personas",
-        "EN":"Number of persons"
+    "data_unit": {
+      "ES": "Número de personas",
+      "EN": "Number of persons"
     }
-},
-"num_casos_prueba_pcr": {
-    "display_name":{
-        "ES":"Casos diarios PCR",
-        "EN":"Daily PCR cases"
+  },
+  "daily_deaths_avg7": {
+    "display_name": {
+      "ES": "Media de fallecidos en los últimos 7 días",
+      "EN": "Average number of deaths in a 7-day window"
     },
-    "description":{
-        "ES":"Número de casos confirmados diariamente registrados mediante una prueba PCR por Comunidad Autónoma",
-        "EN":"Number of confirmed daily cases recorded by PCR test by Autonomous Community"
+    "description": {
+      "ES": "Media de fallecidos en una ventana de 7 días",
+      "EN": "Average daily deaths in the last 7 days (rolling average 7 days)"
     },
-    "data_source":"ISCIII",
-    "data_unit":{
-        "ES":"Número de personas",
-        "EN":"Number of persons"
+    "data_unit": {
+      "ES": "Número de personas",
+      "EN": "Number of persons"
     }
-},
-"accumulated_cases_pcr": {
-    "display_name":{
-        "ES":"Casos acumulados PCR",
-        "EN":"Cumulative PCR cases"
+  },
+  "daily_deaths_avg3": {
+    "display_name": {
+      "ES": "Media de fallecidos en los últimos 3 días",
+      "EN": "Average number of deaths in a 3-day window"
     },
-    "description":{
-        "ES":"Acumulado del número de casos confirmados registrados mediante una prueba PCR por Comunidad Autónoma",
-        "EN":"Cumulative number of confirmed cases recorded by PCR test by Autonomous Community"
+    "description": {
+      "ES": "Media de fallecidos en una ventana de 3 días",
+      "EN": "Average daily deaths in the last 3 days (rolling average 3 days)"
     },
-    "data_source":"ISCIII",
-    "data_unit":{
-        "ES":"Número de personas",
-        "EN":"Number of persons"
+    "data_unit": {
+      "ES": "Número de personas",
+      "EN": "Number of persons"
     }
-},
-"num_casos_prueba_test_ac": {
-    "display_name":{
-        "ES":"Casos diarios por test",
-        "EN":"Daily confirmed test cases"
+  },
+  "num_casos": {
+    "display_name": {
+      "ES": "Casos diarios",
+      "EN": "New daily cases"
     },
-    "description":{
-        "ES":"Número de casos diarios confirmados registrados por un test rápido por Comunidad Autónoma",
-        "EN":"Number of confirmed daily cases recorded by rapid test by Autonomous Community"
+    "description": {
+      "ES": "El número de casos diarios totales, confirmados o probables",
+      "EN": "The number of daily total, confirmed or probable cases"
     },
-    "data_source":"ISCIII",
-    "data_unit":{
-        "ES":"Número de personas",
-        "EN":"Number of persons"
+    "data_source": "ISCIII",
+    "data_unit": {
+      "ES": "Número de personas",
+      "EN": "Number of persons"
     }
-},
-"accumulated_cases_test": {
-    "display_name":{
-        "ES":"Casos acumulados por test",
-        "EN":"Cumulative confirmed test cases"
+  },
+  "num_casos_prueba_pcr": {
+    "display_name": {
+      "ES": "Casos diarios PCR",
+      "EN": "Daily Cases PCR"
     },
-    "description":{
-        "ES":"Acumulado del número de casos confirmados registrados por un test rápido por Comunidad Autónoma",
-        "EN":"Cumulative number of confirmed cases recorded by rapid test by Autonomous Community"
+    "description": {
+      "ES": "El número de casos diarios con prueba de laboratorio PCR o técnicas moleculares",
+      "EN": "The number of daily cases with laboratory PCR test or molecular techniques"
     },
-    "data_source":"ISCIII",
-    "data_unit":{
-        "ES":"Número de personas",
-        "EN":"Number of persons"
+    "data_source": "ISCIII",
+    "data_unit": {
+      "ES": "Número de personas",
+      "EN": "Number of persons"
     }
-},
-"fallecidos": {
-    "display_name":{
-        "ES":"Fallecidos diarios",
-        "EN":"Daily deaths"
+  },
+  "num_casos_prueba_test_ac": {
+    "display_name": {
+      "ES": "Casos diarios anticuerpos",
+      "EN": "Daily cases of antibodies"
     },
-    "description":{
-        "ES":"Número diario de fallecidos registrados por Comunidad Autónoma",
-        "EN":"Daily number of registered deaths by Autonomous Community"
+    "description": {
+      "ES": "El número de casos diarios con prueba de laboratorio de test rápido de anticuerpos",
+      "EN": "The number of daily cases with rapid antibody test laboratory"
     },
-    "data_unit":{
-        "ES":"Número de personas",
-        "EN":"Number of persons"
-    }    
-},
-"accumulated_fallecidos": {
-    "display_name":{
-        "ES":"Fallecidos acumulados",
-        "EN":"Cumulative deaths"
-    },
-    "description":{
-        "ES":"Acumulado del número de fallecidos registrados por Comunidad Autónoma",
-        "EN":"Cumulative number of registered deaths by Autonomous Community"
-    },
-    "data_unit":{
-        "ES":"Número de personas",
-        "EN":"Number of persons"
+    "data_source": "ISCIII",
+    "data_unit": {
+      "ES": "Número de personas",
+      "EN": "Number of persons"
     }
-},
-"fallecidos_100k": {
-    "display_name":{
-        "ES":"Fallecidos acumulados por cada 100.000 habs.",
-        "EN":"Accumulated deaths per 100,000 inhabitants"
+  },
+  "num_casos_prueba_otras": {
+    "display_name": {
+      "ES": "Casos diarios otras pruebas",
+      "EN": "Daily cases other tests"
     },
-    "description":{
-        "ES":"Número de fallecidos acumulados confirmados (PCR + test de anticuerpos) por cada 100.000 habitantes por Comunidad Autónoma",
-        "EN":"Cumulative number of confirmed deaths (PCR +  antibodies test) per 100,000 inhabitants by Autonomous Community"
+    "description": {
+      "ES": "El número de casos diarios detectados con otras pruebas de laboratorio, mayoritariamente por detección de antígeno o técnica Elisa",
+      "EN": "The number of daily cases with other laboratory tests, mostly by antigen detection or Elisa technique"
     },
-    "data_unit":{
-        "ES":"Número de personas",
-        "EN":"Number of persons"
+    "data_source": "ISCIII",
+    "data_unit": {
+      "ES": "Número de personas",
+      "EN": "Number of persons"
     }
-},
-"accumulated_lethality": {
-    "display_name":{
-        "ES":"Letalidad acumulada",
-        "EN":"Cumulative lethality"
+  },
+  "num_casos_prueba_desconocida": {
+    "display_name": {
+      "ES": "Casos diarios de pruebas desconocidas",
+      "EN": "Daily cases unknown tests"
     },
-    "description":{
-        "ES":"Tasa de letalidad (fallecidos acumulados / casos acumulados) por Comunidad Autónoma",
-        "EN":"Case Fatality Rate (accumulated deaths / accumulated cases) by Autonomous Community"
+    "description": {
+      "ES": "El número de casos diarios sin información sobre la prueba de laboratorios con la que ha sido detectada",
+      "EN": "The number of daily cases without information on the laboratory test with which it has been detected"
     },
-    "data_source":"ISCIII",
-    "data_unit":{
-        "ES":"Número de personas",
-        "EN":"Number of persons"
+    "data_source": "ISCIII",
+    "data_unit": {
+      "ES": "Número de personas",
+      "EN": "Number of persons"
     }
-},
-"altas": {
-    "display_name":{
-        "ES":"Altas acumuladas",
-        "EN":"Cumulative recovered"
+  },
+  "daily_deaths": {
+    "display_name": {
+      "ES": "Casos de fallecidos diarios",
+      "EN": "Daily death cases"
     },
-    "description":{
-        "ES":"Acumulado del número de personas curadas registradas por Comunidad Autónoma",
-        "EN":"Cumulative number of recovered persons registered by Autonomous Community"
+    "description": {
+      "ES": "Muertes diarias. Calculada como una diferencia de las muertes acumuladas notificadas",
+      "EN": "Daily deaths. Calculated as a difference of cumulative deaths reported"
     },
-    "data_unit":{
-        "ES":"Número de personas",
-        "EN":"Number of persons"
+    "data_unit": {
+      "ES": "Número de personas",
+      "EN": "Number of persons"
     }
-},
-"hospitalizados": {
-    "display_name":{
-        "ES":"Hospitalizados acumulados",
-        "EN":"Cumulative hospitalized"
+  },
+  "daily_deaths_inc": {
+    "display_name": {
+      "ES": "Porcentaje de nuevos fallecidos respecto de día anterior",
+      "EN": "Percentage of new deaths compared to previous day"
     },
-    "description":{
-        "ES":"Acumulado del número de pacientes que han precisado hospitalización (incluye UCI) por Comunidad Autónoma",
-        "EN":"Cumulative number of patients requiring hospitalization (including ICU) by Autonomous Community"
+    "description": {
+      "ES": "Porcentaje de nuevos fallecidos con respecto al dia anterior",
+      "EN": "Percentage of new deaths compared to previous day"
     },
-    "data_unit":{
-        "ES":"Número de personas",
-        "EN":"Number of persons"
-    }    
-},
-"uci": {
-    "display_name":{
-        "ES":"UCI acumulados",
-        "EN":"Cumulative ICU"
+    "data_unit": {
+      "ES": "Porcentaje (%)",
+      "EN": "Percentage (%)"
+    }
+  },
+  "cases_14days": {
+    "display_name": {
+      "ES": "Casos detectados en los últimos 14 días",
+      "EN": "Detected cases in the last 14 days"
     },
-    "description":{
-        "ES":"Acumulado del número de pacientes que han precisado ingreso en la UCI registrados por Comunidad Autónoma",
-        "EN":"Cumulative number of patients requiring ICU admission registered by Autonomous Community"
+    "description": {
+      "ES": "Número de casos positivos en COVID19 en los últimos 14 días",
+      "EN": "Number of positive cases in COVID19 in the last 14 days"
     },
-    "data_unit":{
-        "ES":"Número de personas",
-        "EN":"Number of persons"
-    }    
-}
+    "data_unit": {
+      "ES": "Número de personas",
+      "EN": "Number of persons"
+    }
+  },
+  "deaths_last_week": {
+    "display_name": {
+      "ES": "Fallecidos en los últimos 7 días",
+      "EN": "Deaths in the last 7 days"
+    },
+    "description": {
+      "ES": "Número de fallecidos totales en una ventana de 7 días",
+      "EN": "Total number of deaths in a 7-day window"
+    },
+    "data_unit": {
+      "ES": "Número de personas",
+      "EN": "Number of persons"
+    }
+  },
+  "cases_accumulated": {
+    "display_name": {
+      "ES": "Casos acumulados",
+      "EN": "Cumulative COVID19 cases"
+    },
+    "description": {
+      "ES": "Casos COVID19 detectados acumulado",
+      "EN": "Number of new COVID19 cases (cumulative)"
+    },
+    "data_unit": {
+      "ES": "Número de personas",
+      "EN": "Number of persons"
+    }
+  },
+  "cases_accumulated_PCR": {
+    "display_name": {
+      "ES": "Casos acumulados PCR",
+      "EN": "Cumulative cases PCR"
+    },
+    "description": {
+      "ES": "Casos acumulados COVID19 detectados por PCR ",
+      "EN": "Number of new COVID19 cases detected with PCR (cumulative)"
+    },
+    "data_unit": {
+      "ES": "Número de personas",
+      "EN": "Number of persons"
+    }
+  },
+  "hospitalized": {
+    "display_name": {
+      "ES": "Casos acumulados hospitalizados",
+      "EN": "Cumulative hospitalised cases"
+    },
+    "description": {
+      "ES": "Numero de casos hospitalizadas acumulados",
+      "EN": "Number of cumulative hospitalised cases"
+    },
+    "data_unit": {
+      "ES": "Número de personas",
+      "EN": "Number of persons"
+    }
+  },
+  "intensive_care": {
+    "display_name": {
+      "ES": "Casos acumulados UCI",
+      "EN": "Cumulative ICU cases"
+    },
+    "description": {
+      "ES": "Numero de pacientes acumulados en UCI",
+      "EN": "Number of patients accumulated in ICU"
+    },
+    "data_unit": {
+      "ES": "Número de personas",
+      "EN": "Number of persons"
+    }
+  },
+  "deceased": {
+    "display_name": {
+      "ES": "Casos acumulados fallecidos",
+      "EN": "Cumulative deceased cases"
+    },
+    "description": {
+      "ES": "Número de fallecidos acumulado",
+      "EN": "Cumulative number of deceased cases"
+    },
+    "data_unit": {
+      "ES": "Número de personas",
+      "EN": "Number of persons"
+    }
+  },
+  "recovered": {
+    "display_name": {
+      "ES": "Casos acumulados recuperados",
+      "EN": "Cumulative cases recovered"
+    },
+    "description": {
+      "ES": "Número acumulado de casos recuperados",
+      "EN": "Cumulative number of recovered cases"
+    },
+    "data_unit": {
+      "ES": "Número de personas",
+      "EN": "Number of persons"
+    }
+  },
+  "cases_per_cienmil": {
+    "display_name": {
+      "ES": "Casos acumulados por 100.000 habitantes",
+      "EN": "Cumulative cases per 100,000 inhabitants"
+    },
+    "description": {
+      "ES": "Numero de casos acumulados de COVID19 por cada 100.000 habtiantes",
+      "EN": "Cumulative number of confirmed COVID19 cases per 100,000 inhabitants"
+    },
+    "data_unit": {
+      "ES": "Número de personas",
+      "EN": "Number of persons"
+    }
+  },
+  "intensive_care_per_100000": {
+    "display_name": {
+      "ES": "Casos UCI por 100.000 habitantes",
+      "EN": "ICU cases per 100,000 inhabitants"
+    },
+    "description": {
+      "ES": "Número de casos acumulados de COVID19 en UCI por cada 100.000 habtiantes",
+      "EN": "Cumulative number of cases in ICU per 100,000 inhabitants"
+    },
+    "data_unit": {
+      "ES": "Número de personas",
+      "EN": "Number of persons"
+    }
+  },
+  "hospitalized_per_100000": {
+    "display_name": {
+      "ES": "Hospitalizados por 100.000 habitantes",
+      "EN": "Hospitalised per 100,000 inhabitants"
+    },
+    "description": {
+      "ES": "Número de casos acumulados de COVID19 hospitalizados por cada 100.000 habitantes",
+      "EN": "Cumulative number of COVID19 cases hospitalized per 100,000 inhabitants"
+    },
+    "data_unit": {
+      "ES": "Número de personas",
+      "EN": "Number of persons"
+    }
+  },
+  "deceassed_per_100000": {
+    "display_name": {
+      "ES": "Fallecidos acumulados por 1000.000 habitantes",
+      "EN": "Cumulative deaths per 100,000 inhabitants"
+    },
+    "description": {
+      "ES": "Numero de fallecidos acumulados por COVID19 por cada 100.000 habitantes",
+      "EN": "Cumulative number of COVID19 deceassed per 100,000 inhabitants"
+    },
+    "data_unit": {
+      "ES": "Número de personas",
+      "EN": "Number of persons"
+    }
+  }
 }
