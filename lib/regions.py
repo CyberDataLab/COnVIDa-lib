@@ -79,7 +79,7 @@ class Regions(object):
         for i in cls.__REGION_CONFIGURATION.keys():
             if type == 'r' and 'CA' in i:
                 list_by_type.append(cls.__REGION_CONFIGURATION[i]['nombre'])  # cls.__REGION_CONFIGURATION[i]['nombre']
-            elif type == 'p' and 'CA' not in i:
+            elif type == 'p' and 'CA' not in i and int(cls.__REGION_CONFIGURATION[i]['code_ine']) is not 0:
                 list_by_type.append(cls.__REGION_CONFIGURATION[i]['nombre'])
 
         return list_by_type
