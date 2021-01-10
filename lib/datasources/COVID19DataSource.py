@@ -126,7 +126,7 @@ class COVID19DataSource(DataSource):
             else:
                 representation_provinces_dict[code_ine] = r
 
-        # Solution for esCOVID19data error
+        # Fix esCOVID19data error
         if "intensive_care_per_1000000" in partial_requested_data.columns:
             partial_requested_data = partial_requested_data.rename(
                 columns={'intensive_care_per_1000000': 'intensive_care_per_100000'})
@@ -143,12 +143,16 @@ class COVID19DataSource(DataSource):
         df = df.drop(['Region', 'CCAA', 'ccaa', 'province', 'source_name', 'source', 'comments'], axis='columns',
                      errors='ignore')
 
+        # Adaptation of dataitems
         if "province" in partial_requested_data.columns:
             df.rename(index=representation_provinces_dict, inplace=True)
         elif "ccaa" in partial_requested_data.columns:
             df.rename(index=representation_ccaa_dict, inplace=True)
         else:
             df.rename(index=representation_spain_dict, inplace=True)
+            df = df.drop(['hospitalized'], axis='columns', errors='ignore')
+            df = df.rename(
+                columns={'daily_cases': 'num_casos', 'daily_cases_PCR_avg7': 'num_casos_prueba_pcr_avg7', 'daily_cases_PCR': 'num_casos_prueba_pcr', 'TestAc': 'num_casos_prueba_test_ac', 'hospitalized_new': 'hospitalized'})
 
         df = df.pivot_table(index='date', columns='Region').swaplevel(i=0, j=1, axis='columns')
         df.columns.rename("Item", level=1, inplace=True)

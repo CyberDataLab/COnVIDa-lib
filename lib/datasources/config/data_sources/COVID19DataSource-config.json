@@ -328,7 +328,7 @@
   },
   "deceassed_per_100000": {
     "display_name": {
-      "ES": "Fallecidos acumulados por 1000.000 habitantes",
+      "ES": "Fallecidos acumulados por 100.000 habitantes",
       "EN": "Cumulative deaths per 100,000 inhabitants"
     },
     "description": {
