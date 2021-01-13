@@ -114,16 +114,29 @@
       "EN": "Number of persons"
     }
   },
-  "num_casos_prueba_otras": {
+  "num_casos_prueba_ag": {
     "display_name": {
-      "ES": "Casos diarios otras pruebas",
-      "EN": "Daily cases other tests"
+      "ES": "Casos diarios prueba antígenos",
+      "EN": "Daily cases tests antigen"
     },
     "description": {
-      "ES": "El número de casos diarios detectados con otras pruebas de laboratorio, mayoritariamente por detección de antígeno o técnica Elisa",
-      "EN": "The number of daily cases with other laboratory tests, mostly by antigen detection or Elisa technique"
+      "ES": "El número de casos diarios detectados con pruebas de detección de antígeno",
+      "EN": "The number of daily cases detected by antigen test"
     },
-    "data_source": "ISCIII",
+    "data_unit": {
+      "ES": "Número de personas",
+      "EN": "Number of persons"
+    }
+  },
+  "num_casos_prueba_elisa": {
+    "display_name": {
+      "ES": "Casos diarios prueba Elisa",
+      "EN": "Daily cases tests Elisa"
+    },
+    "description": {
+      "ES": "El número de casos diarios detectados con técnica Elisa",
+      "EN": "The number of daily cases detected by Elisa technique"
+    },
     "data_unit": {
       "ES": "Número de personas",
       "EN": "Number of persons"
@@ -146,7 +159,7 @@
   },
   "daily_deaths": {
     "display_name": {
-      "ES": "Casos de fallecidos diarios",
+      "ES": "Fallecidos diarios",
       "EN": "Daily death cases"
     },
     "description": {
@@ -339,5 +352,76 @@
       "ES": "Número de personas",
       "EN": "Number of persons"
     }
+  },
+  "accumulated_lethality": {
+    "display_name": {
+      "ES": "Letalidad acumulada",
+      "EN": "Cumulative lethality"
+    },
+    "description": {
+      "ES": "Tasa de letalidad (fallecidos acumulados / casos acumulados)",
+      "EN": "Case Fatality Rate (accumulated deaths / accumulated cases)"
+    },
+    "data_unit": {
+      "ES": "Número de personas",
+      "EN": "Number of persons"
+    }
+  },
+  "vaccine_provided": {
+    "display_name": {
+      "ES": "Vacunas entregadas acumulado",
+      "EN": "Cumulative vaccines provided"
+    },
+    "description": {
+      "ES": "Número acumulado de vacunas entregadas",
+      "EN": "Cumulative number of vaccines provided"
+    },
+    "data_unit": {
+      "ES": "Número de dosis",
+      "EN": "Number of doses"
+    }
+  },
+  "vaccine_supplied": {
+    "display_name": {
+      "ES": "Vacunas suministradas acumulado",
+      "EN": "Cumulative vaccines supplied"
+    },
+    "description": {
+      "ES": "Número acumulado de vacunas suministradas",
+      "EN": "Cumulative number of vaccines supplied"
+    },
+    "data_unit": {
+      "ES": "Número de dosis",
+      "EN": "Number of doses"
+    }
+  },
+  "vaccine_supplied_inc": {
+    "display_name": {
+      "ES": "Porcentaje de vacunas suministradas",
+      "EN": "Percentage of new vaccines supplied"
+    },
+    "description": {
+      "ES": "Porcentaje de vacunas suministradas con respecto a las entregadas",
+      "EN": "Percentaje of new vaccines supplied in relation to vaccines provided"
+    },
+    "data_unit": {
+      "ES": "Porcentaje (%)",
+      "EN": "Percentage (%)"
+    }
+  },
+  "pob_vaccine_supplied_inc": {
+    "display_name": {
+      "ES": "Porcentaje de población vacunada",
+      "EN": "Percentage of vaccinated poblation"
+    },
+    "description": {
+      "ES": "Porcentaje de vacunadas suministradas con respecto a la población",
+      "EN": "Percentaje of vaccines supplied in relation to poblation"
+    },
+    "data_unit": {
+      "ES": "Porcentaje (%)",
+      "EN": "Percentage (%)"
+    }
   }
+
 }

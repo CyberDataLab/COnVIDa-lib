@@ -85,6 +85,26 @@ class Regions(object):
         return list_by_type
 
     @classmethod
+    def get_regions_population(cls, country_code='ES'):
+
+        if country_code not in cls.get_country_codes():
+            print("Country not implemented yet!")
+            return None
+
+        # first time using Regions, read configuration of REGIONS
+        if cls.__REGION_CONFIGURATION is None:
+            loaded = cls.__load_region_configuration(country_code)
+            if not loaded:
+                return None
+
+        regions_with_population = {}
+
+        for i in cls.__REGION_CONFIGURATION.keys():
+            regions_with_population[i] = int(cls.__REGION_CONFIGURATION[i]['population'])
+
+        return regions_with_population
+
+    @classmethod
     def get_country_codes(cls):
         """
         Gets the implemented country codes.

@@ -73,13 +73,14 @@ class COVID19DataSource(DataSource):
         '''
 
         urls = []
-        urls.append(
-            'https://raw.githubusercontent.com/montera34/escovid19data/master/data/output/covid19-spain_consolidated.csv')
+        # urls.append(
+        #     'https://raw.githubusercontent.com/montera34/escovid19data/master/data/output/covid19-spain_consolidated.csv')
         urls.append(
             'https://raw.githubusercontent.com/montera34/escovid19data/master/data/output/covid19-ccaa-spain_consolidated.csv')
         urls.append(
             'https://raw.githubusercontent.com/montera34/escovid19data/master/data/output/covid19-provincias-spain_consolidated.csv')
-
+        urls.append(
+            'https://raw.githubusercontent.com/montera34/escovid19data/master/data/original/vacunas/estado_vacunacion_.csv')
         return urls
 
     def _manage_response(self, response):
@@ -115,6 +116,7 @@ class COVID19DataSource(DataSource):
         '''
 
         region_representation_dict = Regions._get_property(self.regions, self.__class__.REGION_REPRESENTATION)
+        region_population_dict = Regions.get_regions_population()
 
         representation_ccaa_dict = {}
         representation_provinces_dict = {}
@@ -126,18 +128,40 @@ class COVID19DataSource(DataSource):
             else:
                 representation_provinces_dict[code_ine] = r
 
+        # Adaptation to vaccines dataset
+        representation_ccaa_vac_dict = {'Totales': 'España', 'Andalucía': 'CA Andalucía', 'Aragón': 'CA Aragón',
+                                        'Asturias': 'CA Principado de Asturias',
+                                        'Baleares': 'CA Islas Baleares', 'Canarias': 'CA Canarias',
+                                        'Cantabria': 'CA Cantabria', 'Castilla y Leon': 'CA Castilla y León',
+                                        'Castilla La Mancha': 'CA Castilla-La Mancha',
+                                        'Cataluña': 'CA Cataluña', 'C. Valenciana': 'CA Comunidad Valenciana',
+                                        'Extremadura': 'CA Extremadura', 'Galicia': 'CA Galicia',
+                                        'Madrid': 'CA Comunidad de Madrid', 'Murcia': 'CA Región de Murcia',
+                                        'Navarra': 'CA Comunidad Foral de Navarra', 'País Vasco': 'CA País Vasco',
+                                        'La Rioja': 'CA La Rioja', 'Ceuta': 'CA Ceuta', 'Melilla': 'CA Melilla'}
+
         # Fix esCOVID19data error
         if "intensive_care_per_1000000" in partial_requested_data.columns:
             partial_requested_data = partial_requested_data.rename(
                 columns={'intensive_care_per_1000000': 'intensive_care_per_100000'})
 
-        if "ine_code" not in partial_requested_data.columns:
-            partial_requested_data.insert(1, 'ine_code', 0)
+        # Vaccine
+        if "date_pub" in partial_requested_data.columns:
+            df = partial_requested_data.rename(
+                columns={"ccaa": "Region", 'date_pub': 'date', 'Dosis entregadas': 'vaccine_provided',
+                         'Dosis administradas': 'vaccine_supplied',
+                         '% sobre entregadas': 'vaccine_supplied_inc'})
+            df['Region'] = df['Region'].map(representation_ccaa_vac_dict)
 
-        df = partial_requested_data.rename(columns={"ine_code": "Region"})
-        df.set_index(df.Region.astype(str).str.zfill(2), inplace=True,
-                     drop=True)  # zfill used to change numbers 1, 2, 3... tu padded strings "01", "02"... (code ine)
+            df['date'] = pd.to_datetime(df['date'], dayfirst=True)
+            df.set_index(df.Region.astype(str).str.zfill(2), inplace=True, drop=True)
 
+        else:
+            df = partial_requested_data.rename(columns={"ine_code": "Region"})
+            df.set_index(df.Region.astype(str).str.zfill(2), inplace=True,
+                         drop=True)  # zfill used to change numbers 1, 2, 3... tu padded strings "01", "02"... (code ine)
+
+        print(df.columns)
         df['date'] = pd.to_datetime(df['date'], format='%Y-%m-%d')
         df.sort_values(['date'], inplace=True)
         df = df.drop(['Region', 'CCAA', 'ccaa', 'province', 'source_name', 'source', 'comments'], axis='columns',
@@ -146,16 +170,115 @@ class COVID19DataSource(DataSource):
         # Adaptation of dataitems
         if "province" in partial_requested_data.columns:
             df.rename(index=representation_provinces_dict, inplace=True)
-        elif "ccaa" in partial_requested_data.columns:
+        elif "ccaa" in partial_requested_data.columns and "date_pub" not in partial_requested_data.columns:
             df.rename(index=representation_ccaa_dict, inplace=True)
-        else:
-            df.rename(index=representation_spain_dict, inplace=True)
-            df = df.drop(['hospitalized'], axis='columns', errors='ignore')
-            df = df.rename(
-                columns={'daily_cases': 'num_casos', 'daily_cases_PCR_avg7': 'num_casos_prueba_pcr_avg7', 'daily_cases_PCR': 'num_casos_prueba_pcr', 'TestAc': 'num_casos_prueba_test_ac', 'hospitalized_new': 'hospitalized'})
 
         df = df.pivot_table(index='date', columns='Region').swaplevel(i=0, j=1, axis='columns')
         df.columns.rename("Item", level=1, inplace=True)
         df.set_index(pd.to_datetime(df.index, format="%Y-%m-%d"), inplace=True)
+
+        if "date_pub" in partial_requested_data.columns:
+            for i in df.columns.levels[0]:
+                df[i, 'pob_vaccine_supplied_inc'] = ((df[i, 'vaccine_supplied'] * 100) / region_population_dict[i]).round(2)
+
+        if ("ccaa" in partial_requested_data.columns or "province" in partial_requested_data.columns) and "date_pub" not in partial_requested_data.columns:
+            for i in df.columns.levels[0]:
+                df[i, 'accumulated_lethality'] = (df[i, 'deceased'] / df[i, 'cases_accumulated']).round(5)
+                df[i, 'daily_deaths_inc'] = df[i, 'daily_deaths_inc'] * 100
+
+        if "ccaa" in partial_requested_data.columns and "date_pub" not in partial_requested_data.columns:
+            # Adaptation of Spain region
+            try:
+                sum_dataitems = df.sum(axis=1, level=1)
+                df['España', 'num_casos'] = sum_dataitems['num_casos']
+                df['España', 'num_casos_prueba_pcr'] = sum_dataitems['num_casos_prueba_pcr']
+                df['España', 'num_casos_prueba_test_ac'] = sum_dataitems['num_casos_prueba_test_ac']
+                df['España', 'num_casos_prueba_ag'] = sum_dataitems['num_casos_prueba_ag']
+                df['España', 'num_casos_prueba_elisa'] = sum_dataitems['num_casos_prueba_elisa']
+                df['España', 'num_casos_prueba_desconocida'] = sum_dataitems['num_casos_prueba_desconocida']
+                df['España', 'daily_deaths'] = sum_dataitems['daily_deaths']
+
+                df['España', 'cases_accumulated'] = sum_dataitems['cases_accumulated']
+                df['España', 'cases_accumulated_PCR'] = sum_dataitems['cases_accumulated_PCR']
+                df['España', 'hospitalized'] = sum_dataitems['hospitalized']
+                df['España', 'intensive_care'] = sum_dataitems['intensive_care']
+                df['España', 'deceased'] = sum_dataitems['deceased']
+                df['España', 'recovered'] = sum_dataitems['recovered']
+
+                # Ventanas de tiempo
+                df['España', 'daily_deaths_avg7'] = sum_dataitems['daily_deaths_avg7']
+                df['España', 'cases_14days'] = sum_dataitems['cases_14days']
+
+                # Medias
+
+                def media_by_param(df, param, out, days):
+                    df['España', out] = 0
+                    cont = 0
+                    datainv = df.reindex(index=df.index[::-1])
+                    for i, idx in enumerate(datainv.index):
+                        valor = 0
+                        for idxx in datainv.index[i:]:
+                            if cont < days:
+                                valor += df.loc[idxx, ('España', param)]
+                                cont = cont + 1
+                        media = valor / days
+                        df.loc[idx, ('España', out)] = media
+                        cont = 0
+
+                media_by_param(df, 'num_casos', 'daily_cases_avg7', 7)
+                media_by_param(df, 'num_casos_prueba_pcr', 'num_casos_prueba_pcr_avg7', 7)
+                media_by_param(df, 'daily_deaths', 'daily_deaths_avg7', 7)
+                media_by_param(df, 'daily_deaths', 'daily_deaths_avg3', 3)
+
+                # IA
+                def ia_by_param(df, param, out, days):
+                    df['España', out] = 0
+                    cont = 0
+                    datainv = df.reindex(index=df.index[::-1])
+                    for i, idx in enumerate(datainv.index):
+                        valor = 0
+                        for idxx in datainv.index[i:]:
+                            if cont < days:
+                                valor += df.loc[idxx, ('España', param)]
+                                cont = cont + 1
+                        ia = ((valor * 100000) / region_population_dict['España']).round(2)
+                        df.loc[idx, ('España', out)] = ia
+                        cont = 0
+
+                ia_by_param(df, 'num_casos', 'ia14', 14)
+
+                # Lethality
+
+                df['España', 'accumulated_lethality'] = (
+                        df['España', 'deceased'] / df['España', 'cases_accumulated']).round(2)
+
+                # 100k
+
+                df['España', 'cases_per_cienmil'] = ((df['España', 'cases_accumulated'] * 100000) / region_population_dict['España']).round(2)
+                df['España', 'intensive_care_per_100000'] = (
+                            (df['España', 'intensive_care'] * 100000) / region_population_dict['España']).round(2)
+                df['España', 'hospitalized_per_100000'] = ((df['España', 'hospitalized'] * 100000) / region_population_dict['España']).round(2)
+                df['España', 'deceassed_per_100000'] = ((df['España', 'deceased'] * 100000) / region_population_dict['España']).round(2)
+
+                # percent
+
+                def percent_by_param(df, param, out, days):
+                    df['España', out] = 0
+                    cont = 0
+                    datainv = df.reindex(index=df.index[::-1])
+                    for i, idx in enumerate(datainv.index):
+                        valor = 0
+                        for idxx in datainv.index[i + 1:]:
+                            if cont < days:
+                                valor += df.loc[idxx, ('España', param)]
+                                cont = cont + 1
+                        percent = (df.loc[idx, ('España', param)] * 100) / valor
+                        df.loc[idx, ('España', out)] = percent.round(2)
+                        cont = 0
+
+                percent_by_param(df, 'daily_deaths', 'daily_deaths_inc', 1)
+
+            except KeyError as e:
+                print("Spain dataitems ERROR: ", e)
 
         return df
