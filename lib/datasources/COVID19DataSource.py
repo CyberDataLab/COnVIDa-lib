@@ -180,6 +180,7 @@ class COVID19DataSource(DataSource):
         if "date_pub" in partial_requested_data.columns:
             for i in df.columns.levels[0]:
                 df[i, 'pob_vaccine_supplied_inc'] = ((df[i, 'vaccine_supplied'] * 100) / region_population_dict[i]).round(2)
+                df[i, 'vaccine_supplied_inc'] = df[i, 'vaccine_supplied_inc'] * 100
 
         if ("ccaa" in partial_requested_data.columns or "province" in partial_requested_data.columns) and "date_pub" not in partial_requested_data.columns:
             for i in df.columns.levels[0]:

@@ -363,8 +363,8 @@
       "EN": "Case Fatality Rate (accumulated deaths / accumulated cases)"
     },
     "data_unit": {
-      "ES": "Número de personas",
-      "EN": "Number of persons"
+      "ES": "Porcentaje (%)",
+      "EN": "Percentage (%)"
     }
   },
   "vaccine_provided": {
