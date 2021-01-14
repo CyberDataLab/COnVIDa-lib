@@ -161,7 +161,6 @@ class COVID19DataSource(DataSource):
             df.set_index(df.Region.astype(str).str.zfill(2), inplace=True,
                          drop=True)  # zfill used to change numbers 1, 2, 3... tu padded strings "01", "02"... (code ine)
 
-        print(df.columns)
         df['date'] = pd.to_datetime(df['date'], format='%Y-%m-%d')
         df.sort_values(['date'], inplace=True)
         df = df.drop(['Region', 'CCAA', 'ccaa', 'province', 'source_name', 'source', 'comments'], axis='columns',
