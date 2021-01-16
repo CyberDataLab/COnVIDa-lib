@@ -114,7 +114,8 @@ Provides an interface for the library user to avoid the use of low-level functio
     Returns the implemented DataTypes in string format.
 
 ##### `get_sources_info()`
-    Prints the metadata associated to the supported data sources.
+    Prints and returns a dictionary with the metadata about the supported data sources
+
 
 ##### `get_data_items_names(data_type=None, language='ES')`
     Returns a dictionary with data sources as keys, and an array of associated data item names as values.

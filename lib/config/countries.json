@@ -7,6 +7,9 @@
     "code_ine": "00",
     "name": "Spain",
     "population": "46754778",
+    "aemet_stations": [
+      ""
+    ],
     "region_representations":[
         "nombre",
         "name",

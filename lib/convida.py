@@ -49,13 +49,16 @@ class COnVIDa:
     @classmethod
     def get_sources_info(cls):
         """
-        Returns the metadata about the supported data sources
+        Prints and returns a dictionary with the metadata about the supported data sources
         """
         if not cls.__DATA_SOURCES_INITIALIZED:
             cls.__init_data_sources()
-            
+        
+        sources_info = {}
         for DATA_SOURCE_CLASS in cls.__DATA_SOURCE_CLASSES:
-            print(DATA_SOURCE_CLASS()._get_source_info())
+            info = DATA_SOURCE_CLASS()._get_source_info()
+            sources_info[info[0]] = info[1:]
+        return sources_info
             
 
     @classmethod
@@ -379,6 +382,22 @@ class COnVIDa:
         return internalnames_displaynames_dic
 
         ## private methods
+        
+    
+    @classmethod
+    def _get_update_frequencies(cls):
+        """
+        Returns a dictionary with the update frequency of the data sources
+        """
+        if not cls.__DATA_SOURCES_INITIALIZED:
+            cls.__init_data_sources()
+        
+        update_freq = {}
+        for DATA_SOURCE_CLASS in cls.__DATA_SOURCE_CLASSES:
+            name, freq = DATA_SOURCE_CLASS()._get_update_frequency()
+            update_freq[name] = freq
+            
+        return update_freq
 
     @classmethod
     def __get_items_property_by_datasource(cls, data_type: DataType, propert, language):

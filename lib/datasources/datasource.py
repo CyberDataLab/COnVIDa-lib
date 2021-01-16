@@ -411,3 +411,10 @@ class DataSource(object):
         """
         
         return self.__class__.__name__,self.__class__.DATA_TYPE,self.__class__.TEMPORAL_GRANULARITY,self.__class__.REGIONAL_GRANULARITY, self.__class__.REGION_REPRESENTATION,self.__class__.DATA_FORMAT,self.__class__.UPDATE_FREQUENCY,self.__class__.DATA_ITEMS, self.__class__.DATA_ITEMS_INFO
+
+    def _get_update_frequency(self):
+        """
+        Returns the name and update frequency of the Data Source
+      
+        """
+        return self.__class__.__name__, self.__class__.UPDATE_FREQUENCY
