@@ -9,12 +9,18 @@ class MobilityDataSource(DataSource):
 
     Attributes
     ----------
-    DATA_FORMAT : DataFormat
-        Data Format of the resource (JSON or CSV)
     DATA_TYPE : DataType
         Data Type of the Data Source (TEMPORAL or GEOGRAPHICAL)
+    TEMPORAL_GRANULARITY : list of TemporalGranularity
+        List of temporal units of the time series (DAILY)
+    REGIONAL_GRANULARITY : list of RegionalGranularity
+        List of regional units of the data series (COMMUNITY or/and PROVINCE)
     REGION_REPRESENTATION : str
         Representation of the regions within the Data Source (iso_3166_2, ine code, ...)
+    DATA_FORMAT : DataFormat
+        Data Format of the resource (JSON or CSV)
+    UPDATE_FREQUENCY : int
+        Period, in days, taken by the official repository to update the data series.
     DATA_ITEMS : list of str
         Names of the data items literally used by the Data Source
     DATA_ITEMS_INFO : dic { str : dic { str : dic { str : str } } }
@@ -25,9 +31,12 @@ class MobilityDataSource(DataSource):
             Data source (Google or Apple)
         The second nested dic correspond to the keys 'EN' and 'ES', containing the English and Spanish texts respectively.
     """
-    DATA_FORMAT = None
     DATA_TYPE = None
+    TEMPORAL_GRANULARITY = None
+    REGIONAL_GRANULARITY = None
     REGION_REPRESENTATION = None
+    DATA_FORMAT = None
+    UPDATE_FREQUENCY = None
     DATA_ITEMS = None
     DATA_ITEMS_INFO = None
 

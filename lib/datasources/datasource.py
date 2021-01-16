@@ -12,6 +12,8 @@ from enum import Enum
 
 from datatype import DataType
 from regions import Regions
+from temporalgranularity import TemporalGranularity
+from regionalgranularity import RegionalGranularity
 
 
 # para no imprimir warnings
@@ -28,7 +30,6 @@ class DataFormat(Enum):
     """
     JSON = 0
     CSV = 1
-    
 
 class DataSource(object):
     """ 
@@ -225,7 +226,7 @@ class DataSource(object):
         request_again = True
 
         while request_again:
-
+           
             time.sleep(self.sleep_time_before_request)        # by default, sleep time is 0. If 429 http code is received, sleep time will be increased
 
             # json request
@@ -277,8 +278,8 @@ class DataSource(object):
         Initializes the class attributes of the Data Source by reading the configuration files
         """
         # fulfill class attributes in child nodes
-        if self.__class__.DATA_FORMAT is None:
-            self.__class__.DATA_FORMAT,self.__class__.DATA_TYPE,self.__class__.REGION_REPRESENTATION,self.__class__.DATA_ITEMS, self.__class__.DATA_ITEMS_INFO  = self.__read_config()
+        if self.__class__.DATA_TYPE is None:
+            self.__class__.DATA_TYPE,self.__class__.TEMPORAL_GRANULARITY,self.__class__.REGIONAL_GRANULARITY, self.__class__.REGION_REPRESENTATION,self.__class__.UPDATE_FREQUENCY,self.__class__.DATA_FORMAT,self.__class__.DATA_ITEMS, self.__class__.DATA_ITEMS_INFO  = self.__read_config()
 
             
     def __read_config(self):
@@ -287,12 +288,18 @@ class DataSource(object):
         
         Returns
         -------
-        DataFormat
-             Data Format of the resource (JSON or CSV)
         DataType
             Data Type of the Data Source (TEMPORAL or GEOGRAPHICAL)
+        list of TemporalGranularity
+            Temporal units of the time series (DAILY)
+        list of RegionalGranularity
+            Regional units of the data series (COMMUNITY, PROVINCE)
         str
             Representation of the regions within the Data Source (iso_3166_2, ine code, ...)
+        DataFormat
+             Data Format of the resource (JSON or CSV)
+        int
+             Update frequency of the data, in days, at the official repository
         list of str
             Names of the data items literally used by the Data Source
         dic { str : dic { str : dic { str : str } } }
@@ -319,18 +326,40 @@ class DataSource(object):
             return None
         
         data_source_name = self.__class__.__name__
+        
+        data_type = config[data_source_name]['DATA_TYPE']
+        if data_type == "temporal":     
+            data_type = DataType.TEMPORAL
+        elif data_type == "geographical":
+            data_type = DataType.GEOGRAPHICAL
+
+        
+        if data_type == DataType.TEMPORAL:
+            tgranularities = []
+            tgrans = config[data_source_name]['TEMPORAL_GRANULARITY']
+            for tgran in tgrans:
+                if tgran == "daily":     
+                    tgranularities.append(TemporalGranularity.DAILY)
+        else:
+            tgranularities = None
+        
+        rgranularities = []
+        rgrans = config[data_source_name]['REGIONAL_GRANULARITY']  
+        for rgran in rgrans: 
+            if rgran == "community":     
+                rgranularities.append(RegionalGranularity.COMMUNITY)
+            elif rgran == "province":
+                rgranularities.append(RegionalGranularity.PROVINCE)
+
+        region_representation = config[data_source_name]['REGION_REPRESENTATION']
+
         data_format = config[data_source_name]['DATA_FORMAT']
         if data_format == "json":
             data_format = DataFormat.JSON
-        else:
+        elif data_format == "csv":
             data_format = DataFormat.CSV
-        data_type = config[data_source_name]['DATA_TYPE']
-        if data_type == "temporal":
-            data_type = DataType.TEMPORAL
-        else:
-            data_type = DataType.GEOGRAPHICAL
-        region_representation = config[data_source_name]['REGION_REPRESENTATION']
-        
+
+        update_frequency = config[data_source_name]['UPDATE_FREQUENCY']
         
         ## read specific info of data items
         items_config_path = os.path.join(config_path,'data_sources')
@@ -348,4 +377,37 @@ class DataSource(object):
         
         data_items = list(data_items_info.keys())
         
-        return data_format, data_type, region_representation, data_items, data_items_info
+        return data_type, tgranularities, rgranularities, region_representation, data_format, update_frequency, data_items, data_items_info
+    
+    
+    def _get_source_info(self):
+        """
+        Returns the metadata of the Data Source
+        
+        Returns
+        -------
+        str
+            Name of the Data Source
+        DataType
+            Data Type of the Data Source (TEMPORAL or GEOGRAPHICAL)
+        list of TemporalGranularity
+            Temporal units of the time series (DAILY)
+        list of RegionalGranularity
+            Regional units of the data series (COMMUNITY, PROVINCE)
+        str
+            Representation of the regions within the Data Source (iso_3166_2, ine code, ...)
+        DataFormat
+             Data Format of the resource (JSON or CSV)
+        int
+             Update frequency of the data, in days, at the official repository
+        list of str
+            Names of the data items literally used by the Data Source
+        dic { str : dic { str : dic { str : str } } }
+            Information of each Data Item of the Data Source. The internal name (DATA_ITEMS) are the keys, whereas the following aspects are the keys of the first nested dic.
+                Display Name (used to change the third-party nomenclature to a desired custom one)
+                Description (meaning of the Data Item)
+                Data unit (metric of the Data Item values: kg, persons, etc.)
+            The second nested dic correspond to the keys 'EN' and 'ES', containing the English and Spanish texts respectively.
+        """
+        
+        return self.__class__.__name__,self.__class__.DATA_TYPE,self.__class__.TEMPORAL_GRANULARITY,self.__class__.REGIONAL_GRANULARITY, self.__class__.REGION_REPRESENTATION,self.__class__.UPDATE_FREQUENCY,self.__class__.DATA_FORMAT,self.__class__.DATA_ITEMS, self.__class__.DATA_ITEMS_INFO

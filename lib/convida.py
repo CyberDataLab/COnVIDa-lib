@@ -44,6 +44,19 @@ class COnVIDa:
         for data_type in DataType:
             data_types.append(str(data_type))
         return data_types
+    
+    
+    @classmethod
+    def get_sources_info(cls):
+        """
+        Returns the metadata about the supported data sources
+        """
+        if not cls.__DATA_SOURCES_INITIALIZED:
+            cls.__init_data_sources()
+            
+        for DATA_SOURCE_CLASS in cls.__DATA_SOURCE_CLASSES:
+            print(DATA_SOURCE_CLASS()._get_source_info())
+            
 
     @classmethod
     def get_data_items(cls, data_items='all', regions='ES', start_date=None, end_date=None, language='ES',
@@ -56,7 +69,7 @@ class COnVIDa:
         data_items : list of str
             list of data item names. By default, 'all' are collected.
         regions : list of str
-            list of region names. By default, 'ES' refers to all Spanish provinces.
+            list of region names. By default, 'ES' refers to all Spanish regions.
         start_date : pd.datetime
             first day to be considered in TEMPORAL data items. By default, None is established.
         end_date : pd.datetime

@@ -26,12 +26,12 @@ class Regions(object):
         Parameters
         ----------
         country_code: str
-            Country of the regions. Up to now, only 'ES' for Spanish provinces is available.
+            Country of the regions. Up to now, only 'ES' for Spanish regions is available.
 
         Returns
         -------
             list of str
-                A list with the names of the Spanish provinces.
+                A list with the names of the Spanish regions.
         """
 
         if country_code not in cls.get_country_codes():
@@ -47,21 +47,21 @@ class Regions(object):
         return list(cls.__REGION_CONFIGURATION.keys())
 
     @classmethod
-    def get_regions_by_type(cls, type='r', country_code='ES'):
+    def get_regions_by_type(cls, type='c', country_code='ES'):
         """
         Gets the implemented regions for a specific country code.
 
         Parameters
         ----------
         type: str
-            Region type. 'r' Region, 'p' Province.
+            Region type. 'c' Community, 'p' Province.
         country_code: str
-            Country of the regions. Up to now, only 'ES' for Spanish provinces is available.
+            Country of the regions. Up to now, only 'ES' for Spanish regions is available.
 
         Returns
         -------
             list of str
-                A list with the names of the Spanish provinces.
+                A list with the names of the Spanish regions.
         """
 
         if country_code not in cls.get_country_codes():
@@ -77,7 +77,7 @@ class Regions(object):
         list_by_type = []
 
         for i in cls.__REGION_CONFIGURATION.keys():
-            if type == 'r' and 'CA' in i:
+            if type == 'c' and 'CA' in i:
                 list_by_type.append(cls.__REGION_CONFIGURATION[i]['nombre'])  # cls.__REGION_CONFIGURATION[i]['nombre']
             elif type == 'p' and 'CA' not in i and int(cls.__REGION_CONFIGURATION[i]['code_ine']) is not 0:
                 list_by_type.append(cls.__REGION_CONFIGURATION[i]['nombre'])
@@ -112,7 +112,7 @@ class Regions(object):
         Returns
         -------
         list of str
-            a list with the supported country codes. Up to now, only 'ES' for Spanish provinces is available. 
+            a list with the supported country codes. Up to now, only 'ES' for Spain is available. 
         """
 
         COUNTRIES = ['ES']
@@ -133,7 +133,7 @@ class Regions(object):
         region_representation: str
             Name of the region representation to be queried, namely 'nombre', 'iso_3166_2', 'literal_ine', 'code_ine', 'name' or 'aemet_stations'.
         country_code: str
-            Country of the regions. Up to now, only 'ES' for Spanish provinces is available.
+            Country of the regions. Up to now, only 'ES' for Spanish regions is available.
 
         Returns
         -------
@@ -185,7 +185,7 @@ class Regions(object):
         Parameters
         ----------
         country_code: str
-            Country of the regions. Up to now, only 'ES' for Spanish provinces is available.
+            Country of the regions. Up to now, only 'ES' for Spanish regions is available.
         
         Returns
         -------
@@ -210,9 +210,9 @@ class Regions(object):
             cls.__REGION_CONFIGURATION = json_list
 
         except FileNotFoundError as e:
-            print("ERROR: Configuration file of " + str(country_code) + "region  not found!")
+            print("ERROR: Configuration files of " + str(country_code) + "regions not found!")
             return False
         except json.JSONDecodeError as e:
-            print("ERROR: Configuration file of " + str(country_code) + "region is not well built!", e)
+            print("ERROR: Configuration files of " + str(country_code) + "regions not well built!", e)
             return False
         return True
