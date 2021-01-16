@@ -279,7 +279,7 @@ class DataSource(object):
         """
         # fulfill class attributes in child nodes
         if self.__class__.DATA_TYPE is None:
-            self.__class__.DATA_TYPE,self.__class__.TEMPORAL_GRANULARITY,self.__class__.REGIONAL_GRANULARITY, self.__class__.REGION_REPRESENTATION,self.__class__.UPDATE_FREQUENCY,self.__class__.DATA_FORMAT,self.__class__.DATA_ITEMS, self.__class__.DATA_ITEMS_INFO  = self.__read_config()
+            self.__class__.DATA_TYPE,self.__class__.TEMPORAL_GRANULARITY,self.__class__.REGIONAL_GRANULARITY, self.__class__.REGION_REPRESENTATION,self.__class__.DATA_FORMAT,self.__class__.UPDATE_FREQUENCY,self.__class__.DATA_ITEMS, self.__class__.DATA_ITEMS_INFO  = self.__read_config()
 
             
     def __read_config(self):
@@ -410,4 +410,4 @@ class DataSource(object):
             The second nested dic correspond to the keys 'EN' and 'ES', containing the English and Spanish texts respectively.
         """
         
-        return self.__class__.__name__,self.__class__.DATA_TYPE,self.__class__.TEMPORAL_GRANULARITY,self.__class__.REGIONAL_GRANULARITY, self.__class__.REGION_REPRESENTATION,self.__class__.UPDATE_FREQUENCY,self.__class__.DATA_FORMAT,self.__class__.DATA_ITEMS, self.__class__.DATA_ITEMS_INFO
+        return self.__class__.__name__,self.__class__.DATA_TYPE,self.__class__.TEMPORAL_GRANULARITY,self.__class__.REGIONAL_GRANULARITY, self.__class__.REGION_REPRESENTATION,self.__class__.DATA_FORMAT,self.__class__.UPDATE_FREQUENCY,self.__class__.DATA_ITEMS, self.__class__.DATA_ITEMS_INFO

@@ -74,15 +74,36 @@ The [test lib notebook](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/
 #### [`Regions class`](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/regions.py)
 Implements the required information for Regions management
 
-##### `get_country_codes()` 
-    Returns a list with the supported country codes. Right now, only 'ES' for Spanish regiones is available, although this is easily extensible to other countries. 
-
-
 ##### `get_regions(country_code='ES')` 
-    Returns a list with the names of the Spanish Autonomous Regions.
+    Returns a list with the names of the regions associated with a country code.
 
     Parameters
-    - country_code: string indicating the country of the regions. Right now, only 'ES' for Spanish regions is available.
+    - country_code: str
+        country code of the regions to retrieve.
+    
+##### `get_regions_by_type(cls, type='c', country_code='ES')`
+    Returns a list with the names of the regions of a specific type associated with a country code.
+
+    Parameters
+    - type: str
+          For the country selected, the regional granularity to get. For Spain: 'c' Community, 'p' Province.
+    - country_code: str
+          country of the regions
+
+
+##### `get_regions_population(cls, country_code='ES'):`
+    
+    Returns the number of citizens per region in a specific country
+
+    Parameters
+    - country_code: str
+        Country code of the regions. 
+
+##### `get_country_codes()` 
+    Returns a dictionary with the supported countries as keys, and their codes as values.
+
+
+
 
 ***
 
