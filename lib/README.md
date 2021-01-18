@@ -43,28 +43,16 @@ A Data Item is a low-grain resource which codifies a specific piece of informati
 
 
 ### Data Type
-COnVIDa library considers two types of Data Items used to interpret and analyze them, namely:
+The COnVIDa library considers two types of Data Items used to interpret and analyze them, namely:
 
-* **Temporal**: The data items are indexed by time units (up to date, only days supported), so they will show in that temporal frequency. In particular, _COVID19, Mobility, MoMo_ and _AEMET_ data items are temporal. For instance, if we select the COVID19 cases in Murcia from 21/02/2020 until 14/05/2020, the X axis will show all the periods between those two dates, while Y axis will show the COVID19 cases in Murcia. 
-    
-* **Geographical**: The data items are indexed by region units. In particular, current _INE_ data items are geographical. It is worth mentioning that the user of this library could transform temporal data items to a geographical perspective by applying any kind of aggregation scheme. For instance, in COnVIDa service, if we choose the analysis type by regions and select some temporal data items, then COnVIDa service will descriptive statistical functions of those data items within the specified data ranges. 
-
-### Temporal Granularity
-The current release of COnVIDa library considers the following temporal units:
-
-* **DAILY**: For temporal data sources, the data items should be presented by days. For creating new data sources to be directly integrated in the platform, developers should guarantee that granularity in the time series.
-
-_More granularities can be supported in the future_
+* **Temporal**: The data items are indexed by days, so they will show the daily values. In particular, _COVID19, Mobility, MoMo_ and _AEMET_ data items are temporal. For instance, if we select the COVID19 cases in Murcia from 21/02/2020 until 14/05/2020, the X axis will show all the days between those two dates, while Y axis will show the daily COVID19 cases in Murcia. 
     
     
-### Regional Granularity
-The current release of COnVIDa library supports the following regional units:
+* **Geographical**: The data items are indexed by regions and the data is aggregated with absolute values. In particular, current _INE_ data items are geographical. It is worth mentioning that the user of this library could transform temporal data items to a geographical perspective by applying any kind of aggregation scheme. For instance, in COnVIDa service, if we choose the analysis type by regions and select some temporal data items, then COnVIDa service will use the mean of those data items within the specified data ranges. 
 
-* **COMMUNITY**: The data items can be presented per Spanish communities. 
 
-* **PROVINCE**: The data items can be presented per Spanish provinces. 
-
-_More granularities can be supported in the future_
+### Regions
+Regions are divisions of the territory that allow a more exhaustive and deeper collection and analysis. Currently, they are implemented as the Autonomous Regions in Spain, although the granularity (provinces, minicipalities, etc.) can be easily adapted. In this sense, _COnVIDa_ lib allows filtering the aforementioned data items by regions.
 
 
 ## User guidelines
@@ -74,36 +62,15 @@ The [test lib notebook](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/
 #### [`Regions class`](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/regions.py)
 Implements the required information for Regions management
 
-##### `get_regions(country_code='ES')` 
-    Returns a list with the names of the regions associated with a country code.
-
-    Parameters
-    - country_code: str
-        country code of the regions to retrieve.
-    
-##### `get_regions_by_type(cls, type='c', country_code='ES')`
-    Returns a list with the names of the regions of a specific type associated with a country code.
-
-    Parameters
-    - type: str
-          For the country selected, the regional granularity to get. For Spain: 'c' Community, 'p' Province.
-    - country_code: str
-          country of the regions
-
-
-##### `get_regions_population(cls, country_code='ES'):`
-    
-    Returns the number of citizens per region in a specific country
-
-    Parameters
-    - country_code: str
-        Country code of the regions. 
-
 ##### `get_country_codes()` 
-    Returns a dictionary with the supported countries as keys, and their codes as values.
+    Returns a list with the supported country codes. Right now, only 'ES' for Spanish regiones is available, although this is easily extensible to other countries. 
 
 
+##### `get_regions(country_code='ES')` 
+    Returns a list with the names of the Spanish Autonomous Regions.
 
+    Parameters
+    - country_code: string indicating the country of the regions. Right now, only 'ES' for Spanish regiones is available.
 
 ***
 
@@ -112,10 +79,6 @@ Provides an interface for the library user to avoid the use of low-level functio
 
 ##### `get_data_types()`
     Returns the implemented DataTypes in string format.
-
-##### `get_sources_info()`
-    Prints and returns a dictionary with the metadata about the supported data sources
-
 
 ##### `get_data_items_names(data_type=None, language='ES')`
     Returns a dictionary with data sources as keys, and an array of associated data item names as values.
@@ -149,7 +112,7 @@ Provides an interface for the library user to avoid the use of low-level functio
 
     Parameters
     - data_items: list of data item names. By default, 'all' are collected.
-    - regions: list of region names. By default, 'ES' refers to all Spanish regions.
+    - regions: list of region names. By default, 'ES' refers to all Spanish Autonomous Regions.
     - start_date: first day in pandas datetime to be considered in TEMPORAL data items. By default, None is established.
     - end_date: last day in pandas datetime to be considered in TEMPORAL data items. By default, None is established.
     - language: language of the returned data. 
@@ -171,12 +134,9 @@ _COnVIDa-lib_ constitutes an object-oriented package ready to be extended. Consi
 
 1. First of all, some elements should be defined regarding your new Data Source:
     * Name of the Data Source
-    * Data Type of the Data Source (`TEMPORAL` or `GEOGRAPHICAL`)
-    * Temporal Granularity the Data Source (`DAILY`)
-    * Regional Granularity the Data Source (`COMMUNITIES or/and PROVINCES`)
-    * Representation of the regions within the Data Source (_iso\_3166\_2_, _ine code_, ...)
     * Data Format of the resource (`JSON` or `CSV`)
-    * Update Frequency of the data series (in days)
+    * Data Type of the Data Source (`TEMPORAL` or `GEOGRAPHICAL`)
+    * Representation of the regions within the Data Source (_iso\_3166\_2_, _ine code_, ...)
     * Information of each Data Item of the Data Source
         * Name (literally used by the Data Source)
         * Display Name (used to change the third-party nomenclature to a desired custom one)
@@ -185,9 +145,9 @@ _COnVIDa-lib_ constitutes an object-oriented package ready to be extended. Consi
 
 2. Configure the aforementioned principal elements of your new Data Source:
     
-    * The name, data type, temporal and regional granularities, region representation, data format, and update frequency should be included in the [data sources configuration file](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/datasources/config/data-sources-config.json). With this aim, append a new entry in the JSON object with the data source name as a key, and a dictionary with the corresponding information regarding  `DATA TYPE`, `TEMPORAL GRANULARITY`, `REGIONAL GRANULARITY`, `REGION REPRESENTATION`, `DATA FORMAT`, and `UPDATE FREQUENCY` as values. If needed, specific config elements of your Data Source can be also included here (_for example, [AEMET data source](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/datasources/AEMETDataSource.py) defines its `API KEY` necessary for it to work_).
+    * The name, data format, data type and region representation should be included in the [datasources configuration file](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/datasources/config/data-sources-config.json). With this aim, append a new entry in the JSON object with the data source name as a key, and a dictionary with the corresponding information regarding  `DATA FORMAT`, `DATA TYPE` and `REGION REPRESENTATION` as values. If needed, specific config elements of your Data Source can be also included here (_for example, [AEMET data source](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/datasources/AEMETDataSource.py) defines its `API KEY` necessary for it to work_).
     
-    * For each region, the representation used by your Data Source should be appended accordingly in the [regions configuration file](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/config/ES-regions.json) (in case it does not exist yet). Note that the key of the new entries to be added for each region should match with the aforementioned `REGION REPRESENTATION` attribute (defined in [data sources configuration file](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/datasources/config/data-sources-config.json)).
+    * For each Spanish region, the representation used by your Data Source should be appended accordingly in the [regions configuration file](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/config/ES-regions.json) (in case it does not exist yet). Note that the key of the new entries to be added for each region should match with the aforementioned `REGION REPRESENTATION` attribute (defined in [datasources configuration file](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/datasources/config/data-sources-config.json)).
 
     * The information of the Data Items offered by your Data Source should be included in a new configuration file `YourDataSourceName-config.json` in the [specific data source configuration folder](https://github.com/CyberDataLab/COnVIDa-lib/tree/master/lib/datasources/config/data_sources). As in the other configuration files residing in that folder (which may guide you in this procedure), each Data Item should constitute an entry. In particular, each entry is defined by the Data Item name (literally used by the Data Source) as the key and the properties `display_name`, `description` and `data_unit` as the values. The latter should include, in turn, translation in both Spanish and English (or any other language you may define). If needed, specific properties of your Data Items can be also included here (for example, the [Mobility data source](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/lib/datasources/config/data_sources/MobilityDataSource-config.json) includes the `data_source` attribute to distinguish the resource where each Data Item comes from).
 
@@ -207,19 +167,16 @@ _COnVIDa-lib_ constitutes an object-oriented package ready to be extended. Consi
 
     * Declare to `None` the following class attributes:
         ```python
-        DATA_TYPE = None
-        TEMPORAL_GRANULARITY = None
-        REGIONAL_GRANULARITY = None
-        REGION_REPRESENTATION = None
         DATA_FORMAT = None
-        UPDATE_FREQUENCY = None
+        DATA_TYPE = None
+        REGION_REPRESENTATION = None
         DATA_ITEMS = None
         DATA_ITEMS_INFO = None
         ```
         In the first execution of the class, these class attributes will load the values from the config files.
 
 
-    * Define and fulfill the following functions Specifically, the function which processes partial data should apply the necessary transformations to return data compliant with standard temporal and regional granularity:
+    * Define and fulfill the following functions:
 
         ```python
         def __init__(self, data_items=None, regions=None, start_date=None, end_date=None):
@@ -228,7 +185,7 @@ _COnVIDa-lib_ constitutes an object-oriented package ready to be extended. Consi
         
         Parameters
         - data_items: list of data item names. By default, 'all' are collected.
-        - regions: list of region names. By default, 'ES' refers to Spanish regions.
+        - regions: list of region names. By default, 'ES' refers to all Spanish provinces.
         - start_date: first day in pandas datetime to be considered in TEMPORAL data items. By default, None is established.  If the Data Source is a GOGRAPHICAL data type, then it can be supressed.
         - end_date: last day in pandas datetime to be considered in TEMPORAL data items. By default, None is established.  If the Data Source is a GOGRAPHICAL data type, then it can be supressed.
         '''

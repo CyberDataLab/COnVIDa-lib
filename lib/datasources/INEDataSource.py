@@ -9,18 +9,12 @@ class INEDataSource(DataSource):
 
     Attributes
     ----------
-    DATA_TYPE : DataType
-        Data Type of the Data Source (TEMPORAL or GEOGRAPHICAL)
-    TEMPORAL_GRANULARITY : list of TemporalGranularity
-        List of temporal units of the time series (None)
-    REGIONAL_GRANULARITY : list of RegionalGranularity
-        List of regional units of the data series (COMMUNITY or/and PROVINCE)
-    REGION_REPRESENTATION : str
-        Representation of the regions within the Data Source (iso_3166_2, ine code, ...)
     DATA_FORMAT : DataFormat
         Data Format of the resource (JSON or CSV)
-    UPDATE_FREQUENCY : int
-        Period, in days, taken by the official repository to update the data series.
+    DATA_TYPE : DataType
+        Data Type of the Data Source (TEMPORAL or GEOGRAPHICAL)
+    REGION_REPRESENTATION : str
+        Representation of the regions within the Data Source (iso_3166_2, ine code, ...)
     DATA_ITEMS : list of str
         Names of the data items literally used by the Data Source
     DATA_ITEMS_INFO : dic { str : dic { str : dic { str : str } } }
@@ -30,12 +24,9 @@ class INEDataSource(DataSource):
             Data unit (metric of the Data Item values: kg, persons, etc.)
         The second nested dic correspond to the keys 'EN' and 'ES', containing the English and Spanish texts respectively.
     """
-    DATA_TYPE = None
-    TEMPORAL_GRANULARITY = None
-    REGIONAL_GRANULARITY = None
-    REGION_REPRESENTATION = None
     DATA_FORMAT = None
-    UPDATE_FREQUENCY = None
+    DATA_TYPE = None
+    REGION_REPRESENTATION = None
     DATA_ITEMS = None
     DATA_ITEMS_INFO = None
     

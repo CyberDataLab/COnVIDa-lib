@@ -20,9 +20,9 @@ When implementing the [_COnVIDa server_](https://github.com/CyberDataLab/COnVIDa
 The name of the Data Cache should follow the format `cache_YYYY-MM-DD.h5` (as in the [example](https://github.com/CyberDataLab/COnVIDa-lib/tree/master/server/data)), which specifically indicates the last day contemplated in the cache (that is, the last update). In addition, it should be placed within the `data/` folder.
 
 ### Data Update
-Once the Data Cache has been created, we will probably want to update it with some frequency. To this end, [_COnVIDa server_](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/server/convida_server.py) implements the `daily_update()` function to append new data in the cache, respecting the update frequency of each data source. 
+Once the Data Cache has been created, we will probably want to update it with some frequency. To this end, [_COnVIDa server_](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/server/convida_server.py) implements the `daily_update()` function to append new data to the last entry (day) contained in the cache. 
 
-The update procedure of COnVIDa ensures that data is always up to date. With that objective, the thread daily checks the update frequency and the timestamp of the last update of each data source and, if required, it accordingly collects the necessary data series. It is worth noting that the temporal granularity of the time series should not necessarily coincide with the refresh time in the availability of the data in original repositories Additionally, it is also possible to indicate how many days backward to go from the last contemplated day. For example, AEMET updates its data with some days of delay. If the data cache is updated until yesterday, and the `daily_update()` is executed without 'days back', then we will only download empty values. That is why  [_COnVIDa server class_](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/server/convida_server.py) defines a default `DAILY UPDATE` of 20 days that are subtracted from the last day of the cache at the time of the update.
+By default, when the method is executed, all Data Items of all Data Sources are updated from the last day contemplated on the cache (last entry and name of the binary file) until today. Additionally, it is also possible to indicate how many days backward to go from the last contemplated day. For example, AEMET updates its data with 4 days of delay. If the data cache is updated until yesterday, and the `daily_update()` is executed without 'days back', then we will only download empty values. That is why  [_COnVIDa server class_](https://github.com/CyberDataLab/COnVIDa-lib/blob/master/server/convida_server.py) defines a default `DAILY UPDATE` of 5 days that are subtracted from the last day of the cache at the time of the update.
 
 
 ## User guidelines
@@ -47,7 +47,7 @@ Implements the _COnVIDa service_ from a server perspective that dispatches user 
     * This COnVIDa-server example is designed to contain only ONE DATA CACHE FILE in the data dir.
 
 ##### `daily_update() -> bool` 
-    Checks which data source should be refreshed and accordingly updates the Data Cache (which is loaded in memory) FROM the last day cached minus the number of days indicated in class attribute __UPDATE_DAYS UNTIL today. This method removes the outdated file and creates the up-to-date file in the data path (class attribute__DATA_PATH) with the filename `cache_YYYY-MM-DD.h5` of today.
+    Updates the Data Cache (which is loaded in memory) FROM the last day cached minus the number of days indicated in class attribute __UPDATE_DAYS UNTIL today. This method removes the outdated file and creates the up-to-date file in the data path (class attribute__DATA_PATH) with the filename `cache_YYYY-MM-DD.h5` of today.
 
     Returns True if the update was done, False otherwise.
 
@@ -60,10 +60,6 @@ Implements the _COnVIDa service_ from a server perspective that dispatches user 
 
 ##### `get_max_date()`
     Returns the last cached day
-
-##### `get_last_update_dates()`
-    Gets the last update for each Data Source
-    In particular, a pd.DataFrame with the date of the last update day (column), per Data Source (index)
 
 ##### `get_data_items(data_items: list, regions: list, start_date=None, end_date=None, language='ES')`
     Returns a DataFrame with the required information. 
