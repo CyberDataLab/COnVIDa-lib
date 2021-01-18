@@ -44,8 +44,7 @@ class COnVIDa:
         for data_type in DataType:
             data_types.append(str(data_type))
         return data_types
-    
-    
+
     @classmethod
     def get_sources_info(cls):
         """
@@ -53,13 +52,12 @@ class COnVIDa:
         """
         if not cls.__DATA_SOURCES_INITIALIZED:
             cls.__init_data_sources()
-        
+
         sources_info = {}
         for DATA_SOURCE_CLASS in cls.__DATA_SOURCE_CLASSES:
             info = DATA_SOURCE_CLASS()._get_source_info()
             sources_info[info[0]] = info[1:]
         return sources_info
-            
 
     @classmethod
     def get_data_items(cls, data_items='all', regions='ES', start_date=None, end_date=None, language='ES',
@@ -382,8 +380,7 @@ class COnVIDa:
         return internalnames_displaynames_dic
 
         ## private methods
-        
-    
+
     @classmethod
     def _get_update_frequencies(cls):
         """
@@ -391,12 +388,12 @@ class COnVIDa:
         """
         if not cls.__DATA_SOURCES_INITIALIZED:
             cls.__init_data_sources()
-        
+
         update_freq = {}
         for DATA_SOURCE_CLASS in cls.__DATA_SOURCE_CLASSES:
             name, freq = DATA_SOURCE_CLASS()._get_update_frequency()
             update_freq[name] = freq
-            
+
         return update_freq
 
     @classmethod
