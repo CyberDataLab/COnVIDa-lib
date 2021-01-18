@@ -46,6 +46,20 @@ class COnVIDa:
         return data_types
 
     @classmethod
+    def get_sources_info(cls):
+        """
+        Prints and returns a dictionary with the metadata about the supported data sources
+        """
+        if not cls.__DATA_SOURCES_INITIALIZED:
+            cls.__init_data_sources()
+
+        sources_info = {}
+        for DATA_SOURCE_CLASS in cls.__DATA_SOURCE_CLASSES:
+            info = DATA_SOURCE_CLASS()._get_source_info()
+            sources_info[info[0]] = info[1:]
+        return sources_info
+
+    @classmethod
     def get_data_items(cls, data_items='all', regions='ES', start_date=None, end_date=None, language='ES',
                        errors='ignore'):
         """
@@ -56,7 +70,7 @@ class COnVIDa:
         data_items : list of str
             list of data item names. By default, 'all' are collected.
         regions : list of str
-            list of region names. By default, 'ES' refers to all Spanish provinces.
+            list of region names. By default, 'ES' refers to all Spanish regions.
         start_date : pd.datetime
             first day to be considered in TEMPORAL data items. By default, None is established.
         end_date : pd.datetime
@@ -366,6 +380,21 @@ class COnVIDa:
         return internalnames_displaynames_dic
 
         ## private methods
+
+    @classmethod
+    def _get_update_frequencies(cls):
+        """
+        Returns a dictionary with the update frequency of the data sources
+        """
+        if not cls.__DATA_SOURCES_INITIALIZED:
+            cls.__init_data_sources()
+
+        update_freq = {}
+        for DATA_SOURCE_CLASS in cls.__DATA_SOURCE_CLASSES:
+            name, freq = DATA_SOURCE_CLASS()._get_update_frequency()
+            update_freq[name] = freq
+
+        return update_freq
 
     @classmethod
     def __get_items_property_by_datasource(cls, data_type: DataType, propert, language):

@@ -1,28 +1,43 @@
 {
 "INEDataSource": {
-    "DATA_FORMAT":"json",
     "DATA_TYPE":"geographical",
-    "REGION_REPRESENTATION": "literal_ine"
+    "TEMPORAL_GRANULARITY":["daily"],
+    "REGIONAL_GRANULARITY":["community"],
+    "REGION_REPRESENTATION": "literal_ine",
+    "DATA_FORMAT":"json",
+    "UPDATE_FREQUENCY":90
 },
 "AEMETDataSource": {
-    "DATA_FORMAT":"json",
     "DATA_TYPE":"temporal",
+    "TEMPORAL_GRANULARITY":["daily"],
+    "REGIONAL_GRANULARITY":["community"],
     "REGION_REPRESENTATION": "aemet_stations",
-    "API_KEY":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjeWJlcmRhdGFsYWJAZ21haWwuY29tIiwianRpIjoiYjIyNThmYTAtNDY5NS00NjgzLTkxY2ItMGRiM2Q3MzRlNjFhIiwiaXNzIjoiQUVNRVQiLCJpYXQiOjE1ODkxOTQ0MjgsInVzZXJJZCI6ImIyMjU4ZmEwLTQ2OTUtNDY4My05MWNiLTBkYjNkNzM0ZTYxYSIsInJvbGUiOiIifQ.8gsU201dfpqhTVVol-tp8Ltzy3UQarzupVhqMdvF6OI"
+    "DATA_FORMAT":"json",
+    "UPDATE_FREQUENCY":1,
+"API_KEY":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjeWJlcmRhdGFsYWJAZ21haWwuY29tIiwianRpIjoiYjIyNThmYTAtNDY5NS00NjgzLTkxY2ItMGRiM2Q3MzRlNjFhIiwiaXNzIjoiQUVNRVQiLCJpYXQiOjE1ODkxOTQ0MjgsInVzZXJJZCI6ImIyMjU4ZmEwLTQ2OTUtNDY4My05MWNiLTBkYjNkNzM0ZTYxYSIsInJvbGUiOiIifQ.8gsU201dfpqhTVVol-tp8Ltzy3UQarzupVhqMdvF6OI"
 },
 "COVID19DataSource": {
-    "DATA_FORMAT":"csv",    
     "DATA_TYPE":"temporal",
-    "REGION_REPRESENTATION": "code_ine"
+    "TEMPORAL_GRANULARITY":["daily"],
+    "REGIONAL_GRANULARITY":["community", "province"],
+    "REGION_REPRESENTATION": "code_ine",
+    "DATA_FORMAT":"csv",
+    "UPDATE_FREQUENCY":1
 },
 "MobilityDataSource": {
-    "DATA_FORMAT":"csv",
     "DATA_TYPE":"temporal",
-    "REGION_REPRESENTATION": "name"
+    "TEMPORAL_GRANULARITY":["daily"],
+    "REGIONAL_GRANULARITY":["community"],
+    "REGION_REPRESENTATION": "name",
+    "DATA_FORMAT":"csv",
+    "UPDATE_FREQUENCY":1
 },
 "MoMoDataSource": {
-    "DATA_FORMAT":"csv",
     "DATA_TYPE":"temporal",
-    "REGION_REPRESENTATION": "code_ine"
+    "TEMPORAL_GRANULARITY":["daily"],
+    "REGIONAL_GRANULARITY":["community"],
+    "REGION_REPRESENTATION": "code_ine",
+    "DATA_FORMAT":"csv",
+    "UPDATE_FREQUENCY":1
 }
 }
