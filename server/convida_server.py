@@ -25,7 +25,7 @@ class convida_server():
     __CACHE_PATH : str
         the relative path to the Data Cache file.
     __UPDATE_DAYS : int
-        number of retroactive days to update  from the last contained in the Data Cache.
+        number of retroactive days to update from the last contained in the Data Cache.
     __DATA : dic { DataType : pd.DataFrame }
         the Data Cache loaded in memory,
             DataType.TEMPORAL contains the DataFrame with temporal data items
@@ -46,6 +46,8 @@ class convida_server():
         DataType.GEOGRAPHICAL: None
     }
 
+    __LAST_UPDATE_TIMESTAMPS = None
+
     __LOGGER = None
 
     @classmethod
@@ -54,13 +56,15 @@ class convida_server():
         Initializes the log system which produces information in ./log/convida.log
         It must be executed just at the beginning, before any other function.
         """
-        log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-        cls.__LOGGER = logging.getLogger(cls.__name__)
-        cls.__LOGGER.setLevel('INFO')
-        file_handler = logging.FileHandler("log/convida.log")
-        formatter = logging.Formatter(log_format)
-        file_handler.setFormatter(formatter)
-        cls.__LOGGER.addHandler(file_handler)
+        
+        if cls.__LOGGER is None:
+            log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            cls.__LOGGER = logging.getLogger(cls.__name__)
+            cls.__LOGGER.setLevel('INFO')
+            file_handler = logging.FileHandler("log/convida.log")
+            formatter = logging.Formatter(log_format)
+            file_handler.setFormatter(formatter)
+            cls.__LOGGER.addHandler(file_handler)
 
     @classmethod
     def load_data(cls, cache_filename=None):
@@ -121,8 +125,18 @@ class convida_server():
             cls.__LOGGER.exception(f"ERROR reading geographical data in '{cache_filename}'", str(e))
             raise
 
+        try:
+            last_updates = pd.read_hdf(path_or_buf=cache_filename,
+                                        key='last_updates',
+                                        mode='r')
+        except Exception as e:
+            #cls.__LOGGER.info(f"WARNING no last update timestamp in '{cache_filename}'", str(e))
+            last_updates = None
+
+
         cls.__DATA[DataType.TEMPORAL] = temporal_data
         cls.__DATA[DataType.GEOGRAPHICAL] = geographical_data
+        cls.__LAST_UPDATE_TIMESTAMPS = last_updates
         cls.__CACHE_PATH = cache_filename
         cls.__LOGGER.info("Data loaded in memory")
         return
@@ -130,7 +144,7 @@ class convida_server():
     @classmethod
     def daily_update(cls) -> bool:
         """
-        Updates the Data Cache (which is loaded in memory) FROM the last day cached minus the number of days indicated in class attribute __UPDATE_DAYS UNTIL today. This method removes the outdated file and creates the up-to-date file in the data path (class attribute__DATA_PATH) with the filename `cache_YYYY-MM-DD.h5` of today.
+        Checks which data source should be refreshed and accordingly updates the Data Cache (which is loaded in memory) FROM the last day cached minus the number of days indicated in class attribute __UPDATE_DAYS UNTIL today. This method removes the outdated file and creates the up-to-date file in the data path (class attribute__DATA_PATH) with the filename `cache_YYYY-MM-DD.h5` of today.
 
         Returns
         -------
@@ -156,6 +170,28 @@ class convida_server():
             cls.__LOGGER.exception(f"ERROR finding cache file", str(e))
             return False
 
+        
+        # check which data sources should be updated
+        datasources_to_update = []
+
+        dsi = COnVIDa._get_update_frequencies()
+        for ds in dsi.keys():
+            if cls.__LAST_UPDATE_TIMESTAMPS is None:
+                datasources_to_update.append(ds)
+            else:
+                if cls.__LAST_UPDATE_TIMESTAMPS.loc[ds,'last_update'] is None:
+                    datasources_to_update.append(ds)
+                else:
+                    days_without_updating = (today-cls.__LAST_UPDATE_TIMESTAMPS.loc[ds,'last_update']).days
+                    if days_without_updating >= dsi[ds]:
+                        datasources_to_update.append(ds)
+                
+        if not datasources_to_update:
+            cls.__LOGGER.info("No source is out of date")
+            return True
+
+            
+            
         # all regions
         all_regions = Regions.get_regions('ES')
 
@@ -165,16 +201,23 @@ class convida_server():
         # last cache file
         last_cache_file = cls.__CACHE_PATH
 
+
         ####### GEOGRAPHICAL UPDATE #######
 
         # all data items
         try:
             datasources = COnVIDa.get_data_items_names(DataType.GEOGRAPHICAL, language='internal')
             all_data_items = []
-            for data_items in datasources.values():
-                all_data_items += data_items
+            
+            for datasource in datasources.keys():
+                if datasource in datasources_to_update:
+                    for data_item in datasources[datasource]:
+                        all_data_items.append(data_item)
 
-            new_geodata = COnVIDa.get_data_items(regions=all_regions,
+            if not all_data_items:
+                new_geodata = None
+            else:
+                new_geodata = COnVIDa.get_data_items(regions=all_regions,
                                                  data_items=all_data_items,
                                                  language='internal',
                                                  errors='raise')
@@ -189,24 +232,30 @@ class convida_server():
         try:
             datasources = COnVIDa.get_data_items_names(DataType.TEMPORAL, language='internal')
             all_data_items = []
-            for data_items in datasources.values():
-                all_data_items += data_items
+            
+            for datasource in datasources.keys():
+                if datasource in datasources_to_update:
+                    for data_item in datasources[datasource]:
+                        all_data_items.append(data_item)
+                        
+            if not all_data_items:
+                new_tempdata = None
+            else:
+                last_date = cls.__DATA[DataType.TEMPORAL].index[-1]
+                start_date = last_date - pd.DateOffset(days=cls.__UPDATE_DAYS)
 
-            last_date = cls.__DATA[DataType.TEMPORAL].index[-1]
-            start_date = last_date - pd.DateOffset(days=cls.__UPDATE_DAYS)
+                # get updated data of last days and today
+                new_data = COnVIDa.get_data_items(regions=all_regions,
+                                                  data_items=all_data_items,
+                                                  start_date=start_date,
+                                                  end_date=today,
+                                                  language='internal',
+                                                  errors='raise')
 
-            # get updated data of last days and today
-            new_data = COnVIDa.get_data_items(regions=all_regions,
-                                              data_items=all_data_items,
-                                              start_date=start_date,
-                                              end_date=today,
-                                              language='internal',
-                                              errors='raise')
-
-            # update cache
-            new_tempdata = cls.__DATA[DataType.TEMPORAL]
-            new_tempdata = new_tempdata.append(new_data)
-            new_tempdata = new_tempdata.loc[~new_tempdata.index.duplicated(keep='last')]
+                # update cache
+                new_tempdata = cls.__DATA[DataType.TEMPORAL]
+                new_tempdata = new_tempdata.append(new_data)
+                new_tempdata = new_tempdata.loc[~new_tempdata.index.duplicated(keep='last')]
 
 
         except Exception as e:
@@ -216,13 +265,38 @@ class convida_server():
         ####### COMPLETE UPDATE IF NEW DATA IS AVAILABLE ##########
 
         try:
-            # create new files
-            new_geodata.to_hdf(path_or_buf=new_cache_file,
-                               key='geographical',
-                               mode='a')
-            new_tempdata.to_hdf(path_or_buf=new_cache_file,
-                                key='temporal',
+           
+            if new_geodata is not None:
+                new_geodata.to_hdf(path_or_buf=new_cache_file,
+                                   key='geographical',
+                                   mode='a')
+            else:
+                cls.__DATA[DataType.GEOGRAPHICAL].to_hdf(path_or_buf=new_cache_file,
+                                   key='geographical',
+                                   mode='a')
+                
+                
+            
+            if new_tempdata is not None:
+                new_tempdata.to_hdf(path_or_buf=new_cache_file,
+                                    key='temporal',
+                                    mode='a')
+            else:
+                cls.__DATA[DataType.TEMPORAL].to_hdf(path_or_buf=new_cache_file,
+                                   key='temporal',
+                                   mode='a')
+
+                
+            if cls.__LAST_UPDATE_TIMESTAMPS is None:
+                cls.__LAST_UPDATE_TIMESTAMPS.loc[:, "last_update"] = today
+            else:
+                cls.__LAST_UPDATE_TIMESTAMPS.loc[cls.__LAST_UPDATE_TIMESTAMPS.index.isin(datasources_to_update), "last_update"] = today
+            
+            cls.__LAST_UPDATE_TIMESTAMPS.to_hdf(path_or_buf=new_cache_file,
+                                key='last_updates',
                                 mode='a')
+
+            
         except Exception as e:
             if os.path.exists(new_cache_file):
                 os.remove(new_cache_file)  # remove created cache if daily update fail
@@ -250,6 +324,7 @@ class convida_server():
             cls.__LOGGER.info("Critical fail in daily update: it was not possible to recover old status")
         return False
 
+    
     @classmethod
     def get_data_items(cls, data_items: list, regions: list, start_date=None, end_date=None, language='ES'):
         """
@@ -358,6 +433,19 @@ class convida_server():
         """
         return cls.__get_date(-1)
 
+    
+    @classmethod
+    def get_last_update_dates(cls):
+        """
+        Gets the last update for each Data Source
+
+        Returns
+        -------
+        pd.DataFrame
+            the date of the last update day, per Data Source
+        """
+        return cls.__LAST_UPDATE_TIMESTAMPS
+    
     #### private methods ###
 
     @classmethod

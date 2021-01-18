@@ -26,15 +26,15 @@ class Regions(object):
         Parameters
         ----------
         country_code: str
-            Country of the regions. Up to now, only 'ES' for Spanish provinces is available.
+            Country of the regions. Up to now, only 'ES' for Spanish regions is available.
 
         Returns
         -------
             list of str
-                A list with the names of the Spanish provinces.
+                A list with the names of the Spanish regions.
         """
 
-        if country_code not in cls.get_country_codes():
+        if country_code not in cls.get_country_codes().values():
             print("Country not implemented yet!")
             return None
 
@@ -47,24 +47,24 @@ class Regions(object):
         return list(cls.__REGION_CONFIGURATION.keys())
 
     @classmethod
-    def get_regions_by_type(cls, type='r', country_code='ES'):
+    def get_regions_by_type(cls, type='c', country_code='ES'):
         """
         Gets the implemented regions for a specific country code.
 
         Parameters
         ----------
         type: str
-            Region type. 'r' Region, 'p' Province.
+            Region type. For Spain (ES), 'c' is Community, 'p' is Province.
         country_code: str
-            Country of the regions. Up to now, only 'ES' for Spanish provinces is available.
+            Country of the regions. 
 
         Returns
         -------
-            list of str
-                A list with the names of the Spanish provinces.
+        list of str
+            A list with the names of the Spanish regions.
         """
 
-        if country_code not in cls.get_country_codes():
+        if country_code not in cls.get_country_codes().values():
             print("Country not implemented yet!")
             return None
 
@@ -77,7 +77,7 @@ class Regions(object):
         list_by_type = []
 
         for i in cls.__REGION_CONFIGURATION.keys():
-            if type == 'r' and 'CA' in i:
+            if type == 'c' and 'CA' in i:
                 list_by_type.append(cls.__REGION_CONFIGURATION[i]['nombre'])  # cls.__REGION_CONFIGURATION[i]['nombre']
             elif type == 'p' and 'CA' not in i and int(cls.__REGION_CONFIGURATION[i]['code_ine']) is not 0:
                 list_by_type.append(cls.__REGION_CONFIGURATION[i]['nombre'])
@@ -85,18 +85,59 @@ class Regions(object):
         return list_by_type
 
     @classmethod
+    def get_regions_population(cls, country_code='ES'):
+        """
+        Returns the number of citizens per region in a specific country
+
+        Parameters
+        ----------
+        country_code: str
+            Country of the regions. Up to now, only 'ES' for Spanish regions is available.
+
+        Returns
+        -------
+        dict { string : int }
+            A dictionary with regions as keys, population as values
+        """
+        if country_code not in cls.get_country_codes().values():
+            print("Country not implemented yet!")
+            return None
+
+        # first time using Regions, read configuration of REGIONS
+        if cls.__REGION_CONFIGURATION is None:
+            loaded = cls.__load_region_configuration(country_code)
+            if not loaded:
+                return None
+
+        regions_with_population = {}
+
+        for i in cls.__REGION_CONFIGURATION.keys():
+            regions_with_population[i] = int(cls.__REGION_CONFIGURATION[i]['population'])
+
+        return regions_with_population
+
+    
+    @classmethod
     def get_country_codes(cls):
         """
         Gets the implemented country codes.
         
         Returns
         -------
-        list of str
-            a list with the supported country codes. Up to now, only 'ES' for Spanish provinces is available. 
+        dict { str : str }
+            a dictionary with countries as keys, and codes as values
         """
-
-        COUNTRIES = ['ES']
-        return COUNTRIES
+        current_path = os.path.dirname(os.path.realpath(__file__))
+        config_path = os.path.join(current_path, cls.__CONFIG_PATH)
+        with open(os.path.join(config_path, "countries.json"), encoding="utf8") as countries:
+            countries_json = json.load(countries)
+        
+        country_codes = {}
+        for country in countries_json.keys():
+            code = countries_json[country]['country_code']
+            country_codes[country] = code
+        
+        return country_codes
 
     # protected for only Data Source classes
 
@@ -113,47 +154,52 @@ class Regions(object):
         region_representation: str
             Name of the region representation to be queried, namely 'nombre', 'iso_3166_2', 'literal_ine', 'code_ine', 'name' or 'aemet_stations'.
         country_code: str
-            Country of the regions. Up to now, only 'ES' for Spanish provinces is available.
+            Country code of the regions.
 
         Returns
         -------
             list of str
                 A list of the region representations in the same order as provided in regions.
         """
-
+        
+        country_codes = cls.get_country_codes()
+        
+        if country_code not in country_codes.values():
+            print("Country not implemented yet!")
+            return None
+        
         # first time using Regions, read configuration of REGIONS
         if cls.__REGION_CONFIGURATION is None:
             loaded = cls.__load_region_configuration(country_code)
             if not loaded:
                 return None
-
+        
+        # get country associated to code
+        country = None
+        for c in country_codes.keys():
+            if country_codes[c] == country_code:
+                country = c
+                
+        if country is None:
+            print("Country not found!")
+            return None
+        
         # get possible region representations
-        possible_region_representations = cls.__REGION_CONFIGURATION[list(cls.__REGION_CONFIGURATION.keys())[0]].keys()
-
+        possible_region_representations = cls.__REGION_CONFIGURATION[country]['region_representations']
+        
         # check parameters
         if region_representation not in possible_region_representations:
             print("ERROR: Region representation not found")
             return None
 
-        # country detection
-        country = False
-        c = 0
-        while not country and c < len(cls.get_country_codes()):
-            country = all(region in cls.get_regions(cls.get_country_codes()[c]) for region in regions)
-            c = c + 1
+        # properties extraction
+        properties=[]
+        for region in regions:
+            prop = cls.__REGION_CONFIGURATION[region].get(region_representation)
+            properties.append(prop)
+            
+        return properties
 
-        # all regions are implemented: properties extraction
-        if country:
-            country = c - 1
-
-            properties = []
-            for region in regions:
-                prop = cls.__REGION_CONFIGURATION[region].get(region_representation)
-                properties.append(prop)
-            return properties
-        else:
-            print("ERROR: All or some regions are not implemented.")
-            return None
 
     # private
 
@@ -165,7 +211,7 @@ class Regions(object):
         Parameters
         ----------
         country_code: str
-            Country of the regions. Up to now, only 'ES' for Spanish provinces is available.
+            Country of the regions.
         
         Returns
         -------
@@ -190,9 +236,9 @@ class Regions(object):
             cls.__REGION_CONFIGURATION = json_list
 
         except FileNotFoundError as e:
-            print("ERROR: Configuration file of " + str(country_code) + "region  not found!")
+            print("ERROR: Configuration files of " + str(country_code) + "regions not found!")
             return False
         except json.JSONDecodeError as e:
-            print("ERROR: Configuration file of " + str(country_code) + "region is not well built!", e)
+            print("ERROR: Configuration files of " + str(country_code) + "regions not well built!", e)
             return False
         return True
