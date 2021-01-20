@@ -412,11 +412,11 @@
   "pob_vaccine_supplied_inc": {
     "display_name": {
       "ES": "Porcentaje de población vacunada",
-      "EN": "Percentage of vaccinated poblation"
+      "EN": "Percentage of vaccinated population"
     },
     "description": {
       "ES": "Porcentaje de vacunadas suministradas con respecto a la población",
-      "EN": "Percentaje of vaccines supplied in relation to poblation"
+      "EN": "Percentaje of vaccines supplied in relation to population"
     },
     "data_unit": {
       "ES": "Porcentaje (%)",
