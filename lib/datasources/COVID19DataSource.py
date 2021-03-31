@@ -160,6 +160,7 @@ class COVID19DataSource(DataSource):
                 columns={"ccaa": "Region", 'date_pub': 'date', 'Dosis entregadas': 'vaccine_provided',
                          'Dosis administradas': 'vaccine_supplied',
                          '% sobre entregadas': 'vaccine_supplied_inc'})
+            df = df[~df.Region.str.contains('Fuerzas Armadas')]
             df['Region'] = df['Region'].map(representation_ccaa_vac_dict)
 
             df['date'] = pd.to_datetime(df['date'], dayfirst=True)
