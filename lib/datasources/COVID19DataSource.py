@@ -161,6 +161,7 @@ class COVID19DataSource(DataSource):
                          'Dosis administradas': 'vaccine_supplied',
                          '% sobre entregadas': 'vaccine_supplied_inc'})
             df = df[~df.Region.str.contains('Fuerzas Armadas')]
+            df = df[~df.Region.str.contains('Sanidad Exterior')]
             df['Region'] = df['Region'].map(representation_ccaa_vac_dict)
 
             df['date'] = pd.to_datetime(df['date'], dayfirst=True)
@@ -200,7 +201,7 @@ class COVID19DataSource(DataSource):
             # Adaptation of Spain region
             try:
                 sum_dataitems = df.sum(axis=1, level=1)
-                df['España', 'num_casos'] = sum_dataitems['num_casos']
+                df['España', 'num_casos2'] = sum_dataitems['num_casos2']
                 df['España', 'num_casos_prueba_pcr'] = sum_dataitems['num_casos_prueba_pcr']
                 df['España', 'num_casos_prueba_test_ac'] = sum_dataitems['num_casos_prueba_test_ac']
                 df['España', 'num_casos_prueba_ag'] = sum_dataitems['num_casos_prueba_ag']
@@ -235,7 +236,7 @@ class COVID19DataSource(DataSource):
                         df.loc[idx, ('España', out)] = media
                         cont = 0
 
-                media_by_param(df, 'num_casos', 'daily_cases_avg7', 7)
+                media_by_param(df, 'num_casos2', 'daily_cases_avg7', 7)
                 media_by_param(df, 'num_casos_prueba_pcr', 'num_casos_prueba_pcr_avg7', 7)
                 media_by_param(df, 'daily_deaths', 'daily_deaths_avg7', 7)
                 media_by_param(df, 'daily_deaths', 'daily_deaths_avg3', 3)
@@ -255,7 +256,7 @@ class COVID19DataSource(DataSource):
                         df.loc[idx, ('España', out)] = ia
                         cont = 0
 
-                ia_by_param(df, 'num_casos', 'ia14', 14)
+                ia_by_param(df, 'num_casos2', 'ia14', 14)
 
                 # Lethality
 
