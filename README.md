@@ -125,7 +125,7 @@ CyberDataLab - [@cyberdatalab](https://twitter.com/cyberdatalab)
 
 Contact us through [convida@listas.um.es](mailto:convida@listas.um.es)
 
-Entire COnVIDa project: [https://github.com/CyberDataLab/COnVIDa-dev](https://github.com/CyberDataLab/COnVIDa-dev)
+Entire COnVIDa project: [https://github.com/CyberDataLab/COnVIDa](https://github.com/CyberDataLab/COnVIDa)
 
 
 <!-- ACKNOWLEDGEMENTS -->
